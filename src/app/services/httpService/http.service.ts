@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoggerService} from '../loggerService/logger.service';
+import {Post, ReturnJson} from '../../objects/http-object';
 
 @Injectable({
   providedIn: 'root'

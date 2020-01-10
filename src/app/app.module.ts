@@ -9,9 +9,19 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {HttpInterceptorProviders} from './services/httpService/http-interceptor-providers';
+import {MainComponent} from './main/main.component';
+import {PitComponent} from './main/pit/pit.component';
+import {ScoutComponent} from './main/scout/scout.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+      AppComponent,
+      MainComponent,
+      PageNotFoundComponent,
+      PitComponent,
+      ScoutComponent
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
