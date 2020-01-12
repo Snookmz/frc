@@ -4,6 +4,9 @@ import {MainComponent} from './main/main.component';
 import {PitComponent} from './main/pit/pit.component';
 import {ScoutComponent} from './main/scout/scout.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {compareNumbers} from '@angular/compiler-cli/src/diagnostics/typescript_version';
+import {componentFactoryName} from '@angular/compiler';
+import {QrComponent} from './main/qr/qr.component';
 
 const routes: Routes = [
   {
@@ -20,7 +23,8 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {path: 'pit', component: PitComponent},
-      {path: 'scout', component: ScoutComponent}
+      {path: 'scout', component: ScoutComponent},
+      {path: 'qr', component: QrComponent}
     ]
   },
   {
