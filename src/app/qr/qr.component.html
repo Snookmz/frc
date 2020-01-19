@@ -1,0 +1,31 @@
+
+<ion-content>
+    <ion-toolbar>
+        <ion-header>
+            <h1>
+                Teams and QR code
+            </h1>
+        </ion-header>
+    </ion-toolbar>
+    <ion-row *ngFor="let p of pits" (click)="printPitQrCode(p)">
+        <ion-col class="ns-pointer">
+            Pit for Team {{p.detail.team.name}}
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-button (click)="printAllPitsToQrCode()">
+                Get All Pits
+            </ion-button>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col>
+            <ngx-qrcode
+                    qrc-element-type="text"
+                    [qrc-value] = "qrValue"></ngx-qrcode>
+        </ion-col>
+    </ion-row>
+</ion-content>
+

@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {MainComponent} from './main/main.component';
-import {PitComponent} from './main/pit/pit.component';
-import {ScoutComponent} from './main/scout/scout.component';
+import {PitComponent} from './pit/pit.component';
+import {ScoutComponent} from './scout/scout.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {compareNumbers} from '@angular/compiler-cli/src/diagnostics/typescript_version';
-import {componentFactoryName} from '@angular/compiler';
-import {QrComponent} from './main/qr/qr.component';
+import {QrComponent} from './qr/qr.component';
 
 const routes: Routes = [
   {
@@ -14,6 +12,9 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {path: 'pit', component: PitComponent},
+  {path: 'scout', component: ScoutComponent},
+  {path: 'qr', component: QrComponent},
   // {
   //   path: 'home',
   //   loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
@@ -22,9 +23,6 @@ const routes: Routes = [
     path: 'main',
     component: MainComponent,
     children: [
-      {path: 'pit', component: PitComponent},
-      {path: 'scout', component: ScoutComponent},
-      {path: 'qr', component: QrComponent}
     ]
   },
   {

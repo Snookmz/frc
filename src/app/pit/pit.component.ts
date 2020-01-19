@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {LoggerService} from '../../services/loggerService/logger.service';
-import {AutoType, ClimbType, Height, Pit, Speed, Team, TeamMember} from '../../objects/pit-classes';
-import {DataInputService} from '../../services/dataInputService/data-input.service';
+import {LoggerService} from '../services/loggerService/logger.service';
+import {AutoType, ClimbType, Height, Pit, Speed, Team, TeamMember} from '../objects/pit-classes';
+import {DataInputService} from '../services/dataInputService/data-input.service';
+import {DataStorageService} from '../services/dataStorageService/data-storage.service';
 
 @Component({
   selector: 'app-pit',
@@ -22,6 +23,7 @@ export class PitComponent implements OnInit {
 
   constructor(
       private dataInputService: DataInputService,
+      private dataStorageService: DataStorageService,
       private fb: FormBuilder,
       private logger: LoggerService
   ) {
@@ -97,8 +99,9 @@ export class PitComponent implements OnInit {
     this.logger.debug('PitComponent, onSubmit, values: ', this.pitForm.value);
 
     const pit: Pit = this.convertValuesToPitClass(this.pitForm.value);
+    this.dataStorageService.storePit(pit);
 
-    this.qrValue = `${JSON.stringify(this.pitForm.value)}`;
+    // this.qrValue = `${JSON.stringify(this.pitForm.value)}`;
   }
 
   public convertValuesToPitClass(values: any): Pit {

@@ -10,12 +10,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {HttpInterceptorProviders} from './services/httpService/http-interceptor-providers';
 import {MainComponent} from './main/main.component';
-import {PitComponent} from './main/pit/pit.component';
-import {ScoutComponent} from './main/scout/scout.component';
+import {PitComponent} from './pit/pit.component';
+import {ScoutComponent} from './scout/scout.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgxQRCodeModule} from 'ngx-qrcode2';
-import {QrComponent} from './main/qr/qr.component';
+import {QrComponent} from './qr/qr.component';
 
 @NgModule({
     declarations: [
