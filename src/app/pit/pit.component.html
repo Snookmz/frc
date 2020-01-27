@@ -4,264 +4,340 @@
             <ion-col>
                 <ion-row justify-content-center>
                     <ion-col size-md="5">
-                        <ion-list formGroupName="header">
-                            <ion-item>
-                                <ion-label position="floating">
-                                    Scout Name
+                        <ion-item-group  formGroupName="header">
+                            <ion-item-divider>
+                                <ion-label>
+                                    Header
                                 </ion-label>
-                                <ion-select formControlName="teamMemberId">
-                                    <ion-select-option *ngFor="let t of teamMembers" [value]="t.id">{{t.lastName}}</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">
-                                    Event
+                            </ion-item-divider>
+                            <ion-list class="ns-pit-list">
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Scout Name
+                                    </ion-label>
+                                    <ion-select formControlName="teamMemberId">
+                                        <ion-select-option *ngFor="let t of teamMembers" [value]="t.id">{{t.lastName}}</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Event
+                                    </ion-label>
+                                    <ion-select formControlName="eventId">
+                                        <ion-select-option value="aus">2020 South Pacific Regional</ion-select-option>
+                                        <ion-select-option value="ddu">2020 Duel Down Under</ion-select-option>
+                                        <ion-select-option value="gal">2020 Galileo Division</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Team
+                                    </ion-label>
+                                    <ion-select formControlName="teamId">
+                                        <ion-select-option *ngFor="let t of teams" [value]="t.id">{{t.name}}</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-list>
+                        </ion-item-group>
+
+                        <ion-item-group formGroupName="robotStats">
+                            <ion-item-divider>
+                                <ion-label>
+                                    Robot Stats
                                 </ion-label>
-                                <ion-select formControlName="event">
-                                    <ion-select-option value="aus">2020 South Pacific Regional</ion-select-option>
-                                    <ion-select-option value="ddu">2020 Duel Down Under</ion-select-option>
-                                    <ion-select-option value="gal">2020 Galileo Division</ion-select-option>
-                                </ion-select>
+                            </ion-item-divider>
+                            <ion-list class="ns-pit-list">
+                                <ion-item>
+                                    <ion-label position="floating" >
+                                        Weight
+                                    </ion-label>
+                                    <ion-input type="number" formControlName="weight" placeholder="(kg)"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating" >
+                                        Height
+                                    </ion-label>
+                                    <ion-input type="number" formControlName="height" placeholder="(cm)"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating" >
+                                        Team Shirt
+                                    </ion-label>
+                                    <ion-input formControlName="teamShirt"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating" >
+                                        Robot Front
+                                    </ion-label>
+                                    <ion-input formControlName="robotFront"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating" >
+                                        Robot Side
+                                    </ion-label>
+                                    <ion-input formControlName="height"></ion-input>
+                                </ion-item>
+                            </ion-list>
+                        </ion-item-group>
 
-                            </ion-item>
-                        </ion-list>
-                    </ion-col>
-                </ion-row>
-                <ion-row justify-content-center>
-                    <ion-col formGroupName="detail" size-md="5">
-                        <ion-row>
-                            <ion-col>
-                                <h2>Detail</h2>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col>
-                                <ion-list>
-                                    <ion-item>
-                                        <ion-label position="floating">
-                                            Team Name
-                                        </ion-label>
-                                        <ion-select formControlName="teamId">
-                                            <ion-select-option *ngFor="let t of teams" [value]="t.id">{{t.name}}</ion-select-option>
-                                        </ion-select>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label position="floating">
-                                            Scout
-                                        </ion-label>
-                                        <ion-select formControlName="teamMemberId">
-                                            <ion-select-option *ngFor="let m of teamMembers" [value]="m.id">{{m.lastName}}</ion-select-option>
-                                        </ion-select>
-                                    </ion-item>
-                                </ion-list>
-                            </ion-col>
-                        </ion-row>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row formGroupName="hatches" justify-content-center>
-                    <ion-col size-md="5">
-                        <ion-row>
-                            <ion-col>
-                                <h2>Hatches</h2>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col>
-                                <ion-list>
-                                    <ion-item>
-                                        <ion-label>Can Manipulate Hatch</ion-label>
-                                        <ion-checkbox formControlName="canManipulate" color="primary"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>Floor Intake</ion-label>
-                                        <ion-checkbox formControlName="floorIntake"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>Deliver Low Level</ion-label>
-                                        <ion-checkbox formControlName="deliverLowLevel"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>Deliver Mid Level</ion-label>
-                                        <ion-checkbox formControlName="deliverMidLevel"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>Deliver High Level</ion-label>
-                                        <ion-checkbox formControlName="deliverHighLevel"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label position="floating">Intake Notes</ion-label>
-                                        <ion-textarea formControlName="notes" placeholder="Enter more..."></ion-textarea>
-                                    </ion-item>
-                                </ion-list>
-                            </ion-col>
-                        </ion-row>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row formGroupName="cargo" justify-content-center>
-                    <ion-col size-md="5">
-                        <ion-row>
-                            <ion-col>
-                                <h2>Cargo</h2>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col>
-                                <ion-list>
-                                    <ion-item>
-                                        <ion-label>Can Manipulate Cargo</ion-label>
-                                        <ion-checkbox formControlName="canManipulate" color="primary"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>Floor Intake</ion-label>
-                                        <ion-checkbox formControlName="floorIntake"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>Deliver Low Level</ion-label>
-                                        <ion-checkbox formControlName="deliverLowLevel"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>Deliver Mid Level</ion-label>
-                                        <ion-checkbox formControlName="deliverMidLevel"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>Deliver High Level</ion-label>
-                                        <ion-checkbox formControlName="deliverHighLevel"></ion-checkbox>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label position="floating">Intake Notes</ion-label>
-                                        <ion-textarea formControlName="notes" placeholder="Enter more..."></ion-textarea>
-                                    </ion-item>
-                                </ion-list>
-                            </ion-col>
-                        </ion-row>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row formGroupName="sandstorm" justify-content-center>
-                    <ion-col size-md="5">
-                        <ion-list>
-                            <ion-list-header>
-                                Sandstorm
-                            </ion-list-header>
-                            <ion-item>
-                                <ion-label>Sandstorm Mode?</ion-label>
-                                <ion-checkbox formControlName="sandstormMode"></ion-checkbox>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Control</ion-label>
-                                <ion-select formControlName="control" placeholder="select type">
-                                    <ion-select-option *ngFor="let t of autoTypes" [value]="t.id">{{t.type}}</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Max HAB</ion-label>
-                                <ion-select formControlName="maxHAB">
-                                    <ion-select-option value="0">N/A</ion-select-option>
-                                    <ion-select-option value="1">Low</ion-select-option>
-                                    <ion-select-option value="2">Mid</ion-select-option>
-                                    <ion-select-option value="3">High</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-
-                            <ion-item>
-                                <ion-label>Deliver Hatch</ion-label>
-                                <ion-checkbox formControlName="deliverHatch"></ion-checkbox>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Max Hatches</ion-label>
-                                <ion-input type="number"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Max Height</ion-label>
-                                <ion-select formControlName="maxHatchHeight">
-                                    <ion-select-option value="0">N/A</ion-select-option>
-                                    <ion-select-option value="1">Low</ion-select-option>
-                                    <ion-select-option value="2">Mid</ion-select-option>
-                                    <ion-select-option value="3">High</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-
-                            <ion-item>
-                                <ion-label>Deliver Cargo</ion-label>
-                                <ion-checkbox formControlName="deliverCargo"></ion-checkbox>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Max Cargo</ion-label>
-                                <ion-input type="number"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Max Height</ion-label>
-                                <ion-select formControlName="maxCargoHeight">
-                                    <ion-select-option value="0">N/A</ion-select-option>
-                                    <ion-select-option value="1">Low</ion-select-option>
-                                    <ion-select-option value="2">Mid</ion-select-option>
-                                    <ion-select-option value="3">High</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                        </ion-list>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row formGroupName="climb" justify-content-center>
-                    <ion-col size-md="5">
-                        <ion-list>
-                            <ion-list-header>Climb</ion-list-header>
-                            <ion-item>
-                                <ion-label>Can Climb?</ion-label>
-                                <ion-checkbox formControlName="canClimb"></ion-checkbox>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Type</ion-label>
-                                <ion-select formControlName="type">
-                                    <ion-select-option *ngFor="let t of climbTypes" [value]="t.id">{{t.name}}</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Grab Speed</ion-label>
-                                <ion-select formControlName="grabSpeed">
-                                    <ion-select-option *ngFor="let t of speeds" [value]="t.id">{{t.name}}</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Climb Speed</ion-label>
-                                <ion-select formControlName="climbSpeed">
-                                    <ion-select-option *ngFor="let t of speeds" [value]="t.id">{{t.name}}</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">Max Height</ion-label>
-                                <ion-select formControlName="maxHeight">
-                                    <ion-select-option value="0">N/A</ion-select-option>
-                                    <ion-select-option value="1">Low</ion-select-option>
-                                    <ion-select-option value="2">Mid</ion-select-option>
-                                    <ion-select-option value="3">High</ion-select-option>
-                                </ion-select>
-                            </ion-item>
-                        </ion-list>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row formGroupName="image" justify-content-center>
-                    <ion-col size-md="5">
-                        <ion-list>
-                            <ion-header>
-                                Image
-                            </ion-header>
-                            <ion-item>
-                                <ion-label position="floating">
-                                    Front
+                        <ion-item-group formGroupName="powerCells">
+                            <ion-item-divider>
+                                <ion-label>
+                                    Power Cells
                                 </ion-label>
-                                <ion-input placeholder="To be implemented" formControlName="front"></ion-input>
-                            </ion-item>
-                            <ion-item>
-                                <ion-label position="floating">
-                                    Side
+                            </ion-item-divider>
+                            <ion-list class="ns-pit-list">
+                                <ion-item>
+                                    <ion-label>
+                                        Can Climb
+                                    </ion-label>
+                                    <ion-toggle formControlName="manipulate" color="primary"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Ground Intake
+                                    </ion-label>
+                                    <ion-toggle formControlName="groundIntake" color="primary"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Loading Station Intake
+                                    </ion-label>
+                                    <ion-toggle formControlName="loadingStationIntake" color="primary"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Storage Capacity
+                                    </ion-label>
+                                    <ion-input type="number" formControlName="storageCapacity"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Shooting Mechanism
+                                    </ion-label>
+                                    <ion-textarea formControlName="shootingMechanism" placeholder="Description of mechanism" ></ion-textarea>
+                                </ion-item>
+                            </ion-list>
+                        </ion-item-group>
+
+                        <ion-item-group formGroupName="climb">
+                            <ion-item-divider>
+                                <ion-label>
+                                    Climb
                                 </ion-label>
-                                <ion-input placeholder="To be implemented" formControlName="side"></ion-input>
-                            </ion-item>
-                        </ion-list>
+                            </ion-item-divider>
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label>
+                                        Can Climb
+                                    </ion-label>
+                                    <ion-toggle formControlName="canClimb"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Self Level
+                                    </ion-label>
+                                    <ion-toggle formControlName="selfLevel"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Buddy Climb
+                                    </ion-label>
+                                    <ion-toggle formControlName="buddyClimb"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Buddy
+                                    </ion-label>
+                                    <ion-select formControlName="teamId">
+                                        <ion-select-option *ngFor="let t of teams" [value]="t.id">{{t.name}}</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Tilting
+                                    </ion-label>
+                                    <ion-toggle formControlName="tilting"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Climb Type
+                                    </ion-label>
+                                    <ion-select formControlName="climbType">
+                                        <ion-select-option value="rigid">Rigid</ion-select-option>
+                                        <ion-select-option value="flexible">Flexible</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Height
+                                    </ion-label>
+                                    <ion-input formControlName="height" type="number" placeholder="(cm)"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Secure Hold
+                                    </ion-label>
+                                    <ion-toggle formControlName="secureHold"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Time Secure Hold
+                                    </ion-label>
+                                    <ion-input formControlName="timeSecureHold" type="number" placeholder="(minutes)"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Time Climb
+                                    </ion-label>
+                                    <ion-select formControlName="climbType">
+                                        <ion-select-option value="slow">Slow</ion-select-option>
+                                        <ion-select-option value="med">Medium</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-list>
+                        </ion-item-group>
+
+                    </ion-col>
+                </ion-row>
+
+<!--                <ion-row formGroupName="sandstorm" justify-content-center>-->
+<!--                    <ion-col size-md="5">-->
+<!--                        <ion-list>-->
+<!--                            <ion-list-header>-->
+<!--                                Sandstorm-->
+<!--                            </ion-list-header>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label>Sandstorm Mode?</ion-label>-->
+<!--                                <ion-checkbox formControlName="sandstormMode"></ion-checkbox>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Control</ion-label>-->
+<!--                                <ion-select formControlName="control" placeholder="select type">-->
+<!--                                    <ion-select-option *ngFor="let t of autoTypes" [value]="t.id">{{t.type}}</ion-select-option>-->
+<!--                                </ion-select>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Max HAB</ion-label>-->
+<!--                                <ion-select formControlName="maxHAB">-->
+<!--                                    <ion-select-option value="0">N/A</ion-select-option>-->
+<!--                                    <ion-select-option value="1">Low</ion-select-option>-->
+<!--                                    <ion-select-option value="2">Mid</ion-select-option>-->
+<!--                                    <ion-select-option value="3">High</ion-select-option>-->
+<!--                                </ion-select>-->
+<!--                            </ion-item>-->
+
+<!--                            <ion-item>-->
+<!--                                <ion-label>Deliver Hatch</ion-label>-->
+<!--                                <ion-checkbox formControlName="deliverHatch"></ion-checkbox>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Max Hatches</ion-label>-->
+<!--                                <ion-input type="number"></ion-input>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Max Height</ion-label>-->
+<!--                                <ion-select formControlName="maxHatchHeight">-->
+<!--                                    <ion-select-option value="0">N/A</ion-select-option>-->
+<!--                                    <ion-select-option value="1">Low</ion-select-option>-->
+<!--                                    <ion-select-option value="2">Mid</ion-select-option>-->
+<!--                                    <ion-select-option value="3">High</ion-select-option>-->
+<!--                                </ion-select>-->
+<!--                            </ion-item>-->
+
+<!--                            <ion-item>-->
+<!--                                <ion-label>Deliver Cargo</ion-label>-->
+<!--                                <ion-checkbox formControlName="deliverCargo"></ion-checkbox>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Max Cargo</ion-label>-->
+<!--                                <ion-input type="number"></ion-input>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Max Height</ion-label>-->
+<!--                                <ion-select formControlName="maxCargoHeight">-->
+<!--                                    <ion-select-option value="0">N/A</ion-select-option>-->
+<!--                                    <ion-select-option value="1">Low</ion-select-option>-->
+<!--                                    <ion-select-option value="2">Mid</ion-select-option>-->
+<!--                                    <ion-select-option value="3">High</ion-select-option>-->
+<!--                                </ion-select>-->
+<!--                            </ion-item>-->
+<!--                        </ion-list>-->
+<!--                    </ion-col>-->
+<!--                </ion-row>-->
+
+<!--                <ion-row formGroupName="climb" justify-content-center>-->
+<!--                    <ion-col size-md="5">-->
+<!--                        <ion-list>-->
+<!--                            <ion-list-header>Climb</ion-list-header>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label>Can Climb?</ion-label>-->
+<!--                                <ion-checkbox formControlName="canClimb"></ion-checkbox>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Type</ion-label>-->
+<!--                                <ion-select formControlName="type">-->
+<!--                                    <ion-select-option *ngFor="let t of climbTypes" [value]="t.id">{{t.name}}</ion-select-option>-->
+<!--                                </ion-select>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Grab Speed</ion-label>-->
+<!--                                <ion-select formControlName="grabSpeed">-->
+<!--                                    <ion-select-option *ngFor="let t of speeds" [value]="t.id">{{t.name}}</ion-select-option>-->
+<!--                                </ion-select>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Climb Speed</ion-label>-->
+<!--                                <ion-select formControlName="climbSpeed">-->
+<!--                                    <ion-select-option *ngFor="let t of speeds" [value]="t.id">{{t.name}}</ion-select-option>-->
+<!--                                </ion-select>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">Max Height</ion-label>-->
+<!--                                <ion-select formControlName="maxHeight">-->
+<!--                                    <ion-select-option value="0">N/A</ion-select-option>-->
+<!--                                    <ion-select-option value="1">Low</ion-select-option>-->
+<!--                                    <ion-select-option value="2">Mid</ion-select-option>-->
+<!--                                    <ion-select-option value="3">High</ion-select-option>-->
+<!--                                </ion-select>-->
+<!--                            </ion-item>-->
+<!--                        </ion-list>-->
+<!--                    </ion-col>-->
+<!--                </ion-row>-->
+
+<!--                <ion-row formGroupName="image" justify-content-center>-->
+<!--                    <ion-col size-md="5">-->
+<!--                        <ion-list>-->
+<!--                            <ion-header>-->
+<!--                                Image-->
+<!--                            </ion-header>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">-->
+<!--                                    Front-->
+<!--                                </ion-label>-->
+<!--                                <ion-input placeholder="To be implemented" formControlName="front"></ion-input>-->
+<!--                            </ion-item>-->
+<!--                            <ion-item>-->
+<!--                                <ion-label position="floating">-->
+<!--                                    Side-->
+<!--                                </ion-label>-->
+<!--                                <ion-input placeholder="To be implemented" formControlName="side"></ion-input>-->
+<!--                            </ion-item>-->
+<!--                        </ion-list>-->
+<!--                    </ion-col>-->
+<!--                </ion-row>-->
+
+                <ion-row *ngIf="spinner" justify-content-center>
+                    <ion-col size-md="5">
+                        <ion-spinner></ion-spinner>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row *ngIf="successMessage" justify-content-center>
+                    <ion-col size-md="5">
+                        <ion-item color="success">
+                            {{successMessage}}
+                        </ion-item>
                     </ion-col>
                 </ion-row>
 
@@ -277,16 +353,6 @@
                         </ion-button>
                     </ion-col>
                 </ion-row>
-
-
-                <ion-row *ngIf="qrValue !== undefined" justify-content-center>
-                    <ion-col size-md="5">
-                        <ngx-qrcode
-                                qrc-element-type="text"
-                                [qrc-value] = "qrValue"></ngx-qrcode>
-                    </ion-col>
-                </ion-row>
-
             </ion-col>
         </ion-row>
 

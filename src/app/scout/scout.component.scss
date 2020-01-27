@@ -1,0 +1,28 @@
+.ns-list-horizontal {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    display: inline;
+    padding-left: 10px;
+  }
+}
+
+.ns-item-list {
+  margin-left: 20px;
+}
+
+.ns-ul-match {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ns-ul-match-left {
+  @extend .ns-ul-match;
+}
+
+.ns-ul-match-right {
+  @extend .ns-ul-match;
+}

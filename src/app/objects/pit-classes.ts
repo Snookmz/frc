@@ -1,3 +1,118 @@
+import {FrcEvent} from './frcEvent-object';
+
+export class Pit {
+    header: Header;
+    robotStats: RobotStats;
+    powerCells: PowerCells;
+    climb: Climb;
+    controlPanel: ControlPanel;
+    auto: Auto;
+    constructor() {
+        this.header = new Header();
+        this.robotStats = new RobotStats();
+        this.powerCells = new PowerCells();
+        this.climb = new Climb();
+        this.controlPanel = new ControlPanel();
+        this.auto = new Auto();
+    }
+}
+
+export class Header {
+    teamMember: TeamMember;
+    team: Team;
+    event: FrcEvent;
+    constructor() {
+        this.teamMember = new TeamMember();
+        this.team = new Team();
+        this.event = new FrcEvent();
+    }
+}
+
+export class RobotStats {
+    weight: number;
+    height: number;
+    teamShirt: string;
+    robotFront: string;
+    robotSide: string;
+    constructor() {
+        this.weight = 0;
+        this.height = 0;
+        this.teamShirt = '';
+        this.robotFront = '';
+        this.robotSide = '';
+    }
+}
+
+export class PowerCells {
+    manipulate: boolean;
+    groundIntake: boolean;
+    loadingStationIntake: boolean;
+    storageCapacity: number;
+    shootingMechanism: string;
+    constructor() {
+        this.manipulate = false;
+        this.groundIntake = false;
+        this.loadingStationIntake = false;
+        this.storageCapacity = 0;
+        this.shootingMechanism = '';
+    }
+}
+
+export class Climb {
+    canClimb: boolean;
+    selfLevel: boolean;
+    buddyClimb: boolean;
+    buddy: number;
+    tilting: boolean;
+    climbType: string;
+    height: number;
+    secureHold: boolean;
+    timeSecureHold: '';
+    timeClimb: '';
+    climbMechanism: '';
+    constructor() {
+        this.canClimb = false;
+        this.selfLevel = false;
+        this.buddyClimb = false;
+        this.buddy = 0;
+        this.tilting = false;
+        this.climbType = '';
+        this.height = 0;
+        this.secureHold = false;
+        this.timeSecureHold = '';
+        this.timeClimb = '';
+        this.climbMechanism = '';
+    }
+}
+
+export class ControlPanel {
+    positionControl: boolean;
+    rotationControl: boolean;
+    brakes: boolean;
+    sensor: boolean;
+    constructor() {
+        this.positionControl = false;
+        this.rotationControl = false;
+        this.brakes = false;
+        this.sensor = false;
+    }
+}
+
+export class Auto {
+    line: boolean;
+    shoot: boolean;
+    balls: number;
+    pickup: number;
+    constructor() {
+        this.line = false;
+        this.shoot = false;
+        this.balls = 0;
+        this.pickup = 0;
+    }
+}
+
+
+// old
 export class ClimbType {
     id: number;
     name: string;
@@ -30,157 +145,3 @@ export class TeamMember {
 
 }
 
-export class AutoType {
-    id: number;
-    type: string;
-    constructor() {
-        this.id = 0;
-        this.type = '';
-    }
-}
-
-export class Speed {
-    id: number;
-    name: string;
-    constructor() {
-        this.id = 0;
-        this.name = '';
-    }
-}
-
-export class Height {
-    id: number;
-    name: string;
-    constructor() {
-        this.id = 0;
-        this.name = '';
-    }
-}
-
-// form stuff
-
-export class Pit {
-    header: Header;
-    detail: Detail;
-    hatches: Hatches;
-    cargo: Cargo;
-    sandstorm: Sandstorm;
-    climb: Climb;
-    image: Image;
-    notes: string;
-    constructor() {
-        this.header = new Header();
-        this.detail = new Detail();
-        this.hatches = new Hatches();
-        this.cargo = new Cargo();
-        this.sandstorm = new Sandstorm();
-        this.climb = new Climb();
-        this.image = new Image();
-        this.notes = '';
-    }
-}
-
-export class Header {
-    teamMember: TeamMember;
-    event: string;
-    constructor() {
-        this.teamMember = new TeamMember();
-        this.event = '';
-    }
-}
-
-export class Detail {
-    team: Team;
-    teamMember: TeamMember;
-    computerName: string;
-    dtCreation: string;
-    constructor() {
-        this.team = new Team();
-        this.teamMember = new TeamMember();
-        this.computerName = '';
-        this.dtCreation = '';
-    }
-}
-
-export class Hatches {
-    canManipulate: boolean;
-    floorIntake: boolean;
-    deliverLowLevel: boolean;
-    deliverMidLevel: boolean;
-    deliverHighLevel: boolean;
-    notes: '';
-    constructor() {
-        this.canManipulate = false;
-        this.floorIntake = false;
-        this.deliverLowLevel = false;
-        this.deliverMidLevel = false;
-        this.deliverHighLevel = false;
-        this.notes = '';
-    }
-}
-
-export class Cargo {
-    canManipulate: boolean;
-    floorIntake: boolean;
-    exchangeIntake: boolean;
-    deliverLowLevel: boolean;
-    deliverMidLevel: boolean;
-    deliverHighLevel: boolean;
-    notes: '';
-    constructor() {
-        this.canManipulate = false;
-        this.floorIntake = false;
-        this.exchangeIntake = false;
-        this.deliverLowLevel = false;
-        this.deliverMidLevel = false;
-        this.deliverHighLevel = false;
-        this.notes = '';
-    }
-}
-
-export class Sandstorm {
-    sandstormMode: boolean;
-    control: string;
-    maxHAB: Height;
-    deliverHatch: boolean;
-    maxHatches: number;
-    maxHatchHeight: Height;
-    deliverCargo: boolean;
-    maxCargo: number;
-    maxCargoHeight: Height;
-    constructor() {
-        this.sandstormMode = false;
-        this.control = '';
-        this.maxHAB = new Height();
-        this.deliverHatch = false;
-        this.maxHatches = 0;
-        this.maxHatchHeight = new Height();
-        this.deliverCargo = false;
-        this.maxCargo = 0;
-        this.maxCargoHeight = new Height();
-    }
-}
-
-export class Climb {
-    canClimb: boolean;
-    type: string;
-    grabSpeed: Speed;
-    climbSpeed: Speed;
-    maxHeight: Height;
-    constructor() {
-        this.canClimb = false;
-        this.type = '';
-        this.grabSpeed = new Speed();
-        this.climbSpeed = new Speed();
-        this.maxHeight = new Height();
-    }
-}
-
-export class Image {
-    front: string;
-    side: string;
-    constructor() {
-        this.front = '';
-        this.side = '';
-    }
-}

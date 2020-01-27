@@ -7,18 +7,27 @@
             </h1>
         </ion-header>
     </ion-toolbar>
-    <ion-row *ngFor="let p of pits" (click)="printPitQrCode(p)">
-        <ion-col class="ns-pointer">
-            Pit for Team {{p.detail.team.name}}
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col>
-            <ion-button (click)="printAllPitsToQrCode()">
-                Get All Pits
-            </ion-button>
-        </ion-col>
-    </ion-row>
+    <ion-list>
+        <ion-item
+                *ngFor="let p of pits"
+                class="ns-pointer">
+            <ion-row>
+                <ion-col (click)="printPitQrCode(p)">
+                    Pit for Team {{p.detail.team.name}}
+                </ion-col>
+                <ion-col>
+                    <ion-button color="danger" (click)="presentDeleteConfirm(p)">X</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </ion-list>
+<!--    <ion-row>-->
+<!--        <ion-col>-->
+<!--            <ion-button (click)="printAllPitsToQrCode()">-->
+<!--                Get All Pits-->
+<!--            </ion-button>-->
+<!--        </ion-col>-->
+<!--    </ion-row>-->
 
     <ion-row>
         <ion-col>
@@ -27,5 +36,6 @@
                     [qrc-value] = "qrValue"></ngx-qrcode>
         </ion-col>
     </ion-row>
+
 </ion-content>
 

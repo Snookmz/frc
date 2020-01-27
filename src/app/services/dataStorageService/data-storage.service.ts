@@ -11,6 +11,25 @@ export class DataStorageService {
       private logger: LoggerService
   ) { }
 
+  public deletePit(pit: Pit): void {
+    this.logger.max('DataStorageService, deletePit: ', pit);
+    const key = `${pit.header.team.id} - ${pit.header.team.name}`;
+    this.deletePitKey(key);
+    localStorage.removeItem(key);
+  }
+
+  public deletePitKey(key: string): void {
+    const keysString: string = localStorage.getItem('pitKeys');
+    const keys: string[] = JSON.parse(keysString);
+    localStorage.removeItem('pitKeys');
+    keys.forEach(k => {
+      if (k !== key) {
+        this.storePitKey(k);
+      }
+    });
+
+  }
+
   public getAllPits(): Pit[] {
     this.logger.max('DataStorageService, getAllPitObjects');
     const pits: Pit[] = [];
@@ -37,7 +56,7 @@ export class DataStorageService {
 
   public storePit(pit: Pit): void {
     this.logger.debug('dataStorageService, storePitObject: ', pit);
-    const key = `${pit.detail.team.id} - ${pit.detail.team.name}`;
+    const key = `${pit.header.team.id} - ${pit.header.team.name}`;
     localStorage.setItem(key, JSON.stringify(pit));
     this.storePitKey(key);
 

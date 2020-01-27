@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {AutoType, ClimbType, Height, Speed, Team, TeamMember} from '../../objects/pit-classes';
+import {ClimbType, Team, TeamMember} from '../../objects/pit-classes';
+import {FrcEvent} from '../../objects/frcEvent-object';
 
 @Injectable({
   providedIn: 'root'
@@ -7,20 +8,6 @@ import {AutoType, ClimbType, Height, Speed, Team, TeamMember} from '../../object
 export class DataInputService {
 
   constructor() { }
-
-  public getAutoTypes(): AutoType[] {
-    const autoTypes: AutoType[] = [];
-
-    const types: string[] = ['N/A', 'Autonomous', 'Manual', 'Hybrid'];
-    types.forEach((t: string, i: number) => {
-      const a: AutoType = new AutoType();
-      a.id = i;
-      a.type = t;
-      autoTypes.push(a);
-    });
-    return autoTypes;
-
-  }
 
   public getClimbTypes(): ClimbType[] {
     const climbTypes: ClimbType[] = [];
@@ -37,29 +24,14 @@ export class DataInputService {
     return climbTypes;
   }
 
-  public getSpeeds(): Speed[] {
-    const speeds: Speed[] = [];
-    const types: string[] = ['Slow (>7 sec)', 'Med (3-7 sec)', 'Fast (<3 sec)', 'None'];
+  public getEvents(): FrcEvent[] {
+    const events: FrcEvent[] = [];
+    events.push({id: '2019ausp', name: '2019 South Pacific Regional'});
+    events.push({id: '2019DDU', name: '2019 Duel Down Under'});
+    events.push({id: '2019gal', name: '2019 Galileo Division'});
 
-    types.forEach((t: string, i: number) => {
-      const s: Speed = new Speed();
-      s.id = i;
-      s.name = t;
-      speeds.push(s);
-    });
-    return speeds;
-  }
+    return events;
 
-  public getHeights(): Height[] {
-    const heights: Height[] = [];
-    const types: string[] = ['N/A', 'Low', 'Mid', 'High'];
-    types.forEach((t, i) => {
-      const height: Height = new Height();
-      height.id = i;
-      height.name = t;
-      heights.push(height);
-    });
-    return heights;
   }
 
   public getTeamData(): Team[] {
