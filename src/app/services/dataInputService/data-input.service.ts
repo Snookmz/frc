@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ClimbType, Team, TeamMember} from '../../objects/pit-classes';
+import {Team, TeamMember} from '../../objects/pit-classes';
 import {FrcEvent} from '../../objects/frcEvent-object';
 
 @Injectable({
@@ -9,20 +9,6 @@ export class DataInputService {
 
   constructor() { }
 
-  public getClimbTypes(): ClimbType[] {
-    const climbTypes: ClimbType[] = [];
-    const types: string[] = ['Climb Self Only', 'Climb Self, Room for Others',
-      'Assist 1 Other Climb', 'Assist 2 Others Climb',
-      'Climb Self, Assist 1 Other', 'Climb Self, Assist 2 Others'];
-
-    types.forEach((t: string, i: number) => {
-      const climbType: ClimbType = new ClimbType();
-      climbType.id = i;
-      climbType.name = t;
-      climbTypes.push(climbType);
-    });
-    return climbTypes;
-  }
 
   public getEvents(): FrcEvent[] {
     const events: FrcEvent[] = [];

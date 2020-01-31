@@ -9,16 +9,12 @@ import {QrComponent} from './qr/qr.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'main',
     pathMatch: 'full'
   },
   {path: 'pit', component: PitComponent},
   {path: 'scout', component: ScoutComponent},
   {path: 'qr', component: QrComponent},
-  // {
-  //   path: 'home',
-  //   loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-  // },
   {
     path: 'main',
     component: MainComponent,

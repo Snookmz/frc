@@ -36,7 +36,7 @@ export class QrComponent implements OnInit {
 
   async presentDeleteConfirm(pit: Pit) {
     const alert = await this.alertController.create({
-      header: `Really Delete '${pit.detail.team.name}`,
+      header: `Really Delete '${pit.details.team.name}`,
       message: 'Cannot be undone',
       buttons: [
         {

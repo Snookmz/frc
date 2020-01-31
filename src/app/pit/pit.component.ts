@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../services/loggerService/logger.service';
-import {ClimbType, Pit, Team, TeamMember} from '../objects/pit-classes';
+import {Pit, Team, TeamMember} from '../objects/pit-classes';
 import {DataInputService} from '../services/dataInputService/data-input.service';
 import {DataStorageService} from '../services/dataStorageService/data-storage.service';
+import {FrcEvent} from '../objects/frcEvent-object';
 
 @Component({
   selector: 'app-pit',
@@ -12,10 +13,11 @@ import {DataStorageService} from '../services/dataStorageService/data-storage.se
 })
 export class PitComponent implements OnInit {
 
+  public events: FrcEvent[];
+  public imperialUnits = false;
   public pitForm: FormGroup;
   public teams: Team[] = [];
   public teamMembers: TeamMember[] = [];
-  public climbTypes: ClimbType[] = [];
   public spinner = false;
   public successMessage = '';
 
@@ -27,16 +29,17 @@ export class PitComponent implements OnInit {
   ) {
     this.createForm();
 
+    this.events = this.dataInputService.getEvents();
     this.teams = this.dataInputService.getTeamData();
     this.teamMembers = this.dataInputService.getTeamMembers();
-    this.climbTypes = this.dataInputService.getClimbTypes();
   }
 
   private createForm(): void {
     this.logger.max('PitComponent, createForm');
 
     this.pitForm = this.fb.group({
-      header: this.fb.group({
+      imperialUnits: [false, Validators.required],
+      details: this.fb.group({
         teamMemberId: ['', Validators.required],
         eventId: ['', Validators.required],
         teamId: ['', Validators.required],
@@ -51,55 +54,54 @@ export class PitComponent implements OnInit {
       powerCells: this.fb.group({
         manipulate: false,
         groundIntake: false,
-        loadingStationIntake: false,
+        highLoadingStationIntake: false,
         storageCapacity: '',
-        shootingMechanism: ''
+        shootingMechanism: '',
+        targetLower: false,
+        targetOuter: false,
+        targetInner: false
       }),
       climb: this.fb.group({
         canClimb: false,
-        selfLevel: false,
-        buddyClimb: false,
-        buddy: '',
-        titling: false,
         climbType: '',
         height: '',
         secureHold: false,
-        timeSecureHold: '',
-        timeClimb: '',
-        climbMechanism: ''
+        timeGrip: '',
+        timeGripToClimb: '',
+        tilting: false,
+        climbMechanism: '',
+        preferredPosition: '',
+        canLevelGenerator: false,
+        levelSelf: false,
+        levelOther: false,
+        repositionWhileHanging: false,
+        canBuddyClimb: false,
+        buddies: '',
       }),
       controlPanel: this.fb.group({
+        canManipulateControlPanel: false,
+        brakes: false,
         positionControl: false,
         rotationControl: false,
-        brakes: false,
-        sensor: false
+        sensor: false,
+        notes: ''
       }),
       auto: this.fb.group({
+        canAuto: false,
         line: false,
-        shoot: false,
+        canShoot: false,
         balls: 0,
         pickup: 0
+      }),
+      record: this.fb.group({
+        created: '',
+        modified: '',
+        deviceName: ''
       })
     });
 
   }
 
-  public onSubmit(): void {
-    this.logger.debug('PitComponent, onSubmit, values: ', this.pitForm.value);
-    this.spinner = true;
-
-    const pit: Pit = this.convertValuesToPitClass(this.pitForm.value);
-    this.dataStorageService.storePit(pit);
-
-    this.spinner = false;
-    this.successMessage = 'Pit details saved to storage';
-    setTimeout(() => {
-      this.successMessage = '';
-    }, 5000);
-
-
-    // this.qrValue = `${JSON.stringify(this.pitForm.value)}`;
-  }
 
   public convertValuesToPitClass(values: any): Pit {
     const p: Pit = new Pit();
@@ -129,6 +131,33 @@ export class PitComponent implements OnInit {
     return t;
   }
 
-  ngOnInit() {}
+  private onChanges(): void {
+    this.pitForm.get('imperialUnits').valueChanges.subscribe(val => {
+      this.logger.max('PitComponent, onChanges, imperialUnits: ', val);
+      this.imperialUnits = val;
+    });
+  }
+
+  public onSubmit(): void {
+    this.logger.debug('PitComponent, onSubmit, values: ', this.pitForm.value);
+    this.spinner = true;
+
+    const pit: Pit = this.convertValuesToPitClass(this.pitForm.value);
+    this.dataStorageService.storePit(pit);
+
+    this.spinner = false;
+    this.successMessage = 'Pit details saved to storage';
+    setTimeout(() => {
+      this.successMessage = '';
+    }, 5000);
+
+
+    // this.qrValue = `${JSON.stringify(this.pitForm.value)}`;
+  }
+
+
+  ngOnInit() {
+    this.onChanges();
+  }
 
 }

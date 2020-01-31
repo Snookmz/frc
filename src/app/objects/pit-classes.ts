@@ -1,23 +1,25 @@
 import {FrcEvent} from './frcEvent-object';
 
 export class Pit {
-    header: Header;
+    details: Details;
     robotStats: RobotStats;
     powerCells: PowerCells;
     climb: Climb;
     controlPanel: ControlPanel;
     auto: Auto;
+    record: Record;
     constructor() {
-        this.header = new Header();
+        this.details = new Details();
         this.robotStats = new RobotStats();
         this.powerCells = new PowerCells();
         this.climb = new Climb();
         this.controlPanel = new ControlPanel();
         this.auto = new Auto();
+        this.record = new Record();
     }
 }
 
-export class Header {
+export class Details {
     teamMember: TeamMember;
     team: Team;
     event: FrcEvent;
@@ -46,42 +48,53 @@ export class RobotStats {
 export class PowerCells {
     manipulate: boolean;
     groundIntake: boolean;
-    loadingStationIntake: boolean;
+    highLoadingStationIntake: boolean;
     storageCapacity: number;
     shootingMechanism: string;
+    targetLower: boolean;
+    targetOuter: boolean;
+    targetInner: boolean;
     constructor() {
         this.manipulate = false;
         this.groundIntake = false;
-        this.loadingStationIntake = false;
+        this.highLoadingStationIntake = false;
         this.storageCapacity = 0;
         this.shootingMechanism = '';
+        this.targetLower = false;
+        this.targetOuter = false;
+        this.targetInner = false;
     }
 }
 
 export class Climb {
     canClimb: boolean;
-    selfLevel: boolean;
-    buddyClimb: boolean;
-    buddy: number;
-    tilting: boolean;
-    climbType: string;
     height: number;
     secureHold: boolean;
-    timeSecureHold: '';
-    timeClimb: '';
-    climbMechanism: '';
+    timeSecureHold: string;
+    timeClimb: string;
+    tilting: boolean;
+    climbMechanism: string;
+    canLevelGenerator: boolean;
+    levelSelf: boolean;
+    levelOther: boolean;
+    canBuddyClimb: boolean;
+    buddy: number;
+
     constructor() {
         this.canClimb = false;
-        this.selfLevel = false;
-        this.buddyClimb = false;
-        this.buddy = 0;
-        this.tilting = false;
-        this.climbType = '';
         this.height = 0;
         this.secureHold = false;
         this.timeSecureHold = '';
         this.timeClimb = '';
+        this.tilting = false;
         this.climbMechanism = '';
+        this.canLevelGenerator = false;
+        this.levelSelf = false;
+        this.levelOther = false;
+        this.canBuddyClimb = false;
+        this.buddy = 0;
+
+
     }
 }
 
@@ -99,26 +112,28 @@ export class ControlPanel {
 }
 
 export class Auto {
+    canAuto: boolean;
     line: boolean;
-    shoot: boolean;
+    canShoot: boolean;
     balls: number;
     pickup: number;
     constructor() {
+        this.canAuto = false;
         this.line = false;
-        this.shoot = false;
+        this.canShoot = false;
         this.balls = 0;
         this.pickup = 0;
     }
 }
 
-
-// old
-export class ClimbType {
-    id: number;
-    name: string;
+export class Record {
+    created: string;
+    modified: string;
+    deviceName: string;
     constructor() {
-        this.id = 0;
-        this.name = '';
+        this.created = '';
+        this.modified = '';
+        this.deviceName = '';
     }
 }
 
