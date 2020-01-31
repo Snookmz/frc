@@ -252,44 +252,53 @@
                                             </ion-select>
                                         </ion-item>
 
-                                        <ion-item>
-                                            <ion-label>
-                                                Level Generator
-                                            </ion-label>
-                                            <ion-toggle color="primary" formControlName="canLevelGenerator"></ion-toggle>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>
-                                                Level Self
-                                            </ion-label>
-                                            <ion-toggle color="primary" formControlName="levelSelf"></ion-toggle>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>
-                                                Level Other
-                                            </ion-label>
-                                            <ion-toggle color="primary" formControlName="levelOther"></ion-toggle>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>
-                                                Reposition While Hanging
-                                            </ion-label>
-                                            <ion-toggle color="primary" formControlName="repositionWhileHanging">
-                                            </ion-toggle>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>
-                                                Buddy Climb
-                                            </ion-label>
-                                            <ion-toggle color="primary" formControlName="canBuddyClimb">
-                                            </ion-toggle>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label position="floating">
-                                                Buddies
-                                            </ion-label>
-                                            <ion-input placeholder="(How many?)" formControlName="buddies"></ion-input>
-                                        </ion-item>
+                                        <ion-item-group>
+                                            <ion-item>
+                                                <ion-label>
+                                                    Can Level Generator
+                                                </ion-label>
+                                                <ion-toggle
+                                                        color="primary"
+                                                        formControlName="canLevelGenerator"></ion-toggle>
+                                            </ion-item>
+                                            <ion-list class="ns-pit-list">
+                                                <ion-item>
+                                                    <ion-label>
+                                                        Level Self
+                                                    </ion-label>
+                                                    <ion-toggle color="primary" formControlName="levelSelf"></ion-toggle>
+                                                </ion-item>
+                                                <ion-item>
+                                                    <ion-label>
+                                                        Level Other
+                                                    </ion-label>
+                                                    <ion-toggle color="primary" formControlName="levelOther"></ion-toggle>
+                                                </ion-item>
+                                                <ion-item>
+                                                    <ion-label>
+                                                        Reposition While Hanging
+                                                    </ion-label>
+                                                    <ion-toggle color="primary" formControlName="repositionWhileHanging">
+                                                    </ion-toggle>
+                                                </ion-item>
+                                                <ion-item>
+                                                    <ion-label>
+                                                        Buddy Climb
+                                                    </ion-label>
+                                                    <ion-toggle color="primary" formControlName="canBuddyClimb">
+                                                    </ion-toggle>
+                                                </ion-item>
+                                                <ion-item>
+                                                    <ion-label position="floating">
+                                                        Buddies
+                                                    </ion-label>
+                                                    <ion-input placeholder="(How many?)" formControlName="buddies"></ion-input>
+                                                </ion-item>
+                                            </ion-list>
+
+                                        </ion-item-group>
+
+
 
                                     </ion-list>
                                 </ion-col>

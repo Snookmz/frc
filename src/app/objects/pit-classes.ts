@@ -1,6 +1,8 @@
 import {FrcEvent} from './frcEvent-object';
+import {isBoolean} from 'util';
 
 export class Pit {
+    imperialUnits: boolean;
     details: Details;
     robotStats: RobotStats;
     powerCells: PowerCells;
@@ -9,6 +11,7 @@ export class Pit {
     auto: Auto;
     record: Record;
     constructor() {
+        this.imperialUnits = false;
         this.details = new Details();
         this.robotStats = new RobotStats();
         this.powerCells = new PowerCells();
@@ -23,10 +26,12 @@ export class Details {
     teamMember: TeamMember;
     team: Team;
     event: FrcEvent;
+    other: string;
     constructor() {
         this.teamMember = new TeamMember();
         this.team = new Team();
         this.event = new FrcEvent();
+        this.other = '';
     }
 }
 
@@ -68,29 +73,35 @@ export class PowerCells {
 
 export class Climb {
     canClimb: boolean;
+    climbType: string;
     height: number;
     secureHold: boolean;
-    timeSecureHold: string;
-    timeClimb: string;
+    timeGrip: string;
+    timeGripToClimb: string;
     tilting: boolean;
     climbMechanism: string;
+    preferredPosition: string;
     canLevelGenerator: boolean;
     levelSelf: boolean;
     levelOther: boolean;
+    repositionWhileHanging: boolean;
     canBuddyClimb: boolean;
     buddy: number;
 
     constructor() {
         this.canClimb = false;
+        this.climbType = '';
         this.height = 0;
         this.secureHold = false;
-        this.timeSecureHold = '';
-        this.timeClimb = '';
+        this.timeGrip = '';
+        this.timeGripToClimb = '';
         this.tilting = false;
         this.climbMechanism = '';
+        this.preferredPosition = '';
         this.canLevelGenerator = false;
         this.levelSelf = false;
         this.levelOther = false;
+        this.repositionWhileHanging = false;
         this.canBuddyClimb = false;
         this.buddy = 0;
 
@@ -99,15 +110,19 @@ export class Climb {
 }
 
 export class ControlPanel {
+    canManipulateControlPanel: boolean;
     positionControl: boolean;
     rotationControl: boolean;
     brakes: boolean;
     sensor: boolean;
+    notes: string;
     constructor() {
+        this.canManipulateControlPanel = false;
         this.positionControl = false;
         this.rotationControl = false;
         this.brakes = false;
         this.sensor = false;
+        this.notes = '';
     }
 }
 

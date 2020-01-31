@@ -43,6 +43,7 @@ export class PitComponent implements OnInit {
         teamMemberId: ['', Validators.required],
         eventId: ['', Validators.required],
         teamId: ['', Validators.required],
+        other: ''
       }),
       robotStats: this.fb.group({
         weight: '',
@@ -53,45 +54,45 @@ export class PitComponent implements OnInit {
       }),
       powerCells: this.fb.group({
         manipulate: false,
-        groundIntake: false,
-        highLoadingStationIntake: false,
-        storageCapacity: '',
-        shootingMechanism: '',
-        targetLower: false,
-        targetOuter: false,
-        targetInner: false
+        groundIntake: {value: false, disabled: true},
+        highLoadingStationIntake: {value: false, disabled: true},
+        storageCapacity: {value: '', disabled: true},
+        shootingMechanism: {value: '', disabled: true},
+        targetLower: {value: false, disabled: true},
+        targetOuter: {value: false, disabled: true},
+        targetInner: {value: false, disabled: true}
       }),
       climb: this.fb.group({
         canClimb: false,
-        climbType: '',
-        height: '',
-        secureHold: false,
-        timeGrip: '',
-        timeGripToClimb: '',
-        tilting: false,
-        climbMechanism: '',
-        preferredPosition: '',
-        canLevelGenerator: false,
-        levelSelf: false,
-        levelOther: false,
-        repositionWhileHanging: false,
-        canBuddyClimb: false,
-        buddies: '',
+        climbType: {value: '', disabled: true},
+        height: {value: '', disabled: true},
+        secureHold: {value: false, disabled: true},
+        timeGrip: {value: '', disabled: true},
+        timeGripToClimb: {value: '', disabled: true},
+        tilting: {value: false, disabled: true},
+        climbMechanism: {value: '', disabled: true},
+        preferredPosition: {value: '', disabled: true},
+        canLevelGenerator: {value: false, disabled: true},
+        levelSelf: {value: false, disabled: true},
+        levelOther: {value: false, disabled: true},
+        repositionWhileHanging: {value: false, disabled: true},
+        canBuddyClimb: {value: false, disabled: true},
+        buddies: {value: '', disabled: true},
       }),
       controlPanel: this.fb.group({
         canManipulateControlPanel: false,
-        brakes: false,
-        positionControl: false,
-        rotationControl: false,
-        sensor: false,
-        notes: ''
+        brakes: {value: false, disabled: true},
+        positionControl: {value: false, disabled: true},
+        rotationControl: {value: false, disabled: true},
+        sensor: {value: false, disabled: true},
+        notes: {value: '', disabled: true}
       }),
       auto: this.fb.group({
         canAuto: false,
-        line: false,
-        canShoot: false,
-        balls: 0,
-        pickup: 0
+        line: {value: false, disabled: true},
+        canShoot: {value: false, disabled: true},
+        balls: {value: 0, disabled: true},
+        pickup: {value: 0, disabled: true}
       }),
       record: this.fb.group({
         created: '',
@@ -136,6 +137,109 @@ export class PitComponent implements OnInit {
       this.logger.max('PitComponent, onChanges, imperialUnits: ', val);
       this.imperialUnits = val;
     });
+
+    this.pitForm.get('powerCells').get('manipulate').valueChanges.subscribe(val => {
+      if (val) {
+        this.pitForm.get('powerCells').get('groundIntake').enable();
+        this.pitForm.get('powerCells').get('highLoadingStationIntake').enable();
+        this.pitForm.get('powerCells').get('storageCapacity').enable();
+        this.pitForm.get('powerCells').get('shootingMechanism').enable();
+        this.pitForm.get('powerCells').get('targetLower').enable();
+        this.pitForm.get('powerCells').get('targetOuter').enable();
+        this.pitForm.get('powerCells').get('targetInner').enable();
+      } else {
+        this.pitForm.get('powerCells').get('groundIntake').disable();
+        this.pitForm.get('powerCells').get('highLoadingStationIntake').disable();
+        this.pitForm.get('powerCells').get('storageCapacity').disable();
+        this.pitForm.get('powerCells').get('shootingMechanism').disable();
+        this.pitForm.get('powerCells').get('targetLower').disable();
+        this.pitForm.get('powerCells').get('targetOuter').disable();
+        this.pitForm.get('powerCells').get('targetInner').disable();
+      }
+    });
+
+    this.pitForm.get('climb').get('canClimb').valueChanges.subscribe(val => {
+      if (val) {
+        this.pitForm.get('climb').get('climbType').enable();
+        this.pitForm.get('climb').get('height').enable();
+        this.pitForm.get('climb').get('secureHold').enable();
+        this.pitForm.get('climb').get('timeGrip').enable();
+        this.pitForm.get('climb').get('timeGripToClimb').enable();
+        this.pitForm.get('climb').get('tilting').enable();
+        this.pitForm.get('climb').get('climbMechanism').enable();
+        this.pitForm.get('climb').get('preferredPosition').enable();
+        this.pitForm.get('climb').get('canLevelGenerator').enable();
+      } else {
+        this.pitForm.get('climb').get('climbType').disable();
+        this.pitForm.get('climb').get('height').disable();
+        this.pitForm.get('climb').get('secureHold').disable();
+        this.pitForm.get('climb').get('timeGrip').disable();
+        this.pitForm.get('climb').get('timeGripToClimb').disable();
+        this.pitForm.get('climb').get('tilting').disable();
+        this.pitForm.get('climb').get('climbMechanism').disable();
+        this.pitForm.get('climb').get('preferredPosition').disable();
+        this.pitForm.get('climb').get('canLevelGenerator').disable();
+      }
+    });
+
+    this.pitForm.get('climb').get('canLevelGenerator').valueChanges.subscribe(val => {
+      if (val) {
+        this.pitForm.get('climb').get('levelSelf').enable();
+        this.pitForm.get('climb').get('levelOther').enable();
+        this.pitForm.get('climb').get('repositionWhileHanging').enable();
+        this.pitForm.get('climb').get('canBuddyClimb').enable();
+      } else {
+        this.pitForm.get('climb').get('levelSelf').disable();
+        this.pitForm.get('climb').get('levelOther').disable();
+        this.pitForm.get('climb').get('repositionWhileHanging').disable();
+        this.pitForm.get('climb').get('canBuddyClimb').disable();
+      }
+    });
+
+    this.pitForm.get('climb').get('canBuddyClimb').valueChanges.subscribe(val => {
+      if (val) {
+        this.pitForm.get('climb').get('buddies').enable();
+      } else {
+        this.pitForm.get('climb').get('buddies').disable();
+      }
+    });
+
+    this.pitForm.get('controlPanel').get('canManipulateControlPanel').valueChanges.subscribe(val => {
+      if (val) {
+        this.pitForm.get('controlPanel').get('brakes').enable();
+        this.pitForm.get('controlPanel').get('positionControl').enable();
+        this.pitForm.get('controlPanel').get('rotationControl').enable();
+        this.pitForm.get('controlPanel').get('sensor').enable();
+        this.pitForm.get('controlPanel').get('notes').enable();
+      } else {
+        this.pitForm.get('controlPanel').get('brakes').disable();
+        this.pitForm.get('controlPanel').get('positionControl').disable();
+        this.pitForm.get('controlPanel').get('rotationControl').disable();
+        this.pitForm.get('controlPanel').get('sensor').disable();
+        this.pitForm.get('controlPanel').get('notes').disable();
+      }
+    });
+
+    this.pitForm.get('auto').get('canAuto').valueChanges.subscribe(val => {
+      if (val) {
+        this.pitForm.get('auto').get('line').enable();
+        this.pitForm.get('auto').get('canShoot').enable();
+      } else {
+        this.pitForm.get('auto').get('line').disable();
+        this.pitForm.get('auto').get('canShoot').disable();
+      }
+    });
+
+    this.pitForm.get('auto').get('canShoot').valueChanges.subscribe(val => {
+      if (val) {
+        this.pitForm.get('auto').get('balls').enable();
+        this.pitForm.get('auto').get('pickup').enable();
+      } else {
+        this.pitForm.get('auto').get('balls').disable();
+        this.pitForm.get('auto').get('pickup').disable();
+      }
+    });
+
   }
 
   public onSubmit(): void {
