@@ -43,7 +43,6 @@ export class PitComponent implements OnInit {
         teamMemberId: ['', Validators.required],
         eventId: ['', Validators.required],
         teamId: ['', Validators.required],
-        other: ''
       }),
       robotStats: this.fb.group({
         weight: '',
@@ -104,12 +103,92 @@ export class PitComponent implements OnInit {
   }
 
 
-  public convertValuesToPitClass(values: any): Pit {
+  public convertValuesToPitClass(v: any): Pit {
     const p: Pit = new Pit();
+    this.logger.max('PitComponent, convertValuesToPitClass: ', v);
+    p.imperialUnits = v.imperialUnits;
+    p.details.teamMember = this.getTeamMemberFromId(v.details.teamMemberId);
+    p.details.team = this.getTeamFromTeamId(v.details.teamId);
+    p.details.event = this.getEventFromEventId(v.details.eventId);
 
-    this.logger.max('PitComponent, convertValuesToPitClass: ', p);
+    p.robotStats.weight = v.robotStats.weight;
+    p.robotStats.height = v.robotStats.height;
+    p.robotStats.teamShirt = v.robotStats.teamShirt;
+    p.robotStats.robotFront = v.robotStats.robotFront;
+    p.robotStats.robotSide = v.robotStats.robotSide;
 
+    p.powerCells.manipulate = v.powerCells.manipulate;
+    if (p.powerCells.manipulate) {
+      p.powerCells.groundIntake = v.powerCells.groundIntake;
+      p.powerCells.highLoadingStationIntake = v.powerCells.highLoadingStationIntake;
+      p.powerCells.storageCapacity = v.powerCells.storageCapacity;
+      p.powerCells.shootingMechanism = v.powerCells.shootingMechanism;
+      p.powerCells.targetLower = v.powerCells.targetLower;
+      p.powerCells.targetOuter = v.powerCells.targetOuter;
+      p.powerCells.targetInner = v.powerCells.targetInner;
+    }
+
+    p.climb.canClimb = v.climb.canClimb;
+    if (p.climb.canClimb) {
+      p.climb.climbType = v.climb.climbType;
+      p.climb.height = v.climb.height;
+      p.climb.timeGrip = v.climb.timeGrip;
+      p.climb.timeGripToClimb = v.climb.timeGripToClimb;
+      p.climb.tilting = v.climb.tilting;
+      p.climb.climbMechanism = v.climb.climbMechanism;
+      p.climb.preferredPosition = v.climb.preferredPosition;
+      p.climb.canLevelGenerator = v.climb.canLevelGenerator;
+      if (p.climb.canLevelGenerator) {
+        p.climb.levelSelf = v.climb.levelSelf;
+        p.climb.levelOther = v.climb.levelOther;
+        p.climb.repositionWhileHanging = v.climb.repositionWhileHanging;
+      }
+      p.climb.canBuddyClimb = v.climb.canBuddyClimb;
+      if (p.climb.canBuddyClimb) {
+        p.climb.buddies = v.climb.buddies;
+      }
+    }
+
+    p.controlPanel.canManipulateControlPanel = v.controlPanel.canManipulateControlPanel;
+    if (p.controlPanel.canManipulateControlPanel) {
+      p.controlPanel.brakes = v.controlPanel.brakes;
+      p.controlPanel.positionControl = v.controlPanel.positionControl;
+      p.controlPanel.rotationControl = v.controlPanel.rotationControl;
+      p.controlPanel.sensor = v.controlPanel.sensor;
+      p.controlPanel.notes = v.controlPanel.notes;
+    }
+
+    p.auto.canAuto = v.auto.canAuto;
+    if (p.auto.canAuto) {
+      p.auto.line = v.auto.line;
+      p.auto.canShoot = v.auto.canShoot;
+      if (p.auto.canShoot) {
+        p.auto.balls = v.auto.balls;
+        p.auto.pickup = v.auto.pickup;
+      }
+    }
+
+    if (v.record.created === '') {
+      p.record.created = new Date().toString();
+    } else {
+      p.record.created = v.record.created;
+    }
+
+    p.record.modified = new Date().toString();
+
+    this.logger.max('PitComponent, convertValuesToPitClasses, returning: ', p);
     return p;
+  }
+
+  private getEventFromEventId(id: string): FrcEvent {
+    this.logger.max('PitComponent, getEventFromEventId: ', id);
+    let e: FrcEvent = new FrcEvent();
+    this.events.forEach(ev => {
+      if (id === ev.id) {
+        e = ev;
+      }
+    });
+    return e;
   }
 
   private getTeamFromTeamId(id: number): Team {

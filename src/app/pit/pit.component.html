@@ -1,3 +1,13 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Pit Form</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
 <ion-content>
     <form [formGroup]="pitForm" novalidate>
         <ion-row >
@@ -50,6 +60,11 @@
                                             {{t.name}}
                                         </ion-select-option>
                                     </ion-select>
+                                </ion-item>
+                                <ion-item *ngIf="pitForm.get('details').invalid && !pitForm.get('details').pristine">
+                                    <ion-label color="danger">
+                                        All detail fields required
+                                    </ion-label>
                                 </ion-item>
                             </ion-list>
                         </ion-item-group>
@@ -292,7 +307,10 @@
                                                     <ion-label position="floating">
                                                         Buddies
                                                     </ion-label>
-                                                    <ion-input placeholder="(How many?)" formControlName="buddies"></ion-input>
+                                                    <ion-input
+                                                            type="number"
+                                                            placeholder="(How many?)"
+                                                            formControlName="buddies"></ion-input>
                                                 </ion-item>
                                             </ion-list>
 
@@ -413,12 +431,14 @@
 
                 <ion-row justify-content-center>
                     <ion-col size-md="2">
-                        <ion-button expand color="success" (click)="onSubmit()" [disabled]="pitForm.pristine || pitForm.invalid">
+                        <ion-button expand="block"
+                                    color="success"
+                                    (click)="onSubmit()" [disabled]="pitForm.pristine || pitForm.invalid">
                             Save
                         </ion-button>
                     </ion-col>
-                    <ion-col size-md="3">
-                        <ion-button color="danger" (click)="pitForm.reset()">
+                    <ion-col size-md="2">
+                        <ion-button expand="block" color="danger" (click)="pitForm.reset()">
                             Clear
                         </ion-button>
                     </ion-col>

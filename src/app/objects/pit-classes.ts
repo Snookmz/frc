@@ -26,12 +26,10 @@ export class Details {
     teamMember: TeamMember;
     team: Team;
     event: FrcEvent;
-    other: string;
     constructor() {
         this.teamMember = new TeamMember();
         this.team = new Team();
         this.event = new FrcEvent();
-        this.other = '';
     }
 }
 
@@ -86,7 +84,7 @@ export class Climb {
     levelOther: boolean;
     repositionWhileHanging: boolean;
     canBuddyClimb: boolean;
-    buddy: number;
+    buddies: number;
 
     constructor() {
         this.canClimb = false;
@@ -103,7 +101,7 @@ export class Climb {
         this.levelOther = false;
         this.repositionWhileHanging = false;
         this.canBuddyClimb = false;
-        this.buddy = 0;
+        this.buddies = 0;
 
 
     }
