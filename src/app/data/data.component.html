@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Data</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-row>
+    <ion-col>
+      <ion-button (click)="getTeams()">Get Teams</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-button (click)="getEvents()" >Get Events</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="teamKeys.length !== 0">
+    <ion-col *ngFor="let k of teamKeys" (click)="getTeamDetailsFromTeamKey(k)">
+      {{k}}
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <pre>{{selectedTeam | json}}</pre>
+    </ion-col>
+  </ion-row>
+
+  <ng-container *ngIf="events.length !== 0">
+    <ion-row *ngFor="let e of events" (click)="getTeamIdsForEvent(e.event_code)">
+      <ion-col>
+        {{e.name}} -- {{e.event_code}}
+      </ion-col>
+    </ion-row>
+  </ng-container>
+
+</ion-content>

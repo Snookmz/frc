@@ -1,23 +1,32 @@
 import { Injectable } from '@angular/core';
-import {Team, TeamMember} from '../../objects/pit-classes';
+import {TeamMember} from '../../objects/pit-classes';
 import {FrcEvent} from '../../objects/frcEvent-object';
+import {Observable} from 'rxjs';
+import {HttpService} from '../httpService/http.service';
+import {Team} from '../../objects/team-object';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataInputService {
 
-  constructor() { }
+  constructor(
+      private httpService: HttpService
+  ) { }
 
 
   public getEvents(): FrcEvent[] {
     const events: FrcEvent[] = [];
-    events.push({id: '2019ausp', name: '2019 South Pacific Regional'});
-    events.push({id: '2019DDU', name: '2019 Duel Down Under'});
-    events.push({id: '2019gal', name: '2019 Galileo Division'});
+    // events.push({id: '2019ausp', name: '2019 South Pacific Regional'});
+    // events.push({id: '2019DDU', name: '2019 Duel Down Under'});
+    // events.push({id: '2019gal', name: '2019 Galileo Division'});
 
     return events;
+  }
 
+  public getAllEventsFromApi(): Observable<FrcEvent[]> {
+    const endpoint = 'events/2020/simple';
+    return this.httpService.httpGetBlueAlliance(endpoint);
   }
 
   public getTeamData(): Team[] {
@@ -25,11 +34,16 @@ export class DataInputService {
 
     for (let i = 0; i < 10; i++) {
       const t: Team = new Team();
-      t.id = i;
+      t.team_number = i;
       t.name = `team  #${i}`;
       teams.push(t);
     }
     return teams;
+  }
+
+  public getTeamDataFromTeamKey(key: string): Observable<Team> {
+    const endpoint = `team/${key}`;
+    return this.httpService.httpGetBlueAlliance(endpoint);
   }
 
   public getTeamMembers(): TeamMember[] {
@@ -46,6 +60,16 @@ export class DataInputService {
 
     return teamMembers;
 
+  }
+
+  public getTeamMembersFromApi(): Observable<Team[]> {
+    const endpoint = 'teams/1';
+    return this.httpService.httpGetBlueAlliance(endpoint);
+  }
+
+  public getTeamIdsForEvent(year: number, eventKey: string): Observable<string[]> {
+    const endpoint = `event/${year}${eventKey}/teams/statuses`;
+    return this.httpService.httpGetBlueAlliance(endpoint);
   }
 
 }

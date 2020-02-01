@@ -5,6 +5,11 @@ import {NsLogLevel} from '../app/services/loggerService/logger-object';
 
 export const environment = {
   production: false,
+  blueAlliance: {
+    readKey: 'k9w9nJeu045mBGHOIQNIN5mL9Uii2QK6nanQdsMDvMfuMcenbxL6nL4X6cNeW0lb',
+    apiUrl: 'https://www.thebluealliance.com/api/v3'
+  },
+  eventYear: 2020,
   refreshTimeout: 3000,
   httpTimeout: 5000,
   httpRefreshDelay: 2000,
@@ -16,18 +21,8 @@ export const environment = {
     logDelay: 500,
     level: NsLogLevel.max,
     outputTo: 'console',
-  },
-  url: {
-    base: 'http://localhost:8002',
-    login: '/login',
-    checkSession: '/user/check/session',
-    getActivity: `/data/activity`,
-    getTopN: `/data/top-n`,
-    getTopClasses: `/data/top-classes`,
-    policyList: `/policy/list`,
-    policyActive: `/policy/get/active`,
-    policyById: `/policy/get/id`
   }
+
 };
 
 /*

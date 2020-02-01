@@ -13,7 +13,7 @@ export class DataStorageService {
 
   public deletePit(pit: Pit): void {
     this.logger.max('DataStorageService, deletePit: ', pit);
-    const key = `${pit.header.team.id} - ${pit.header.team.name}`;
+    const key = `${pit.details.team.id} - ${pit.details.team.name}`;
     this.deletePitKey(key);
     localStorage.removeItem(key);
   }
@@ -56,7 +56,7 @@ export class DataStorageService {
 
   public storePit(pit: Pit): void {
     this.logger.debug('dataStorageService, storePitObject: ', pit);
-    const key = `${pit.header.team.id} - ${pit.header.team.name}`;
+    const key = `${pit.details.team.id} - ${pit.details.team.name}`;
     localStorage.setItem(key, JSON.stringify(pit));
     this.storePitKey(key);
 

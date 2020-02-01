@@ -3,13 +3,13 @@ import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoggerService} from '../loggerService/logger.service';
 import {Post, ReturnJson} from '../../objects/http-object';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-
-
+  private blueAllianceReadKey = environment.blueAlliance.readKey;
   private device = 'web';
 
   constructor(
@@ -54,10 +54,25 @@ export class HttpService {
   //       }));
   // }
 
+  public httpGetBlueAlliance(endPoint: string): Observable<any> {
+    const httpOptionsAuth = {
+      headers: new HttpHeaders({
+        // 'Content-Type': 'application/json',
+        'X-TBA-Auth-Key': this.blueAllianceReadKey
+      })
+    };
+
+    const url = `${environment.blueAlliance.apiUrl}/${endPoint}`;
+
+    this.logger.max('HttpService, httpGetBlueAlliance: ', endPoint, httpOptionsAuth);
+    return this.http.get(url, httpOptionsAuth);
+  }
+
   private httpPostAuthenticated(query: Post, url: string): Observable<any> {
     const httpOptionsAuth = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
+        'X-TBA-Auth-Key': this.blueAllianceReadKey
       })
     };
 

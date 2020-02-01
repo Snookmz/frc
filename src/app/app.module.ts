@@ -16,10 +16,13 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgxQRCodeModule} from 'ngx-qrcode2';
 import {QrComponent} from './qr/qr.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {DataComponent} from './data/data.component';
 
 @NgModule({
     declarations: [
         AppComponent,
+        DataComponent,
         MainComponent,
         PageNotFoundComponent,
         PitComponent,
@@ -29,6 +32,7 @@ import {QrComponent} from './qr/qr.component';
     entryComponents: [],
     imports: [
         BrowserModule,
+        HttpClientModule,
         IonicModule.forRoot(),
         AppRoutingModule,
         NgxQRCodeModule,

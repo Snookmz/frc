@@ -24,8 +24,6 @@ export class NsInterceptor implements HttpInterceptor {
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
         this.logger.max('NsInterceptor, request: ', req);
 
-        req.body.sessionId = this.authService.getSessionId();
-
         return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
                 this.logger.max('NsInterceptor, event: ', event);
                 if (event instanceof HttpResponse) {
@@ -41,29 +39,6 @@ export class NsInterceptor implements HttpInterceptor {
                     if (error.status === 0) {
                         this.logger.error('NsInterceptor, unknown error, unable to contact server', error);
                         return throwError(error);
-                    } else if (error.error.message.includes('no user with that session')) {
-                        this.authService.clearSessionId();
-                        this.router.navigate(['/login']).catch(reason => {
-                            this.logger.error('NsInterceptor, retryWhen error: ', reason);
-                        });
-                        // if (!this.newMemberRequestAlreadySent) {
-                        //     this.handleSignUpRequest();
-                        // }
-                    } else if (error.error.message.includes('email not verified')) {
-                        this.logger.error('NsInterceptor, email not verified error', error.error.message);
-                        this.router.navigate(['/verify']).catch(reason => {
-                            this.logger.error('NsInterceptor, failed to redirect to /verify: ', reason);
-                        });
-                        return throwError(error.error);
-                    } else if (error.error.message.includes('invalid session_id')) {
-                        this.logger.error('NsInterceptor, invalid session_id, log user out: ', error.error);
-                        this.authService.clearSessionId();
-                    }
-
-                    if (count < environment.httpRefreshTries && (error.status === 400)) {
-                        this.logger.error('NsInterceptor, 400 code error, retrying request count: ', count, error);
-                        return this.returnOfError(error);
-                        // return of(error);
                     } else {
                         this.logger.error('NsInterceptor, error count > 3 or matched error, returning error: ', count, error);
                         return this.returnThrowError(count, error);

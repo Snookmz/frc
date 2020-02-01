@@ -1,41 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>QR Codes</ion-title>
+    </ion-toolbar>
+</ion-header>
+
 
 <ion-content>
-    <ion-toolbar>
-        <ion-header>
-            <h1>
-                Teams and QR code
-            </h1>
-        </ion-header>
-    </ion-toolbar>
-    <ion-list>
-        <ion-item
-                *ngFor="let p of pits"
-                class="ns-pointer">
-            <ion-row>
-                <ion-col (click)="printPitQrCode(p)">
-                    Pit for Team {{p.detail.team.name}}
-                </ion-col>
-                <ion-col>
-                    <ion-button color="danger" (click)="presentDeleteConfirm(p)">X</ion-button>
-                </ion-col>
-            </ion-row>
-        </ion-item>
-    </ion-list>
-<!--    <ion-row>-->
-<!--        <ion-col>-->
-<!--            <ion-button (click)="printAllPitsToQrCode()">-->
-<!--                Get All Pits-->
-<!--            </ion-button>-->
-<!--        </ion-col>-->
-<!--    </ion-row>-->
-
     <ion-row>
         <ion-col>
-            <ngx-qrcode
-                    qrc-element-type="text"
-                    [qrc-value] = "qrValue"></ngx-qrcode>
+            <ion-item color="primary">
+                Unfinished
+            </ion-item>
         </ion-col>
     </ion-row>
 
 </ion-content>
+
+<!--<ion-content>-->
+<!--    <ion-toolbar>-->
+<!--        <ion-header>-->
+<!--            <h1>-->
+<!--                Teams and QR code-->
+<!--            </h1>-->
+<!--        </ion-header>-->
+<!--    </ion-toolbar>-->
+<!--    <ion-list>-->
+<!--        <ion-item-->
+<!--                *ngFor="let p of pits"-->
+<!--                class="ns-pointer">-->
+<!--            <ion-row>-->
+<!--                <ion-col (click)="printPitQrCode(p)">-->
+<!--                    Pit for Team {{p.detail.team.name}}-->
+<!--                </ion-col>-->
+<!--                <ion-col>-->
+<!--                    <ion-button color="danger" (click)="presentDeleteConfirm(p)">X</ion-button>-->
+<!--                </ion-col>-->
+<!--            </ion-row>-->
+<!--        </ion-item>-->
+<!--    </ion-list>-->
+<!--&lt;!&ndash;    <ion-row>&ndash;&gt;-->
+<!--&lt;!&ndash;        <ion-col>&ndash;&gt;-->
+<!--&lt;!&ndash;            <ion-button (click)="printAllPitsToQrCode()">&ndash;&gt;-->
+<!--&lt;!&ndash;                Get All Pits&ndash;&gt;-->
+<!--&lt;!&ndash;            </ion-button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </ion-col>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ion-row>&ndash;&gt;-->
+
+<!--    <ion-row>-->
+<!--        <ion-col>-->
+<!--            <ngx-qrcode-->
+<!--                    qrc-element-type="text"-->
+<!--                    [qrc-value] = "qrValue"></ngx-qrcode>-->
+<!--        </ion-col>-->
+<!--    </ion-row>-->
+
+<!--</ion-content>-->
 

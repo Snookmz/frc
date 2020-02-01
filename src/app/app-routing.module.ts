@@ -5,6 +5,7 @@ import {PitComponent} from './pit/pit.component';
 import {ScoutComponent} from './scout/scout.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {QrComponent} from './qr/qr.component';
+import {DataComponent} from './data/data.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     redirectTo: 'main',
     pathMatch: 'full'
   },
+  {path: 'data', component: DataComponent},
   {path: 'pit', component: PitComponent},
   {path: 'scout', component: ScoutComponent},
   {path: 'qr', component: QrComponent},

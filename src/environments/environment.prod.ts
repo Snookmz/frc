@@ -2,6 +2,9 @@ import {NsLogLevel} from '../app/services/loggerService/logger-object';
 
 export const environment = {
   production: true,
+  blueAlliance: {
+    readKey: 'k9w9nJeu045mBGHOIQNIN5mL9Uii2QK6nanQdsMDvMfuMcenbxL6nL4X6cNeW0lb'
+  },
   refreshTimeout: 3000,
   httpTimeout: 5000,
   httpRefreshDelay: 2000,

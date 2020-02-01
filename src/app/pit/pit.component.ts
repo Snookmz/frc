@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../services/loggerService/logger.service';
-import {Pit, Team, TeamMember} from '../objects/pit-classes';
+import {Pit, TeamMember} from '../objects/pit-classes';
 import {DataInputService} from '../services/dataInputService/data-input.service';
 import {DataStorageService} from '../services/dataStorageService/data-storage.service';
 import {FrcEvent} from '../objects/frcEvent-object';
+import {Team} from '../objects/team-object';
 
 @Component({
   selector: 'app-pit',
@@ -194,7 +195,7 @@ export class PitComponent implements OnInit {
   private getTeamFromTeamId(id: number): Team {
     let t: Team = new Team();
     this.teams.forEach(tm => {
-      if (id === tm.id) {
+      if (id === tm.team_number) {
         t = tm;
       }
     });

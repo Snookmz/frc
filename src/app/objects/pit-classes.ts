@@ -1,5 +1,5 @@
 import {FrcEvent} from './frcEvent-object';
-import {isBoolean} from 'util';
+import {Team} from './team-object';
 
 export class Pit {
     imperialUnits: boolean;
@@ -150,14 +150,6 @@ export class Record {
     }
 }
 
-export class Team {
-    id: number;
-    name: string;
-    constructor() {
-        this.id = 0;
-        this.name = '';
-    }
-}
 
 export class TeamMember {
     team: Team;
