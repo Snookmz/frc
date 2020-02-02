@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Team, TeamMember} from '../objects/pit-classes';
+import {TeamMember} from '../objects/pit-classes';
 import {LoggerService} from '../services/loggerService/logger.service';
 import {DataInputService} from '../services/dataInputService/data-input.service';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FrcEvent} from '../objects/frcEvent-object';
+import {Team} from '../objects/team-object';
 
 @Component({
   selector: 'app-scout',

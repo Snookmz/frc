@@ -185,9 +185,9 @@ export class PitComponent implements OnInit {
     this.logger.max('PitComponent, getEventFromEventId: ', id);
     let e: FrcEvent = new FrcEvent();
     this.events.forEach(ev => {
-      if (id === ev.id) {
-        e = ev;
-      }
+      // if (id === ev.id) {
+      //   e = ev;
+      // }
     });
     return e;
   }

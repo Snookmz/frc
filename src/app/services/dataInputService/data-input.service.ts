@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {TeamMember} from '../../objects/pit-classes';
-import {FrcEvent} from '../../objects/frcEvent-object';
+import {District, FrcEvent} from '../../objects/frcEvent-object';
 import {Observable} from 'rxjs';
 import {HttpService} from '../httpService/http.service';
 import {Team} from '../../objects/team-object';
+import {DataStorageService} from '../dataStorageService/data-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import {Team} from '../../objects/team-object';
 export class DataInputService {
 
   constructor(
-      private httpService: HttpService
+      private httpService: HttpService,
   ) { }
 
 
@@ -25,7 +26,13 @@ export class DataInputService {
   }
 
   public getAllEventsFromApi(): Observable<FrcEvent[]> {
-    const endpoint = 'events/2020/simple';
+    const endpoint = 'events/2020';
+    return this.httpService.httpGetBlueAlliance(endpoint);
+
+  }
+
+  public getDistrictsFromApi(): Observable<District[]> {
+    const endpoint = 'districts/2020';
     return this.httpService.httpGetBlueAlliance(endpoint);
   }
 

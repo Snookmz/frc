@@ -10,6 +10,26 @@ export class FrcEvent {
     start_date: string;
     end_date: string;
     year: number;
+    short_name: string;
+    event_type_string: string;
+    week: number;
+    address: string;
+    postal_code: string;
+    gmaps_place_id: string;
+    gmaps_url: string;
+    lat: number;
+    lng: number;
+    location_name: string;
+    timezone: string;
+    website: string;
+    first_event_id: string;
+    first_event_code: string;
+    webcasts: Webcast[];
+    division_keys: string[];
+    parent_event_key: string;
+    playoff_type: number;
+    playoff_type_string: string;
+
     constructor() {
         this.key = '';
         this.name = '';
@@ -21,6 +41,25 @@ export class FrcEvent {
         this.start_date = '';
         this.end_date = '';
         this.year = 0;
+        this.short_name = '';
+        this.event_type_string = ''
+        this.week = 0;
+        this.address ='';
+        this.postal_code = '';
+        this.gmaps_place_id = '';
+        this.gmaps_url = '';
+        this.lat = 0;
+        this.lng = 0;
+        this.location_name = '';
+        this.timezone = '';
+        this.website = '';
+        this.first_event_id = '';
+        this.first_event_code = '';
+        this.webcasts = [];
+        this.division_keys = [];
+        this.parent_event_key = '';
+        this.playoff_type = 0;
+        this.playoff_type_string = '';
     }
 }
 
@@ -34,6 +73,17 @@ export class District {
         this.display_name = '';
         this.key = '';
         this.year = 0;
+    }
+}
+
+export class Webcast {
+    type: string;
+    channel: string;
+    file: string;
+    constructor() {
+        this.type = '';
+        this.channel = '';
+        this.file = '';
     }
 }
 

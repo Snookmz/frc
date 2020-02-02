@@ -11,21 +11,51 @@
 
   <ion-row>
     <ion-col>
-      <ion-button (click)="getTeams()">Get Teams</ion-button>
+      
     </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col>
-      <ion-button (click)="getEvents()" >Get Events</ion-button>
+      <ion-button color="danger" (click)="clearDataStorage()">Clear Data Storage</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button (click)="getDistrictsFromApi()">Get Districts From API</ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="teamKeys.length !== 0">
-    <ion-col *ngFor="let k of teamKeys" (click)="getTeamDetailsFromTeamKey(k)">
-      {{k}}
+  <ion-row>
+    <ion-col>
+      <ion-button (click)="getEventsFromApi()" >Get Events From API</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button (click)="getEventsFromStorage()" >Get Events From Storage</ion-button>
+    </ion-col>
+    <ion-col *ngIf="dataForm !== undefined">
+      {{dataForm.value | json}}
     </ion-col>
   </ion-row>
+
+  <ng-container *ngIf="dataForm !== undefined">
+    <form [formGroup]="dataForm">
+      <ion-row *ngIf="teamKeys.length !== 0" justify-content-center>
+        <ion-col size-lg="5">
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating">
+                Team
+              </ion-label>
+              <ion-select formControlName="teamKey" placeholder="select team">
+                <ion-select-option *ngFor="let k of teamKeys">{{k}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ng-container>
+
+
 
   <ion-row>
     <ion-col>

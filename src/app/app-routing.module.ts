@@ -6,6 +6,7 @@ import {ScoutComponent} from './scout/scout.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {QrComponent} from './qr/qr.component';
 import {DataComponent} from './data/data.component';
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {path: 'data', component: DataComponent},
+  {path: 'login', component: LoginComponent},
   {path: 'pit', component: PitComponent},
   {path: 'scout', component: ScoutComponent},
   {path: 'qr', component: QrComponent},

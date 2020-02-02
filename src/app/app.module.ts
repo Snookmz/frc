@@ -18,11 +18,13 @@ import {NgxQRCodeModule} from 'ngx-qrcode2';
 import {QrComponent} from './qr/qr.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataComponent} from './data/data.component';
+import {LoginComponent} from './login/login.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         DataComponent,
+        LoginComponent,
         MainComponent,
         PageNotFoundComponent,
         PitComponent,

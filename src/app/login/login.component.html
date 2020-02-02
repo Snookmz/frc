@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="loginForm">
+    <ion-row justify-content-center>
+      <ion-col size-lg="6">
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">
+              Team Key
+            </ion-label>
+            <ion-input placeholder="(frc0000)" formControlName="teamKey"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">
+              User Name
+            </ion-label>
+            <ion-input placeholder="(Your Name)" formControlName="userName"></ion-input>
+          </ion-item>
+          <ion-item *ngIf="events.length === 0">
+            <ion-label>
+              No events in storage
+            </ion-label>
+            <ion-button (click)="getEventsFromApi()">
+              Get Events from API
+            </ion-button>
+          </ion-item>
+          <ion-item *ngIf="events.length !== 0">
+            <ion-label position="floating">
+              Event Country
+            </ion-label>
+            <ion-select formControlName="country">
+              <ion-select-option *ngFor="let c of countries" [value]="c">
+                {{c}}
+              </ion-select-option>
+
+            </ion-select>
+          </ion-item>
+          <ion-item *ngIf="eventsForCountry.length !== 0 && selectedCountry !== ''">
+            <ion-label position="floating">
+              Event
+            </ion-label>
+            <ion-radio-group formControlName="eventKey">
+              <ion-item *ngFor="let e of eventsForCountry">
+                  <ion-label>
+                    {{e.country}}, {{e.city}}, {{e.name}}, {{e.start_date}}
+                  </ion-label>
+                  <ion-radio slot="start" [value]="e.key"></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ion-item>
+        </ion-list>
+
+      </ion-col>
+    </ion-row>
+  </form>
+
+</ion-content>

@@ -16,11 +16,11 @@ export class AuthenticationService {
       private logger: LoggerService
   ) { }
 
-  public checkSessionId(sessionId: string): Observable<ReturnJson> {
-    const p: Post = new Post();
-    p.sessionId = sessionId;
-    return this.httpService.httpPost(p, `${environment.url.base}${environment.url.checkSession}`);
-  }
+  // public checkSessionId(sessionId: string): Observable<ReturnJson> {
+  //   const p: Post = new Post();
+  //   p.sessionId = sessionId;
+  //   return this.httpService.httpPost(p, `${environment.url.base}${environment.url.checkSession}`);
+  // }
 
   public setSessionId(sessionId: string): void {
     this.logger.max('AuthenticationService, setSessionId: ', sessionId);
