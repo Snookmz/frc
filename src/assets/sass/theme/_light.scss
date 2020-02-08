@@ -1,0 +1,66 @@
+@import "../nscolors";
+
+$primary: $purple;
+$primary-hover: $purple-light;
+$primary-text: $white;
+$primary-disabled: $purple-light;
+$primary-disabled-text: $white;
+
+$accent: $pink;
+$accent-hover: $pink-light;
+$accent-text: $white;
+$accent-disabled: $pink-light;
+$accent-disabled-text: $white;
+
+$info: $grey-light;
+$info-text: $white;
+$info-hover: $grey-lighter;
+$info-click: $changeme;
+$info-disabled: $grey-lighter;
+$info-disabled-text: $grey-light;
+
+$success: $green;
+$success-text: $green-darker;
+$success-hover: $green-dark;
+$success-click: $changeme;
+$success-disabled: $green-light;
+$success-disabled-text: $green-dark;
+
+$warning: $yellow;
+$warning-text: $yellow-darker;
+$warning-hover: $yellow-dark;
+$warning-click: $changeme;
+$warning-disabled: $yellow-light;
+$warning-disabled-text: $yellow-dark;
+
+$danger: $red;
+$danger-text: $white;
+$danger-hover: $red-dark;
+$danger-click: $changeme;
+$danger-disabled: $red-light;
+$danger-disabled-text: $grey-lighter;
+
+$background: $white;
+$background-hightlight: $grey-lighter;
+$menutop: $primary;
+$menuside: $white;
+$menuside-background-hover: $grey-lighter;
+$menuside-selected: $grey-light;
+$menuside-hover: $white;
+$text: $black;
+$headings: $black;
+$charts: 'light';
+$box-background: $grey-lighter-still;
+$box-background-text: $grey-dark;
+
+// alerts
+$alert-info: $grey-light;
+$alert-info-text: $white;
+$alert-warning: $yellow;
+$alert-warning-text: $yellow-dark;
+$alert-error: $red;
+$alert-error-text: $white;
+$alert-success: $primary;
+$alert-success-text: $primary-text;
+
+

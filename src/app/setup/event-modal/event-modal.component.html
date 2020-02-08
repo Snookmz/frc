@@ -4,9 +4,12 @@
             <ion-list-header>
                 Events
             </ion-list-header>
-            <ion-item *ngFor="let e of events">
-                <ion-label>{{e.short_name}}</ion-label>
-            </ion-item>
+            <ng-container *ngFor="let e of events">
+                <ion-item *ngIf="e.country === country" class="ns-pointer" (click)="selectEvent(e)">
+                    <ion-label>{{e.short_name}}</ion-label>
+                </ion-item>
+            </ng-container>
+
         </ion-list>
     </ion-col>
 </ion-row>

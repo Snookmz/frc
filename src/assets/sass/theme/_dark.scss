@@ -1,0 +1,118 @@
+@import "../nscolors";
+
+
+
+$danger: $orange;
+$danger-hover: $orange-dark;
+$danger-text: $white;
+$danger-disabled: $orange-light;
+
+$warning: $yellow;
+$menutop: $primary;
+$menuside: $grey-dark;
+$menuside-hover: $primary;
+$menuside-background-hover: $black-background;
+$menuside-selected: $grey-dark;
+$text: $white;
+$headings: $white;
+$background: $black-background;
+$background-hightlight: $grey-dark;
+$charts: 'dark';
+$box-background: $grey-dark;
+$box-background-text: $text;
+
+$primary: $pink;
+$primary-hover: $pink-dark;
+$primary-text: $white;
+$primary-disabled: $pink-light;
+$primary-disabled-text: $pink-lighter;
+
+$accent: $silver;
+$accent-hover: $silver-light;
+$accent-text: $black-background;
+$accent-disabled: $silver-dark;
+$accent-disabled-text: $silver-light;
+
+$info: $white;
+$info-text: $black;
+$info-hover: $grey-lighter;
+$info-click: $changeme;
+$info-disabled: $grey-lighter;
+$info-disabled-text: $grey-light;
+
+$success: $green;
+$success-text: $green-darker;
+$success-hover: $green-dark;
+$success-click: $changeme;
+$success-disabled: $green-light;
+$success-disabled-text: $green-dark;
+
+$warning: $yellow;
+$warning-text: $yellow-darker;
+$warning-hover: $yellow-dark;
+$warning-click: $changeme;
+$warning-disabled: $yellow-light;
+$warning-disabled-text: $yellow-dark;
+
+$danger: $red;
+$danger-text: $white;
+$danger-hover: $red-dark;
+$danger-click: $changeme;
+$danger-disabled: $red-light;
+$danger-disabled-text: $grey-lighter;
+
+$box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+
+// alerts
+$alert-info: $grey-light;
+$alert-info-text: $white;
+$alert-warning: $yellow;
+$alert-warning-text: $orange;
+$alert-error: $orange;
+$alert-error-text: $white;
+$alert-success: $primary;
+$alert-success-text: $primary-text;
+
+// Here purely so I can change the color
+$class-tree-arrow: 'data:image/svg+xml;charset=UTF-8,<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   id="svg2"
+   viewBox="0 0 161.4434 201.80425"
+   height="56.953644mm"
+   width="45.562916mm">
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-279.5,-450.03151)"
+     id="layer1">
+    <path
+       id="path3340"
+       d="m 40,232.3622 120,100 -120,80 0,-160 z"
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       id="path3342"
+       d="m 200,232.3622 120,100 -120,100 z"
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       id="path3344"
+       d="m 280,450.93363 160,100 -160,100 z"
+       style="fill:#ffffff;fill-rule:evenodd;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+</svg>'

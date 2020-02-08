@@ -1,0 +1,132 @@
+$theme: 'light';
+
+/* these are based off the material design colours */
+// light theme colors
+$white: #fff;
+$light-grey: #EBEBEB;
+$dark-grey: #696969;
+$purple: #9E7DD3;
+$purple-dark: #655087;
+$purple-light: #d5c9eb;
+$pink: #E91E63;
+$pink-dark: #CD1A57;
+$pink-light: #eb3271;
+$pink-lighter: #f598b8;
+$dark-purple: #673AB7;
+$black: #000;
+$light-green: #DFF0D8;
+$green: #bcebcb;
+$green-dark: #9ac1a7;
+$green-darker: #67816f;
+$green-light: #c8eed4;
+$yellow: #fcf8e3;
+$yellow-light: #fcf8e5;
+$yellow-dark: #e6e2cf;
+$yellow-darker: #8a6d3b;
+$red: #DD0426;
+$red-dark: #CD1A57;
+$red-light: #ef5b8d;
+
+$blood: #DD0426;
+
+$silver: #b0bec5;
+$silver-dark: #494949;
+$silver-light: #bec9cf;
+$orange: #f44336;
+$orange-dark: #b23128;
+$orange-light: #f6655a;
+$grey: #788585;
+$grey-light: #7e7e7e;
+$grey-lighter: #e0e0e0;
+$grey-lighter-still: #e8e8e8;
+$grey-dark: #424242;
+$grey-dark-highlight: #030303;
+$changeme: red;
+
+// dark theme colors
+$black-background: #303030;
+$black-light: #7E7E7E;
+
+$white-opacity: rgba(255, 255, 255, 0.06);
+
+
+// have to define variables before I can use them below
+
+$primary: $purple !default;
+$primary-hover: $changeme !default;
+$primary-text: $white !default;
+$primary-disabled: $purple-light !default;
+$primary-disabled-text: $white !default;
+
+$accent: $pink !default;
+$accent-hover: $pink-light !default;
+$accent-text: $white !default;
+$accent-disabled: $pink-light !default;
+$accent-disabled-text: $white !default;
+
+$info: $white !default;
+$info-text: $black !default;
+$info-hover: $grey-lighter !default;
+$info-click: $changeme !default;
+$info-disabled: $grey-lighter !default;
+$info-disabled-text: $grey-light !default;
+
+$success: $green !default;
+$success-text: $green-darker !default;
+$success-hover: $green-dark !default;
+$success-click: $changeme !default;
+$success-disabled: $green-light !default;
+$success-disabled-text: $green-dark !default;
+
+$warning: $yellow !default;
+$warning-text: $yellow-darker !default;
+$warning-hover: $yellow-dark !default;
+$warning-click: $changeme !default;
+$warning-disabled: $yellow-light !default;
+$warning-disabled-text: $yellow-dark !default;
+
+$danger: $red !default;
+$danger-text: $white !default;
+$danger-hover: $red-dark !default;
+$danger-click: $changeme !default;
+$danger-disabled: $red-light !default;
+$danger-disabled-text: $grey-lighter !default;
+
+$box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !default;
+
+
+$background: $white !default;
+$background-hightlight: $grey-lighter !default;
+$menutop: $primary !default;
+$menuside: $white !default;
+$menuside-hover: $grey !default;
+$menuside-background-hover: $grey-dark !default;
+$menuside-selected: $changeme !default;
+$text: $black !default;
+$headings: $black !default;
+$charts: 'light' !default;
+$alert-info: $white !default;
+$alert-info-text: $black !default;
+$alert-success: $white !default;
+$alert-success-text: $black !default;
+$alert-warning: $white !default;
+$alert-warning-text: $black !default;
+$alert-error: $white !default;
+$alert-error-text: $black !default;
+
+$button-primary: $primary !default;
+$button-primary-text: $primary-text !default;
+$button-accent: $accent !default;
+$button-accent-text: $accent-text !default;
+$button-plain: $grey-light !default;
+$button-plain-text: $white !default;
+$button-danger: $changeme !default;
+$button-danger-text: $white !default;
+
+$alert-info: $changeme !default;
+$alert-info-text: $changeme !default;
+
+$box-background: $grey-lighter !default;
+$box-background-text: $grey-dark !default;
+
+

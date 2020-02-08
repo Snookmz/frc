@@ -1,0 +1,40 @@
+.ns-card {
+  background: $background;
+  color: $text;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+  display: block;
+  position: relative;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 2px;
+  font-size: 20px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.ns-card-info {
+  @extend .ns-card;
+  color: $info;
+
+}
+
+.ns-card-note {
+  color: $info;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+  display: block;
+  position: relative;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 100;
+  //letter-spacing: 1px;
+  text-align: center;
+}

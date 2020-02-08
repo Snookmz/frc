@@ -109,6 +109,12 @@ export class DataStorageService {
     return keys;
   }
 
+  public getSelectedEventStorage(): EventStorage {
+    const s: string = localStorage.getItem('selectedEventStorage');
+    const es: EventStorage = JSON.parse(s);
+    return es;
+  }
+
   public storeEvents(es: FrcEvent[]): void {
     this.logger.debug('dataStorageService, storeEvents: ', es);
     localStorage.setItem('events', JSON.stringify(es));
@@ -133,6 +139,11 @@ export class DataStorageService {
     keys.push(key);
     this.logger.max('DataStorageService, storePitKey, keys: ', keys);
     localStorage.setItem('pitKeys', JSON.stringify(keys));
+  }
+
+  public storeSelectedEventStorage (es: EventStorage): void {
+    this.logger.debug('dataStorageService, storeSelectedEventStorage: ', es);
+    localStorage.setItem('selectedEventStorage', JSON.stringify(es));
   }
 
 
