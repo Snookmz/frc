@@ -9,9 +9,54 @@
 
 <ion-content>
 
+  <ion-row *ngIf="eventForm !== undefined">
+    <form [formGroup]="eventForm">
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">
+            Set Event
+          </ion-label>
+          <ion-select formControlName="event_code" placeholder="Select Event">
+            <ion-select-option *ngFor="let e of events" [value]="e.event_code" >
+              {{e.short_name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </form>
+  </ion-row>
+
+  <ion-row *ngIf="teamForm !== undefined">
+    <form [formGroup]="teamForm">
+      <ion-col>
+        <ion-item>
+          <ion-label position="floating">
+            Set Your Team
+          </ion-label>
+          <ion-select formControlName="team_number" placeholder="select team">
+            <ion-select-option *ngFor="let t of selectedEventStorage.teams" [value]="t.team_number">
+              {{t.nickname}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </form>
+  </ion-row>
+
   <ion-row>
-    <ion-col>
-      
+    <ion-col *ngIf="selectedEventStorage.teams.length !== 0">
+      <ion-item>
+        <ion-label>
+          {{selectedEventStorage.event.short_name}}
+        </ion-label>
+      </ion-item>
+    </ion-col>
+    <ion-col *ngIf="selectedTeam.nickname !== ''">
+      <ion-item>
+        <ion-label>
+          {{selectedTeam.nickname}}
+        </ion-label>
+      </ion-item>
     </ion-col>
   </ion-row>
 
@@ -20,21 +65,21 @@
       <ion-button color="danger" (click)="clearDataStorage()">Clear Data Storage</ion-button>
     </ion-col>
     <ion-col>
-      <ion-button (click)="getDistrictsFromApi()">Get Districts From API</ion-button>
+      <ion-button (click)="getAllEventsAndTeams()">Get All Events And Teams</ion-button>
     </ion-col>
   </ion-row>
 
-  <ion-row>
-    <ion-col>
-      <ion-button (click)="getEventsFromApi()" >Get Events From API</ion-button>
-    </ion-col>
-    <ion-col>
-      <ion-button (click)="getEventsFromStorage()" >Get Events From Storage</ion-button>
-    </ion-col>
-    <ion-col *ngIf="dataForm !== undefined">
-      {{dataForm.value | json}}
-    </ion-col>
-  </ion-row>
+<!--  <ion-row justify-content-center>-->
+<!--    <ion-col size-lg="3">-->
+<!--      <ion-button (click)="getEventsFromApi()" >Get Events From API</ion-button>-->
+<!--    </ion-col>-->
+<!--    <ion-col size-lg="3">-->
+<!--      <ion-button (click)="getEventsFromStorage()" >Get Events From Storage</ion-button>-->
+<!--    </ion-col>-->
+<!--    <ion-col *ngIf="dataForm !== undefined">-->
+<!--      {{dataForm.value | json}}-->
+<!--    </ion-col>-->
+<!--  </ion-row>-->
 
   <ng-container *ngIf="dataForm !== undefined">
     <form [formGroup]="dataForm">
@@ -55,20 +100,11 @@
     </form>
   </ng-container>
 
-
-
-  <ion-row>
+  <ion-row *ngIf="selectedTeam.key !== ''">
     <ion-col>
       <pre>{{selectedTeam | json}}</pre>
     </ion-col>
   </ion-row>
 
-  <ng-container *ngIf="events.length !== 0">
-    <ion-row *ngFor="let e of events" (click)="getTeamIdsForEvent(e.event_code)">
-      <ion-col>
-        {{e.name}} -- {{e.event_code}}
-      </ion-col>
-    </ion-row>
-  </ng-container>
 
 </ion-content>

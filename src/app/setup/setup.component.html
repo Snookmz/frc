@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Setup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row justify-content-center>
+    <ion-col size-lg="6">
+      <ion-button (click)="presentEventModal()" >Select Event</ion-button>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row *ngIf="events.length !== 0">
+    <ion-col>
+      <pre>{{events | json}}</pre>
+    </ion-col>
+  </ion-row>
+
+</ion-content>
+

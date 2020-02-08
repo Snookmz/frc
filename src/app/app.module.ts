@@ -19,19 +19,23 @@ import {QrComponent} from './qr/qr.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataComponent} from './data/data.component';
 import {LoginComponent} from './login/login.component';
+import {SetupComponent} from './setup/setup.component';
+import {EventModalComponent} from './setup/event-modal/event-modal.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         DataComponent,
+        EventModalComponent,
         LoginComponent,
         MainComponent,
         PageNotFoundComponent,
         PitComponent,
         QrComponent,
-        ScoutComponent
+        ScoutComponent,
+        SetupComponent
     ],
-    entryComponents: [],
+    entryComponents: [EventModalComponent],
     imports: [
         BrowserModule,
         HttpClientModule,

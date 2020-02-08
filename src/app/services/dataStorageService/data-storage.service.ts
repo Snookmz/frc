@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {LoggerService} from '../loggerService/logger.service';
 import {Pit} from '../../objects/pit-classes';
-import {FrcEvent} from '../../objects/frcEvent-object';
+import {EventStorage, FrcEvent} from '../../objects/frcEvent-object';
+import {Team} from '../../objects/team-object';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,19 @@ export class DataStorageService {
   constructor(
       private logger: LoggerService
   ) { }
+
+  public addToEventsStorage(eventStorage: EventStorage): void {
+    const s = localStorage.getItem('eventsStorage');
+    let eventsStorage: EventStorage[] = JSON.parse(s);
+    if (eventsStorage === null) {
+      eventsStorage = [];
+    }
+
+    eventsStorage.push(eventStorage);
+
+    localStorage.setItem('eventsStorage', JSON.stringify(eventsStorage));
+
+  }
 
   public clearDataStorage(): void {
     localStorage.clear();
@@ -56,6 +70,31 @@ export class DataStorageService {
     return es;
   }
 
+  public getEventsStorage(): EventStorage[] {
+    let eventsStorage: EventStorage[];
+    const s = localStorage.getItem('eventsStorage');
+    eventsStorage = JSON.parse(s);
+    if (eventsStorage === null) {
+      eventsStorage = [];
+    }
+    this.logger.max('DataStorageService, getEventsStorage, returning: ', eventsStorage);
+    return eventsStorage;
+
+  }
+
+  public getEventStorageFromEventCode(event_code: string): EventStorage {
+    const s = localStorage.getItem('eventsStorage');
+    const eventsStorage: EventStorage[] = JSON.parse(s);
+    let eventStorage: EventStorage = new EventStorage();
+    eventsStorage.forEach(e => {
+      if (e.event.event_code === event_code) {
+        eventStorage = e;
+      }
+    });
+    return eventStorage;
+
+  }
+
   private getPit(key: string): Pit {
     const pitString: string = localStorage.getItem(key);
     const pit: Pit = JSON.parse(pitString);
@@ -85,21 +124,17 @@ export class DataStorageService {
 
   private storePitKey(key: string): void {
     this.logger.debug('dataStorageService, storePitKey: ', key);
-
     const keysString = localStorage.getItem('pitKeys');
     let keys: string[] = JSON.parse(keysString);
 
     if (keys === null) {
       keys = [];
     }
-
     keys.push(key);
-
     this.logger.max('DataStorageService, storePitKey, keys: ', keys);
-
     localStorage.setItem('pitKeys', JSON.stringify(keys));
-
   }
+
 
 }
 

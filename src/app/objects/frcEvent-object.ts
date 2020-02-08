@@ -1,3 +1,14 @@
+import {Team} from './team-object';
+
+export class EventStorage {
+    event: FrcEvent;
+    teams: Team[];
+    constructor() {
+        this.event = new FrcEvent();
+        this.teams = [];
+    }
+}
+
 export class FrcEvent {
     key: string;
     name: string;
@@ -42,7 +53,7 @@ export class FrcEvent {
         this.end_date = '';
         this.year = 0;
         this.short_name = '';
-        this.event_type_string = ''
+        this.event_type_string = '';
         this.week = 0;
         this.address ='';
         this.postal_code = '';

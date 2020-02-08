@@ -79,6 +79,11 @@ export class DataInputService {
     return this.httpService.httpGetBlueAlliance(endpoint);
   }
 
+  public getTeamInfoFromTeamKey(key: string): Observable<Team> {
+    const endpoint = `team/${key}`;
+    return this.httpService.httpGetBlueAlliance(endpoint);
+  }
+
 }
 
 

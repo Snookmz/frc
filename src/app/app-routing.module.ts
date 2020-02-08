@@ -7,6 +7,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {QrComponent} from './qr/qr.component';
 import {DataComponent} from './data/data.component';
 import {LoginComponent} from './login/login.component';
+import {SetupComponent} from './setup/setup.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'pit', component: PitComponent},
   {path: 'scout', component: ScoutComponent},
+  {path: 'setup', component: SetupComponent},
   {path: 'qr', component: QrComponent},
   {
     path: 'main',

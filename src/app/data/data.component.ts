@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import {LoggerService} from '../services/loggerService/logger.service';
 import {DataInputService} from '../services/dataInputService/data-input.service';
 import {Team} from '../objects/team-object';
-import {District, FrcEvent} from '../objects/frcEvent-object';
+import {District, EventStorage, FrcEvent} from '../objects/frcEvent-object';
 import {environment} from '../../environments/environment';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DataStorageService} from '../services/dataStorageService/data-storage.service';
 import {AlertController} from '@ionic/angular';
+import {forkJoin, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-data',
@@ -20,7 +21,11 @@ export class DataComponent implements OnInit {
   public selectedTeam: Team = new Team();
   public teams: Team[] = [];
   public events: FrcEvent[] = [];
+  public eventForm: FormGroup;
+  public eventsStorage: EventStorage[] = [];
+  public selectedEventStorage: EventStorage = new EventStorage();
   public teamKeys: string[] = [];
+  public teamForm: FormGroup;
   public errorMessage = '';
   public successMessage = '';
 
@@ -31,6 +36,11 @@ export class DataComponent implements OnInit {
       private fb: FormBuilder,
       private logger: LoggerService,
   ) {
+    this.getEventsFromStorage();
+
+    if (this.events.length !== 0) {
+      this.createEventForm();
+    }
   }
 
   async clearDataStorage() {
@@ -51,10 +61,44 @@ export class DataComponent implements OnInit {
     await alert.present();
   }
 
+  public createEventForm(): void {
+    this.eventForm = this.fb.group({
+      event_code: ''
+    });
+    this.onEventFormChanges();
+  }
+
+  public createTeamForm(): void {
+    this.teamForm = this.fb.group({
+      team_number: ['', Validators.required]
+    });
+    this.onTeamFormChanges();
+    this.logger.max('DataComponent, createTeamForm, returning: ', this.teamForm);
+  }
+
   public createForm(): void {
     this.dataForm = this.fb.group({
       teamKey: ''
     });
+  }
+
+  public getAllEventsAndTeams(): void {
+    this.logger.max('DataComponent, getAllEventsAndTeams');
+
+    this.dataInputService.getAllEventsFromApi().subscribe(result => {
+      const events: FrcEvent[] = result;
+
+      const teamIds: Observable<string[]>[] = [];
+      events.forEach(e => {
+        teamIds.push(this.dataInputService.getTeamIdsForEvent(environment.eventYear, e.event_code))
+      });
+
+      forkJoin(teamIds).subscribe(results => {
+        this.logger.max('DataComponent, getAllEventsAndTeams, teamIds: ', results);
+      })
+
+    })
+
   }
 
   public getDistrictsFromApi(): void {
@@ -64,49 +108,65 @@ export class DataComponent implements OnInit {
     })
   }
 
-  public getEventsFromApi(): void {
-    this.dataInputService.getAllEventsFromApi().subscribe(result => {
-      this.logger.debug('DataComponent, getEvents, result: ', result);
-      this.events = result;
-      this.dataStorageService.storeEvents(result);
-    });
-  }
-
   public getEventsFromStorage(): void {
     this.events = this.dataStorageService.getEventsFromStorage();
   }
 
-  public getTeamDetailsFromTeamKey(key: string): void {
-    this.logger.max('DataComponent, getTeamDetailsFromTeamKey: ', key);
-    this.dataInputService.getTeamDataFromTeamKey(key).subscribe(result => {
-      this.logger.max('DataComponent, getTeamDataFromTeamKey: ', result);
-      this.selectedTeam = result;
-    })
-  }
-
-  public getTeamIdsForEvent(eventKey: string): void {
-    this.logger.max('DataComponent, getTeamIdsForEvent: ', eventKey);
-    this.dataInputService.getTeamIdsForEvent(environment.eventYear, eventKey).subscribe(result => {
-      this.logger.max('DataComponent, getTeamIdsForEvent: ', result);
+  public getEventStorageFromApiAndSaveToLocalStorage(e: FrcEvent): void {
+    this.logger.max('DataComponent, getTeamsForEventAndSaveToLocalStorage: ', e);
+    this.dataInputService.getTeamIdsForEvent(environment.eventYear, e.event_code).subscribe(result => {
+      this.logger.max('DataComponent, getTeamsForEventAndSaveToLocalStorage: ', result);
       this.teamKeys = Object.keys(result);
-      this.createForm();
-      this.onChanges();
+
+      const list: Observable<Team>[] = [];
+
+
+      this.teamKeys.forEach(k => {
+        list.push(this.dataInputService.getTeamInfoFromTeamKey(k));
+      });
+
+      const eventStorage: EventStorage = new EventStorage();
+      eventStorage.event = e;
+      forkJoin(list).subscribe(results => {
+        this.logger.max('dataComponent, forkJoin, results: ', results);
+        results.forEach(t => {
+          eventStorage.teams.push(t);
+        });
+        this.dataStorageService.addToEventsStorage(eventStorage);
+        this.selectedEventStorage = eventStorage;
+        this.createTeamForm();
+        this.logger.max('GetTeamInfoFromTeamKey, eventStorage: ', eventStorage);
+      });
     })
   }
 
-  public getTeams(): void {
-    this.dataInputService.getTeamMembersFromApi().subscribe(result => {
-      this.logger.debug('AppComponent, getTeams, getTeamMembersFromApi, result: ', result);
-      this.teams = result;
-      this.logger.max('AppComponent, getTeams, teams: ', this.teams);
+  public getEventStorageForEventCode(event_code: string): EventStorage {
+    return this.dataStorageService.getEventStorageFromEventCode(event_code);
+  }
+
+  private onEventFormChanges(): void {
+    this.eventForm.get('event_code').valueChanges.subscribe(val => {
+      this.selectedEventStorage = this.getEventStorageForEventCode(val);
+      if (this.selectedEventStorage.teams.length === 0) {
+        this.events.forEach(e => {
+          if (e.event_code === val) {
+            this.getEventStorageFromApiAndSaveToLocalStorage(e);
+          }
+        })
+      } else {
+        this.createTeamForm();
+      }
     });
   }
 
-  private onChanges(): void {
-    this.dataForm.get('teamKey').valueChanges.subscribe(val => {
-      this.getTeamDetailsFromTeamKey(val);
+  private onTeamFormChanges(): void {
+    this.teamForm.get('team_number').valueChanges.subscribe(val => {
+      this.selectedEventStorage.teams.forEach(t => {
+        if (t.team_number === val) {
+          this.selectedTeam = t;
+        }
+      })
     })
-
   }
 
   ngOnInit() {
