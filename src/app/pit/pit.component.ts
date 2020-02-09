@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../services/loggerService/logger.service';
-import {Pit, TeamMember} from '../objects/pit-classes';
+import {Pit, PitStorage, TeamMember} from '../objects/pit-classes';
 import {DataInputService} from '../services/dataInputService/data-input.service';
 import {DataStorageService} from '../services/dataStorageService/data-storage.service';
-import {FrcEvent} from '../objects/frcEvent-object';
+import {EventStorage, FrcEvent} from '../objects/frcEvent-object';
 import {Team} from '../objects/team-object';
 
 @Component({
@@ -17,10 +17,11 @@ export class PitComponent implements OnInit {
   public events: FrcEvent[];
   public imperialUnits = false;
   public pitForm: FormGroup;
-  public teams: Team[] = [];
   public teamMembers: TeamMember[] = [];
   public spinner = false;
   public successMessage = '';
+  public selectedEventStorage: EventStorage = new EventStorage();
+  public selectedPitStorage: PitStorage = new PitStorage();
 
   constructor(
       private dataInputService: DataInputService,
@@ -28,79 +29,84 @@ export class PitComponent implements OnInit {
       private fb: FormBuilder,
       private logger: LoggerService
   ) {
-    this.createForm();
-
-    this.events = this.dataInputService.getEvents();
-    this.teams = this.dataInputService.getTeamData();
-    this.teamMembers = this.dataInputService.getTeamMembers();
+    this.dataStorageService.selectedEventStorage$.subscribe(value => {
+      this.selectedEventStorage = value;
+      this.createForm();
+    })
   }
 
-  private createForm(): void {
+  private createForm(ps?: PitStorage, teamKey?: string): void {
     this.logger.max('PitComponent, createForm');
 
+    if (ps === undefined) {
+      ps = new PitStorage();
+    }
+
     this.pitForm = this.fb.group({
-      imperialUnits: [false, Validators.required],
+      imperialUnits: [ps.pit.imperialUnits, Validators.required],
+      event: this.selectedEventStorage.event.event_code,
       details: this.fb.group({
-        teamMemberId: ['', Validators.required],
-        eventId: ['', Validators.required],
-        teamId: ['', Validators.required],
+        idTeam: [teamKey, Validators.required],
+        // name: ['', Validators.required],
+        txScoutName: [ps.pit.details.txScoutName, Validators.required],
       }),
       robotStats: this.fb.group({
-        weight: '',
-        height: '',
-        teamShirt: '',
-        robotFront: '',
-        robotSide: ''
+        numWeight: ps.pit.robotStats.numWeight,
+        numHeight: ps.pit.robotStats.numHeight,
+        imgTeamUniform: ps.pit.robotStats.imgTeamUniform,
+        imgRobotFront: ps.pit.robotStats.imgRobotFront,
+        imgRobotSide: ps.pit.robotStats.imgRobotSide
       }),
       powerCells: this.fb.group({
-        manipulate: false,
-        groundIntake: {value: false, disabled: true},
-        highLoadingStationIntake: {value: false, disabled: true},
-        storageCapacity: {value: '', disabled: true},
-        shootingMechanism: {value: '', disabled: true},
-        targetLower: {value: false, disabled: true},
-        targetOuter: {value: false, disabled: true},
-        targetInner: {value: false, disabled: true}
+        flCells: false, // can manipulate
+        flIntakeGround: {value: false, disabled: true},
+        flIntakeHigh: {value: false, disabled: true},
+        numStorage: {value: '', disabled: true},
+        txShooting: {value: '', disabled: true},
+        flTargetLow: {value: false, disabled: true},
+        flTargetOuter: {value: false, disabled: true},
+        flTargetInner: {value: false, disabled: true}
       }),
       climb: this.fb.group({
-        canClimb: false,
-        climbType: {value: '', disabled: true},
-        height: {value: '', disabled: true},
-        secureHold: {value: false, disabled: true},
-        timeGrip: {value: '', disabled: true},
-        timeGripToClimb: {value: '', disabled: true},
-        tilting: {value: false, disabled: true},
-        climbMechanism: {value: '', disabled: true},
-        preferredPosition: {value: '', disabled: true},
-        canLevelGenerator: {value: false, disabled: true},
-        levelSelf: {value: false, disabled: true},
-        levelOther: {value: false, disabled: true},
-        repositionWhileHanging: {value: false, disabled: true},
-        canBuddyClimb: {value: false, disabled: true},
-        buddies: {value: '', disabled: true},
+        flClimb: false, // can climb
+        idClimbType: {value: '', disabled: true},
+        numClimbHeight: {value: '', disabled: true},
+        flClimbSecure: {value: false, disabled: true},
+        idClimbGrab: {value: '', disabled: true},
+        idClimbSpeed: {value: '', disabled: true},
+        flClimbTilt: {value: false, disabled: true},
+        txClimb: {value: '', disabled: true}, // climb mechanism
+        idClimbPos: {value: '', disabled: true},
+        flClimbLevel: {value: false, disabled: true},
+        flClimbLevelSelf: {value: false, disabled: true},
+        flClimbLevelOther: {value: false, disabled: true},
+        flClimbMove: {value: false, disabled: true},
+        flClimbOther: {value: false, disabled: true},
+        numClimbOther: {value: '', disabled: true}, // buddies
       }),
       controlPanel: this.fb.group({
-        canManipulateControlPanel: false,
-        brakes: {value: false, disabled: true},
-        positionControl: {value: false, disabled: true},
-        rotationControl: {value: false, disabled: true},
-        sensor: {value: false, disabled: true},
-        notes: {value: '', disabled: true}
+        flPanel: false, // can manipulate control panel
+        flPanelBrake: {value: false, disabled: true},
+        flPanelRotation: {value: false, disabled: true},
+        flPanelPos: {value: false, disabled: true},
+        flPanelSensor: {value: false, disabled: true},
+        txPanelSensor: {value: '', disabled: true} // notes
       }),
       auto: this.fb.group({
-        canAuto: false,
-        line: {value: false, disabled: true},
-        canShoot: {value: false, disabled: true},
-        balls: {value: 0, disabled: true},
-        pickup: {value: 0, disabled: true}
+        flAuto: false, // can auto
+        flAutoLine: {value: false, disabled: true},
+        flAutoShoot: {value: false, disabled: true},
+        numAutoShoot: {value: 0, disabled: true},
+        numAutoLoad: {value: 0, disabled: true}
       }),
       record: this.fb.group({
-        created: '',
-        modified: '',
-        deviceName: ''
+        dtCreated: '',
+        dtModified: '',
+        txComputerName: ''
       })
     });
 
+    this.onChanges();
   }
 
 
@@ -108,108 +114,90 @@ export class PitComponent implements OnInit {
     const p: Pit = new Pit();
     this.logger.max('PitComponent, convertValuesToPitClass: ', v);
     p.imperialUnits = v.imperialUnits;
-    p.details.teamMember = this.getTeamMemberFromId(v.details.teamMemberId);
-    p.details.team = this.getTeamFromTeamId(v.details.teamId);
-    p.details.event = this.getEventFromEventId(v.details.eventId);
+    p.event = v.event;
+    p.details.idTeam = v.details.idTeam;
+    // p.details.team = this.getTeamFromTeamId(v.details.teamId);
+    p.details.name = v.details.name;
+    p.details.txScoutName = v.details.txScoutName;
 
-    p.robotStats.weight = v.robotStats.weight;
-    p.robotStats.height = v.robotStats.height;
-    p.robotStats.teamShirt = v.robotStats.teamShirt;
-    p.robotStats.robotFront = v.robotStats.robotFront;
-    p.robotStats.robotSide = v.robotStats.robotSide;
+    p.robotStats.numWeight = v.robotStats.numWeight;
+    p.robotStats.numHeight = v.robotStats.numHeight;
+    p.robotStats.imgTeamUniform = v.robotStats.imgTeamUniform;
+    p.robotStats.imgRobotFront = v.robotStats.imgRobotFront;
+    p.robotStats.imgRobotSide = v.robotStats.imgRobotSide;
 
-    p.powerCells.manipulate = v.powerCells.manipulate;
-    if (p.powerCells.manipulate) {
-      p.powerCells.groundIntake = v.powerCells.groundIntake;
-      p.powerCells.highLoadingStationIntake = v.powerCells.highLoadingStationIntake;
-      p.powerCells.storageCapacity = v.powerCells.storageCapacity;
-      p.powerCells.shootingMechanism = v.powerCells.shootingMechanism;
-      p.powerCells.targetLower = v.powerCells.targetLower;
-      p.powerCells.targetOuter = v.powerCells.targetOuter;
-      p.powerCells.targetInner = v.powerCells.targetInner;
+    p.powerCells.flCells = v.powerCells.flCells;
+    if (p.powerCells.flCells) {
+      p.powerCells.flIntakeGround = v.powerCells.flIntakeGround;
+      p.powerCells.flIntakeHigh = v.powerCells.flIntakeHigh;
+      p.powerCells.numStorage = v.powerCells.numStorage;
+      p.powerCells.txShooting = v.powerCells.txShooting;
+      p.powerCells.flTargetLow = v.powerCells.flTargetLow;
+      p.powerCells.flTargetOuter = v.powerCells.flTargetOuter;
+      p.powerCells.flTargetInner = v.powerCells.flTargetInner;
     }
 
-    p.climb.canClimb = v.climb.canClimb;
-    if (p.climb.canClimb) {
-      p.climb.climbType = v.climb.climbType;
-      p.climb.height = v.climb.height;
-      p.climb.timeGrip = v.climb.timeGrip;
-      p.climb.timeGripToClimb = v.climb.timeGripToClimb;
-      p.climb.tilting = v.climb.tilting;
-      p.climb.climbMechanism = v.climb.climbMechanism;
-      p.climb.preferredPosition = v.climb.preferredPosition;
-      p.climb.canLevelGenerator = v.climb.canLevelGenerator;
-      if (p.climb.canLevelGenerator) {
-        p.climb.levelSelf = v.climb.levelSelf;
-        p.climb.levelOther = v.climb.levelOther;
-        p.climb.repositionWhileHanging = v.climb.repositionWhileHanging;
+    p.climb.flClimb = v.climb.flClimb;
+    if (p.climb.flClimb) {
+      p.climb.idClimbType = v.climb.idClimbType;
+      p.climb.numClimbHeight = v.climb.numClimbHeight;
+      p.climb.flClimbSecure = v.climb.flClimbSecure;
+      p.climb.idClimbGrab = v.climb.idClimbGrab;
+      p.climb.idClimbSpeed = v.climb.idClimbSpeed;
+      p.climb.flClimbTilt = v.climb.flClimbTilt;
+      p.climb.txClimb = v.climb.txClimb;
+      p.climb.idClimbPos = v.climb.idClimbPos;
+      p.climb.flClimbLevel = v.climb.flClimbLevel;
+      if (p.climb.flClimbLevel) {
+        p.climb.flClimbLevelSelf = v.climb.flClimbLevelSelf;
+        p.climb.flClimbLevelOther = v.climb.flClimbLevelOther;
+        p.climb.flClimbMove = v.climb.flClimbMove;
       }
-      p.climb.canBuddyClimb = v.climb.canBuddyClimb;
-      if (p.climb.canBuddyClimb) {
-        p.climb.buddies = v.climb.buddies;
+      p.climb.flClimbOther = v.climb.flClimbOther;
+      if (p.climb.flClimbOther) {
+        p.climb.numClimbOther = v.climb.numClimbOther;
       }
     }
 
-    p.controlPanel.canManipulateControlPanel = v.controlPanel.canManipulateControlPanel;
-    if (p.controlPanel.canManipulateControlPanel) {
-      p.controlPanel.brakes = v.controlPanel.brakes;
-      p.controlPanel.positionControl = v.controlPanel.positionControl;
-      p.controlPanel.rotationControl = v.controlPanel.rotationControl;
-      p.controlPanel.sensor = v.controlPanel.sensor;
-      p.controlPanel.notes = v.controlPanel.notes;
+    p.controlPanel.flPanel = v.controlPanel.flPanel;
+    if (p.controlPanel.flPanel) {
+      p.controlPanel.flPanelBrake = v.controlPanel.flPanelBrake;
+      p.controlPanel.flPanelRotation = v.controlPanel.flPanelRotation;
+      p.controlPanel.flPanelPos = v.controlPanel.flPanelPos;
+      p.controlPanel.flPanelSensor = v.controlPanel.flPanelSensor;
+      p.controlPanel.txPanelSensor = v.controlPanel.txPanelSensor;
     }
 
-    p.auto.canAuto = v.auto.canAuto;
-    if (p.auto.canAuto) {
-      p.auto.line = v.auto.line;
-      p.auto.canShoot = v.auto.canShoot;
-      if (p.auto.canShoot) {
-        p.auto.balls = v.auto.balls;
-        p.auto.pickup = v.auto.pickup;
+    p.auto.flAuto = v.auto.flAuto;
+    if (p.auto.flAuto) {
+      p.auto.flAutoLine = v.auto.flAutoLine;
+      p.auto.flAutoShoot = v.auto.flAutoShoot;
+      if (p.auto.flAutoShoot) {
+        p.auto.numAutoShoot = v.auto.numAutoShoot;
+        p.auto.numAutoLoad = v.auto.numAutoLoad;
       }
     }
 
     if (v.record.created === '') {
-      p.record.created = new Date().toString();
+      p.record.dtCreated = new Date().toString();
     } else {
-      p.record.created = v.record.created;
+      p.record.dtCreated = v.record.dtCreated;
     }
-
-    p.record.modified = new Date().toString();
+    p.record.dtModified = new Date().toString();
+    p.record.txComputerName = v.record.txComputerName;
 
     this.logger.max('PitComponent, convertValuesToPitClasses, returning: ', p);
     return p;
   }
 
-  private getEventFromEventId(id: string): FrcEvent {
-    this.logger.max('PitComponent, getEventFromEventId: ', id);
-    let e: FrcEvent = new FrcEvent();
-    this.events.forEach(ev => {
-      // if (id === ev.id) {
-      //   e = ev;
-      // }
-    });
-    return e;
-  }
-
-  private getTeamFromTeamId(id: number): Team {
-    let t: Team = new Team();
-    this.teams.forEach(tm => {
-      if (id === tm.team_number) {
-        t = tm;
+  private getTeamFromEventStorage(id: string): Team {
+    let team: Team = new Team();
+    this.selectedEventStorage.teams.forEach(t => {
+      if (t.key === id) {
+        team = t;
       }
     });
-    return t;
-  }
-
-  private getTeamMemberFromId(id: number): TeamMember {
-    let t: TeamMember = new TeamMember();
-    this.teamMembers.forEach(tm => {
-      if (id === tm.id) {
-        t = tm;
-      }
-    });
-    return t;
+    return team;
   }
 
   private onChanges(): void {
@@ -218,107 +206,115 @@ export class PitComponent implements OnInit {
       this.imperialUnits = val;
     });
 
-    this.pitForm.get('powerCells').get('manipulate').valueChanges.subscribe(val => {
+    this.pitForm.get('powerCells').get('flCells').valueChanges.subscribe(val => {
       if (val) {
-        this.pitForm.get('powerCells').get('groundIntake').enable();
-        this.pitForm.get('powerCells').get('highLoadingStationIntake').enable();
-        this.pitForm.get('powerCells').get('storageCapacity').enable();
-        this.pitForm.get('powerCells').get('shootingMechanism').enable();
-        this.pitForm.get('powerCells').get('targetLower').enable();
-        this.pitForm.get('powerCells').get('targetOuter').enable();
-        this.pitForm.get('powerCells').get('targetInner').enable();
+        this.pitForm.get('powerCells').get('flIntakeGround').enable();
+        this.pitForm.get('powerCells').get('flIntakeHigh').enable();
+        this.pitForm.get('powerCells').get('numStorage').enable();
+        this.pitForm.get('powerCells').get('txShooting').enable();
+        this.pitForm.get('powerCells').get('flTargetLow').enable();
+        this.pitForm.get('powerCells').get('flTargetOuter').enable();
+        this.pitForm.get('powerCells').get('flTargetInner').enable();
       } else {
-        this.pitForm.get('powerCells').get('groundIntake').disable();
-        this.pitForm.get('powerCells').get('highLoadingStationIntake').disable();
-        this.pitForm.get('powerCells').get('storageCapacity').disable();
-        this.pitForm.get('powerCells').get('shootingMechanism').disable();
-        this.pitForm.get('powerCells').get('targetLower').disable();
-        this.pitForm.get('powerCells').get('targetOuter').disable();
-        this.pitForm.get('powerCells').get('targetInner').disable();
+        this.pitForm.get('powerCells').get('flIntakeGround').disable();
+        this.pitForm.get('powerCells').get('flIntakeHigh').disable();
+        this.pitForm.get('powerCells').get('numStorage').disable();
+        this.pitForm.get('powerCells').get('txShooting').disable();
+        this.pitForm.get('powerCells').get('flTargetLow').disable();
+        this.pitForm.get('powerCells').get('flTargetOuter').disable();
+        this.pitForm.get('powerCells').get('flTargetInner').disable();
       }
     });
 
-    this.pitForm.get('climb').get('canClimb').valueChanges.subscribe(val => {
+    this.pitForm.get('climb').get('flClimb').valueChanges.subscribe(val => {
       if (val) {
-        this.pitForm.get('climb').get('climbType').enable();
-        this.pitForm.get('climb').get('height').enable();
-        this.pitForm.get('climb').get('secureHold').enable();
-        this.pitForm.get('climb').get('timeGrip').enable();
-        this.pitForm.get('climb').get('timeGripToClimb').enable();
-        this.pitForm.get('climb').get('tilting').enable();
-        this.pitForm.get('climb').get('climbMechanism').enable();
-        this.pitForm.get('climb').get('preferredPosition').enable();
-        this.pitForm.get('climb').get('canLevelGenerator').enable();
+        this.pitForm.get('climb').get('idClimbType').enable();
+        this.pitForm.get('climb').get('numClimbHeight').enable();
+        this.pitForm.get('climb').get('flClimbSecure').enable();
+        this.pitForm.get('climb').get('idClimbGrab').enable();
+        this.pitForm.get('climb').get('idClimbSpeed').enable();
+        this.pitForm.get('climb').get('flClimbTilt').enable();
+        this.pitForm.get('climb').get('txClimb').enable();
+        this.pitForm.get('climb').get('idClimbPos').enable();
+        this.pitForm.get('climb').get('flClimbLevel').enable();
       } else {
-        this.pitForm.get('climb').get('climbType').disable();
-        this.pitForm.get('climb').get('height').disable();
-        this.pitForm.get('climb').get('secureHold').disable();
-        this.pitForm.get('climb').get('timeGrip').disable();
-        this.pitForm.get('climb').get('timeGripToClimb').disable();
-        this.pitForm.get('climb').get('tilting').disable();
-        this.pitForm.get('climb').get('climbMechanism').disable();
-        this.pitForm.get('climb').get('preferredPosition').disable();
-        this.pitForm.get('climb').get('canLevelGenerator').disable();
+        this.pitForm.get('climb').get('flClimbLevel').disable();
+        this.pitForm.get('climb').get('idClimbType').disable();
+        this.pitForm.get('climb').get('numClimbHeight').disable();
+        this.pitForm.get('climb').get('flClimbSecure').disable();
+        this.pitForm.get('climb').get('idClimbGrab').disable();
+        this.pitForm.get('climb').get('idClimbSpeed').disable();
+        this.pitForm.get('climb').get('flClimbTilt').disable();
+        this.pitForm.get('climb').get('txClimb').disable();
+        this.pitForm.get('climb').get('idClimbPos').disable();
       }
     });
 
-    this.pitForm.get('climb').get('canLevelGenerator').valueChanges.subscribe(val => {
+    this.pitForm.get('climb').get('flClimbLevel').valueChanges.subscribe(val => {
       if (val) {
-        this.pitForm.get('climb').get('levelSelf').enable();
-        this.pitForm.get('climb').get('levelOther').enable();
-        this.pitForm.get('climb').get('repositionWhileHanging').enable();
-        this.pitForm.get('climb').get('canBuddyClimb').enable();
+        this.pitForm.get('climb').get('flClimbLevelSelf').enable();
+        this.pitForm.get('climb').get('flClimbLevelOther').enable();
+        this.pitForm.get('climb').get('flClimbMove').enable();
+        this.pitForm.get('climb').get('flClimbOther').enable();
       } else {
-        this.pitForm.get('climb').get('levelSelf').disable();
-        this.pitForm.get('climb').get('levelOther').disable();
-        this.pitForm.get('climb').get('repositionWhileHanging').disable();
-        this.pitForm.get('climb').get('canBuddyClimb').disable();
+        this.pitForm.get('climb').get('flClimbLevelSelf').disable();
+        this.pitForm.get('climb').get('flClimbLevelOther').disable();
+        this.pitForm.get('climb').get('flClimbMove').disable();
+        this.pitForm.get('climb').get('flClimbOther').disable();
       }
     });
 
-    this.pitForm.get('climb').get('canBuddyClimb').valueChanges.subscribe(val => {
+    this.pitForm.get('climb').get('flClimbOther').valueChanges.subscribe(val => {
       if (val) {
-        this.pitForm.get('climb').get('buddies').enable();
+        this.pitForm.get('climb').get('numClimbOther').enable();
       } else {
-        this.pitForm.get('climb').get('buddies').disable();
+        this.pitForm.get('climb').get('numClimbOther').disable();
+
       }
     });
 
-    this.pitForm.get('controlPanel').get('canManipulateControlPanel').valueChanges.subscribe(val => {
+    this.pitForm.get('controlPanel').get('flPanel').valueChanges.subscribe(val => {
       if (val) {
-        this.pitForm.get('controlPanel').get('brakes').enable();
-        this.pitForm.get('controlPanel').get('positionControl').enable();
-        this.pitForm.get('controlPanel').get('rotationControl').enable();
-        this.pitForm.get('controlPanel').get('sensor').enable();
-        this.pitForm.get('controlPanel').get('notes').enable();
+        this.pitForm.get('controlPanel').get('flPanelBrake').enable();
+        this.pitForm.get('controlPanel').get('flPanelRotation').enable();
+        this.pitForm.get('controlPanel').get('flPanelPos').enable();
+        this.pitForm.get('controlPanel').get('flPanelSensor').enable();
+        this.pitForm.get('controlPanel').get('txPanelSensor').enable();
       } else {
-        this.pitForm.get('controlPanel').get('brakes').disable();
-        this.pitForm.get('controlPanel').get('positionControl').disable();
-        this.pitForm.get('controlPanel').get('rotationControl').disable();
-        this.pitForm.get('controlPanel').get('sensor').disable();
-        this.pitForm.get('controlPanel').get('notes').disable();
+        this.pitForm.get('controlPanel').get('flPanelBrake').disable();
+        this.pitForm.get('controlPanel').get('flPanelRotation').disable();
+        this.pitForm.get('controlPanel').get('flPanelPos').disable();
+        this.pitForm.get('controlPanel').get('flPanelSensor').disable();
+        this.pitForm.get('controlPanel').get('txPanelSensor').disable();
       }
     });
 
-    this.pitForm.get('auto').get('canAuto').valueChanges.subscribe(val => {
+    this.pitForm.get('auto').get('flAuto').valueChanges.subscribe(val => {
       if (val) {
-        this.pitForm.get('auto').get('line').enable();
-        this.pitForm.get('auto').get('canShoot').enable();
+        this.pitForm.get('auto').get('flAutoLine').enable();
+        this.pitForm.get('auto').get('flAutoShoot').enable();
       } else {
-        this.pitForm.get('auto').get('line').disable();
-        this.pitForm.get('auto').get('canShoot').disable();
+        this.pitForm.get('auto').get('flAutoLine').disable();
+        this.pitForm.get('auto').get('flAutoShoot').disable();
+
       }
     });
 
-    this.pitForm.get('auto').get('canShoot').valueChanges.subscribe(val => {
+    this.pitForm.get('auto').get('flAutoShoot').valueChanges.subscribe(val => {
       if (val) {
-        this.pitForm.get('auto').get('balls').enable();
-        this.pitForm.get('auto').get('pickup').enable();
+        this.pitForm.get('auto').get('numAutoShoot').enable();
+        this.pitForm.get('auto').get('numAutoLoad').enable();
       } else {
-        this.pitForm.get('auto').get('balls').disable();
-        this.pitForm.get('auto').get('pickup').disable();
+        this.pitForm.get('auto').get('numAutoShoot').disable();
+        this.pitForm.get('auto').get('numAutoLoad').disable();
       }
     });
+
+    this.pitForm.get('details').get('idTeam').valueChanges.subscribe( val => {
+      this.logger.max('PitComponent, onChanges, team changed to: ', val);
+      this.selectedPitStorage = this.dataStorageService.getPitStorageForTeamKey(val);
+      this.createForm(this.selectedPitStorage, val);
+    })
 
   }
 
@@ -326,8 +322,12 @@ export class PitComponent implements OnInit {
     this.logger.debug('PitComponent, onSubmit, values: ', this.pitForm.value);
     this.spinner = true;
 
-    const pit: Pit = this.convertValuesToPitClass(this.pitForm.value);
-    this.dataStorageService.storePit(pit);
+    const pitStorage: PitStorage = new PitStorage();
+    pitStorage.pit = this.convertValuesToPitClass(this.pitForm.value);
+    pitStorage.event = this.selectedEventStorage.event;
+    pitStorage.team = this.getTeamFromEventStorage(pitStorage.pit.details.idTeam);
+
+    this.dataStorageService.addToPitStorage(pitStorage);
 
     this.spinner = false;
     this.successMessage = 'Pit details saved to storage';
@@ -341,7 +341,6 @@ export class PitComponent implements OnInit {
 
 
   ngOnInit() {
-    this.onChanges();
   }
 
 }

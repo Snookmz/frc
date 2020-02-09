@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import {LoggerService} from '../loggerService/logger.service';
-import {Pit} from '../../objects/pit-classes';
+import {Pit, PitStorage} from '../../objects/pit-classes';
 import {EventStorage, FrcEvent} from '../../objects/frcEvent-object';
-import {Team} from '../../objects/team-object';
+import {BehaviorSubject, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataStorageService {
+
+  private selectedEventStorage = this.getSelectedEventStorage();
+
+  private _selectedEventStorage$: BehaviorSubject<EventStorage> = new BehaviorSubject(this.selectedEventStorage);
+  public readonly selectedEventStorage$: Observable<EventStorage> = this._selectedEventStorage$.asObservable();
+
 
   constructor(
       private logger: LoggerService
@@ -19,11 +25,18 @@ export class DataStorageService {
     if (eventsStorage === null) {
       eventsStorage = [];
     }
-
     eventsStorage.push(eventStorage);
-
     localStorage.setItem('eventsStorage', JSON.stringify(eventsStorage));
+  }
 
+  public addToPitStorage(pitStorage: PitStorage): void {
+    const s = localStorage.getItem('pitsStorage');
+    let pitsStorage: PitStorage[] = JSON.parse(s);
+    if (pitsStorage === null) {
+      pitsStorage = [];
+    }
+    pitsStorage.push(pitStorage);
+    localStorage.setItem('pitsStorage', JSON.stringify(pitsStorage));
   }
 
   public clearDataStorage(): void {
@@ -109,6 +122,24 @@ export class DataStorageService {
     return keys;
   }
 
+  public getPitStorageForTeamKey(key: string): PitStorage {
+    const s = localStorage.getItem('pitsStorage');
+    const pitsStorage: PitStorage[] = JSON.parse(s);
+    let pitStorage: PitStorage = new PitStorage();
+
+    if (pitsStorage === null) {
+      return pitStorage;
+    } else {
+      pitsStorage.forEach(ps => {
+        if (ps.team.key === key) {
+          pitStorage = ps;
+        }
+      });
+    }
+    this.logger.max('DataStorageService, getPitStorageFromTeamKey, returning: ', pitStorage);
+    return pitStorage;
+  }
+
   public getSelectedEventStorage(): EventStorage {
     const s: string = localStorage.getItem('selectedEventStorage');
     const es: EventStorage = JSON.parse(s);
@@ -143,6 +174,7 @@ export class DataStorageService {
 
   public storeSelectedEventStorage (es: EventStorage): void {
     this.logger.debug('dataStorageService, storeSelectedEventStorage: ', es);
+    this._selectedEventStorage$.next(es);
     localStorage.setItem('selectedEventStorage', JSON.stringify(es));
   }
 
