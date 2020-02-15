@@ -29,18 +29,34 @@ export class PitComponent implements OnInit {
       private fb: FormBuilder,
       private logger: LoggerService
   ) {
-    this.dataStorageService.selectedEventStorage$.subscribe(value => {
-      this.selectedEventStorage = value;
-      this.createForm();
-    })
   }
 
   private createForm(ps?: PitStorage, teamKey?: string): void {
     this.logger.max('PitComponent, createForm');
+    this.pitForm = undefined;
 
     if (ps === undefined) {
       ps = new PitStorage();
     }
+
+    let powerCellsDisabled = true;
+    if (ps.pit.powerCells.flCells) {
+      powerCellsDisabled = false;
+    }
+    let climbDisabled = true;
+    if (ps.pit.climb.flClimb) {
+      climbDisabled = false;
+    }
+    let controlPanelDisabled = true;
+    if (ps.pit.controlPanel.flPanel) {
+      controlPanelDisabled = false;
+    }
+    let autoDisabled = true;
+    if (ps.pit.auto.flAuto) {
+      autoDisabled = false;
+    }
+
+    this.logger.max('PitComponent, createForm, powerCellsDisabled: ', JSON.stringify(powerCellsDisabled));
 
     this.pitForm = this.fb.group({
       imperialUnits: [ps.pit.imperialUnits, Validators.required],
@@ -58,46 +74,46 @@ export class PitComponent implements OnInit {
         imgRobotSide: ps.pit.robotStats.imgRobotSide
       }),
       powerCells: this.fb.group({
-        flCells: false, // can manipulate
-        flIntakeGround: {value: false, disabled: true},
-        flIntakeHigh: {value: false, disabled: true},
-        numStorage: {value: '', disabled: true},
-        txShooting: {value: '', disabled: true},
-        flTargetLow: {value: false, disabled: true},
-        flTargetOuter: {value: false, disabled: true},
-        flTargetInner: {value: false, disabled: true}
+        flCells: ps.pit.powerCells.flCells, // can manipulate
+        flIntakeGround: {value: ps.pit.powerCells.flIntakeGround, disabled: powerCellsDisabled},
+        flIntakeHigh: {value: ps.pit.powerCells.flIntakeHigh, disabled: powerCellsDisabled},
+        numStorage: {value: ps.pit.powerCells.numStorage, disabled: powerCellsDisabled},
+        txShooting: {value: ps.pit.powerCells.txShooting, disabled: powerCellsDisabled},
+        flTargetLow: {value: ps.pit.powerCells.flTargetLow, disabled: powerCellsDisabled},
+        flTargetOuter: {value: ps.pit.powerCells.flTargetOuter, disabled: powerCellsDisabled},
+        flTargetInner: {value: ps.pit.powerCells.flTargetInner, disabled: powerCellsDisabled}
       }),
       climb: this.fb.group({
-        flClimb: false, // can climb
-        idClimbType: {value: '', disabled: true},
-        numClimbHeight: {value: '', disabled: true},
-        flClimbSecure: {value: false, disabled: true},
-        idClimbGrab: {value: '', disabled: true},
-        idClimbSpeed: {value: '', disabled: true},
-        flClimbTilt: {value: false, disabled: true},
-        txClimb: {value: '', disabled: true}, // climb mechanism
-        idClimbPos: {value: '', disabled: true},
-        flClimbLevel: {value: false, disabled: true},
-        flClimbLevelSelf: {value: false, disabled: true},
-        flClimbLevelOther: {value: false, disabled: true},
-        flClimbMove: {value: false, disabled: true},
-        flClimbOther: {value: false, disabled: true},
-        numClimbOther: {value: '', disabled: true}, // buddies
+        flClimb: ps.pit.climb.flClimb, // can climb
+        idClimbType: {value: ps.pit.climb.idClimbType, disabled: climbDisabled},
+        numClimbHeight: {value: ps.pit.climb.numClimbHeight, disabled: climbDisabled},
+        flClimbSecure: {value: ps.pit.climb.flClimbSecure, disabled: climbDisabled},
+        idClimbGrab: {value: ps.pit.climb.idClimbGrab, disabled: climbDisabled},
+        idClimbSpeed: {value: ps.pit.climb.idClimbSpeed, disabled: climbDisabled},
+        flClimbTilt: {value: ps.pit.climb.flClimbTilt, disabled: climbDisabled},
+        txClimb: {value: ps.pit.climb.txClimb, disabled: climbDisabled}, // climb mechanism
+        idClimbPos: {value: ps.pit.climb.idClimbPos, disabled: climbDisabled},
+        flClimbLevel: {value: ps.pit.climb.flClimbLevel, disabled: climbDisabled},
+        flClimbLevelSelf: {value: ps.pit.climb.flClimbLevelSelf, disabled: climbDisabled},
+        flClimbLevelOther: {value: ps.pit.climb.flClimbLevelOther, disabled: climbDisabled},
+        flClimbMove: {value: ps.pit.climb.flClimbMove, disabled: climbDisabled},
+        flClimbOther: {value: ps.pit.climb.flClimbOther, disabled: climbDisabled},
+        numClimbOther: {value: ps.pit.climb.numClimbOther, disabled: climbDisabled}, // buddies
       }),
       controlPanel: this.fb.group({
-        flPanel: false, // can manipulate control panel
-        flPanelBrake: {value: false, disabled: true},
-        flPanelRotation: {value: false, disabled: true},
-        flPanelPos: {value: false, disabled: true},
-        flPanelSensor: {value: false, disabled: true},
-        txPanelSensor: {value: '', disabled: true} // notes
+        flPanel: ps.pit.controlPanel.flPanel, // can manipulate control panel
+        flPanelBrake: {value: ps.pit.controlPanel.flPanelBrake, disabled: controlPanelDisabled},
+        flPanelRotation: {value: ps.pit.controlPanel.flPanelRotation, disabled: controlPanelDisabled},
+        flPanelPos: {value: ps.pit.controlPanel.flPanelPos, disabled: controlPanelDisabled},
+        flPanelSensor: {value: ps.pit.controlPanel.flPanelSensor, disabled: controlPanelDisabled},
+        txPanelSensor: {value: ps.pit.controlPanel.txPanelSensor, disabled: controlPanelDisabled} // notes
       }),
       auto: this.fb.group({
-        flAuto: false, // can auto
-        flAutoLine: {value: false, disabled: true},
-        flAutoShoot: {value: false, disabled: true},
-        numAutoShoot: {value: 0, disabled: true},
-        numAutoLoad: {value: 0, disabled: true}
+        flAuto: ps.pit.auto.flAuto, // can auto
+        flAutoLine: {value: ps.pit.auto.flAutoLine, disabled: autoDisabled},
+        flAutoShoot: {value: ps.pit.auto.flAutoShoot, disabled: autoDisabled},
+        numAutoShoot: {value: ps.pit.auto.numAutoShoot, disabled: autoDisabled},
+        numAutoLoad: {value: ps.pit.auto.numAutoLoad, disabled: autoDisabled}
       }),
       record: this.fb.group({
         dtCreated: '',
@@ -106,6 +122,7 @@ export class PitComponent implements OnInit {
       })
     });
 
+    this.logger.max('PitComponent, createForm, returning: ', this.pitForm);
     this.onChanges();
   }
 
@@ -341,6 +358,10 @@ export class PitComponent implements OnInit {
 
 
   ngOnInit() {
+    this.dataStorageService.selectedEventStorage$.subscribe(value => {
+      this.selectedEventStorage = value;
+      this.createForm();
+    })
   }
 
 }

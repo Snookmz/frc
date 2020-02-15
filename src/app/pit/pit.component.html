@@ -138,7 +138,8 @@
                                     <ion-label>
                                         Ground Intake
                                     </ion-label>
-                                    <ion-toggle formControlName="flIntakeGround" color="primary"></ion-toggle>
+                                    <ion-toggle formControlName="flIntakeGround" color="primary">
+                                    </ion-toggle>
                                 </ion-item>
                                 <ion-item>
                                     <ion-label>
@@ -327,7 +328,7 @@
                                 </ion-label>
                             </ion-item-divider>
                             <ion-list class="ns-pit-list">
-                                <ion-item [color]="pitForm.value['climb']['flPanel'] ? 'success' : 'warning'" >
+                                <ion-item [color]="pitForm.value['controlPanel']['flPanel'] ? 'success' : 'warning'" >
                                     <ion-label>
                                         Manipulate Control Panel
                                     </ion-label>
@@ -373,7 +374,7 @@
                                 </ion-label>
                             </ion-item-divider>
                             <ion-list class="ns-pit-list">
-                                <ion-item [color]="pitForm.value['climb']['flAuto'] ? 'success' : 'warning'">
+                                <ion-item [color]="pitForm.value['auto']['flAuto'] ? 'success' : 'warning'">
                                     <ion-label>
                                         Does Auto
                                     </ion-label>
