@@ -19,7 +19,11 @@
 .ns-card-info {
   @extend .ns-card;
   color: $info;
+}
 
+.ns-card-form {
+  @extend .ns-card;
+  margin-bottom: 30px;
 }
 
 .ns-card-note {

@@ -3,197 +3,212 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Scout Form</ion-title>
+        <ion-title>Match Scouting</ion-title>
     </ion-toolbar>
 </ion-header>
 
 
 <ion-content>
-
-    <ion-row>
-        <ion-col>
-            <ion-item color="primary">
-                Unfinished
-            </ion-item>
+    <ion-row
+            *ngIf="selectedEventStorage.teams.length === 0"
+            justify-content-center class="ns-margin-top">
+        <ion-col size-lg="6" class="ns-card-note ns-pointer" routerLink="/setup">
+            <p>
+                No teams, click here to go to setup and select event to get the teams.
+            </p>
         </ion-col>
     </ion-row>
 
+    <ion-row class="ion-justify-content-center" *ngIf="selectedEventStorage.teams.length !== 0">
+        <ion-col size-lg="8">
+            <form [formGroup]="parentDataForm" novalidate>
+                <ion-row>
+                    <ion-col>
+                        {{selectedEventStorage.event.name}}
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="ns-card-form">
+                        <ion-row formGroupName="teamDetails">
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Match Number
+                                    </ion-label>
+                                    <ion-input
+                                            placeholder="(match number)"
+                                            formControlName="numMatch"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Alliance
+                                    </ion-label>
+                                    <ion-select formGroupName="idAlliance" placeholder="(select color)">
+                                        <ion-select-option value="1">Red</ion-select-option>
+                                        <ion-select-option value="2">Blue</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Drive Station
+                                    </ion-label>
+                                    <ion-select formGroupName="idDriveStation" placeholder="(select station)">
+                                        <ion-select-option value="1">1</ion-select-option>
+                                        <ion-select-option value="2">2</ion-select-option>
+                                        <ion-select-option value="3">3</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Team
+                                    </ion-label>
+                                    <ion-select formGroupName="idTeam" placeholder="(select team)">
+                                        <ion-select-option
+                                                *ngFor="let t of selectedEventStorage.teams" [value]="t.key">
+                                            {{t.key}} - {{t.nickname}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                            <!--                    <ion-col>-->
+                            <!--                        <ion-item>-->
+                            <!--                            <ion-label position="floating">-->
+                            <!--                                Device Name-->
+                            <!--                            </ion-label>-->
+                            <!--                            <ion-input formControlName="txScoutName">-->
+                            <!--                            </ion-input>-->
+                            <!--                        </ion-item>-->
+                            <!--                    </ion-col>-->
+                            <ion-col>
+                                <ion-button color="success" *ngIf="parentDataForm.invalid || parentDataForm.pristine">
+                                    Save
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row formGroupName="matchSetup">
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Facing
+                                    </ion-label>
+                                    <ion-select formControlName="idStartFacing">
+                                        <ion-select-option value="1">Own Station</ion-select-option>
+                                        <ion-select-option value="2">Opponent Station</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Robot Position
+                                    </ion-label>
+                                    <ion-select formControlName="idStartPosition">
+                                        <ion-select-option value="1">Trench</ion-select-option>
+                                        <ion-select-option value="2">Power Port</ion-select-option>
+                                        <ion-select-option value="3">Loading</ion-select-option>
+                                        <ion-select-option value="4">Other</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Starting Cells
+                                    </ion-label>
+                                    <ion-input type="number" formControlName="numStartCells" placeholder="(cells to start with)"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
 
-    <form [formGroup]="scoutForm" novalidate>
-        <ion-row justify-content-center>
-            <ion-col size-md="6">
-                <ion-item-group formGroupName="match">
-                    <ion-item-divider>
-                        <ion-label>Match Scout</ion-label>
-                    </ion-item-divider>
+                    </ion-col>
 
-                    <ion-list class="ns-item-list">
-                        <ion-item>
-                            <ion-label position="floating">
-                                Scout Name
-                            </ion-label>
-                            <ion-select formControlName="teamMemberId">
-                                <ion-select-option *ngFor="let t of teamMembers" [value]="t.id">{{t.lastName}}</ion-select-option>
-                            </ion-select>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="floating">Event</ion-label>
-                            <ion-select formControlName="event">
-                                <ion-select-option *ngFor="let e of events" [value]="e.id">{{e.name}}</ion-select-option>
-                            </ion-select>
-                        </ion-item>
-                    </ion-list>
-                </ion-item-group>
-                <ion-item-group>
-                    <ion-item-divider>
-                        <ion-label>Details</ion-label>
-                    </ion-item-divider>
-                    <ion-item>
-                        <ul class="ns-list-horizontal">
-                            <li>Match: </li>
-                            <li>Alliance: </li>
-                            <li>Drive Station: </li>
-                            <li>Team: </li>
-                            <li>Position: </li>
-                        </ul>
-                    </ion-item>
-                </ion-item-group>
-                <ion-item-group formGroupName="penalties">
-                    <ion-item-divider>
-                        <ion-label>Penalties</ion-label>
-                    </ion-item-divider>
-                    <ion-list class="ns-item-list">
-                        <ion-item>
-                            <ion-label>Failure</ion-label>
-                            <ion-toggle color="primary" formControlName="failure"></ion-toggle>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Yellow Card</ion-label>
-                            <ion-toggle color="warning" formControlName="yellowCard"></ion-toggle>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Red Card</ion-label>
-                            <ion-toggle color="danger" formControlName="redCard"></ion-toggle>
-                        </ion-item>
-                    </ion-list>
+                </ion-row>
 
-                </ion-item-group>
-            </ion-col>
-        </ion-row>
+                <ion-row>
+                    <ion-col class="ns-card-form">
+                        <ion-row formGroupName="results">
+                            <ion-col size="8">
+                                <ion-item>
+                                    <ion-label>
+                                        Total Robot Failure (Crash, Stop etc)
+                                    </ion-label>
+                                    <ion-toggle formControlName="flCrash" color="secondary"></ion-toggle>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col size="4">
+                                <ion-list>
+                                    <ion-item>
+                                        <ion-label>
+                                            Red Card
+                                        </ion-label>
+                                        <ion-toggle formControlName="flRed" color="danger"></ion-toggle>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label>
+                                            Yellow Card
+                                        </ion-label>
+                                        <ion-toggle formControlName="flYellow" color="warning"></ion-toggle>
+                                    </ion-item>
+                                </ion-list>
 
-        <ion-row justify-content-center>
-            <ion-col size="1">
-                <ul class="ns-ul-match-left">
-                    <li>
-                        <ion-button
-                                (click)="setDriverPosition('topLeft')"
-                                [color]="driverPosition === 'topLeft' ? 'secondary' : 'primary'" size="full">
-                            Top
-                        </ion-button>
-                    </li>
-                    <li>
-                        <ion-button
-                                (click)="setDriverPosition('middleLeft')"
-                                [color]="driverPosition === 'middleLeft' ? 'secondary' : 'primary'" size="full">
-                            Middle
-                        </ion-button>
-                    </li>
-                    <li>
-                        <ion-button
-                                (click)="setDriverPosition('bottomLeft')"
-                                [color]="driverPosition === 'bottomLeft' ? 'secondary' : 'primary'" size="full">
-                            Bottom
-                        </ion-button>
-                    </li>
-                </ul>
-            </ion-col>
-            <ion-col size="4">
-                <img src="/assets/imgs/layout.png">
-            </ion-col>
-            <ion-col size="1">
-                <ul class="ns-ul-match-right">
-                    <li>
-                        <ion-button
-                                (click)="setDriverPosition('topRight')"
-                                [color]="driverPosition === 'topRight' ? 'secondary' : 'danger'" size="full">
-                            Top
-                        </ion-button>
-                    </li>
-                    <li>
-                        <ion-button
-                                (click)="setDriverPosition('middleRight')"
-                                [color]="driverPosition === 'middleRight' ? 'secondary' : 'danger'" size="full">
-                            Middle
-                        </ion-button>
-                    </li>
-                    <li>
-                        <ion-button
-                                (click)="setDriverPosition('bottomRight')"
-                                [color]="driverPosition === 'bottomRight' ? 'secondary' : 'danger'" size="full">
-                            Bottom
-                        </ion-button>
-                    </li>
-                </ul>
-            </ion-col>
-        </ion-row>
+                            </ion-col>
 
-        <ion-row justify-content-center>
-            <ion-col size-md="3">
-                <ion-item-group formGroupName="start">
-                    <ion-item-divider>
-                        <ion-label>Start</ion-label>
-                    </ion-item-divider>
-                    <ion-list class="ns-item-list">
-                        <ion-item>
-                            <ion-label>Exits initiation line</ion-label>
-                            <ion-toggle color="primary" formControlName="exitsInitiationLine"></ion-toggle>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Does Auto</ion-label>
-                            <ion-toggle color="primary" formControlName="doesAuto"></ion-toggle>
-                        </ion-item>
-                    </ion-list>
+                        </ion-row>
+                    </ion-col>
+                </ion-row>
 
-                </ion-item-group>
-            </ion-col>
-            <ion-col size-md="3">
-                <ion-item-group formGroupName="errors">
-                    <ion-item-divider>
-                        <ion-label>Errors</ion-label>
-                    </ion-item-divider>
-                    <ion-list class="ns-item-list">
-                        <ion-item>
-                            <ion-label>Robot contact</ion-label>
-                            <ion-toggle color="primary" formControlName="robotContact"></ion-toggle>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Foul</ion-label>
-                            <ion-toggle color="primary" formControlName="foul"></ion-toggle>
-                        </ion-item>
-                    </ion-list>
-                </ion-item-group>
-            </ion-col>
-        </ion-row>
+            </form>
+        </ion-col>
+    </ion-row>
 
-        <ion-row justify-content-center>
-            <ion-col size-md="6">
-                <h3>Power Ports</h3>
-            </ion-col>
-        </ion-row>
-        <ion-row justify-content-center>
-            <ion-col size="2">
-                <ul>
-                    <li>
-                        Outer Port
-                    </li>
-                    <li>Inner Port</li>
-                </ul>
-            </ion-col>
-            <ion-col size-md="2">
-                <img src="/assets/imgs/ports.png">
-            </ion-col>
-        </ion-row>
+    <ion-row class="ion-justify-content-center">
+        <ion-col
+                routerLink="auto"
+                (click)="selectForm('auto')" size-lg="3" class="ns-pointer ns-focus">
+            <ion-item
+                    [color]="selectedForm === 'auto' ? 'success' : ''"
+                    [lines]="selectedForm !== 'auto' ? '' : 'none'">
+                <ion-label>
+                    Auto
+                </ion-label>
+            </ion-item>
+        </ion-col>
+        <ion-col
+                routerLink="tele"
+                (click)="selectForm('tele')" size-lg="3" class="ns-pointer ns-focus">
+            <ion-item
+                    [lines]="selectedForm !== 'tele' ? '' : 'none'"
+                    [color]="selectedForm === 'tele' ? 'success' : ''" lines="none">
+                <ion-label>
+                    Tele
+                </ion-label>
+            </ion-item>
+        </ion-col>
+        <ion-col
+                routerLink="comment"
+                (click)="selectForm('comment')" size-lg="3" class="ns-pointer ns-focus">
+            <ion-item
+                    [lines]="selectedForm !== 'comment' ? '' : 'none'"
+                    [color]="selectedForm === 'comment' ? 'success' : ''" lines="none">
+                <ion-label>
+                    Comment
+                </ion-label>
+            </ion-item>
+        </ion-col>
 
-    </form>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+        <ion-col size-lg="8">
+            <router-outlet></router-outlet>
+        </ion-col>
+    </ion-row>
+
 </ion-content>
 

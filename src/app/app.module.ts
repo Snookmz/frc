@@ -21,6 +21,9 @@ import {DataComponent} from './data/data.component';
 import {LoginComponent} from './login/login.component';
 import {SetupComponent} from './setup/setup.component';
 import {EventModalComponent} from './setup/event-modal/event-modal.component';
+import {AutoComponent} from './scout/auto/auto.component';
+import {TeleComponent} from './scout/tele/tele.component';
+import {CommentComponent} from './scout/comment/comment.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +36,10 @@ import {EventModalComponent} from './setup/event-modal/event-modal.component';
         PitComponent,
         QrComponent,
         ScoutComponent,
-        SetupComponent
+        SetupComponent,
+        AutoComponent,
+        TeleComponent,
+        CommentComponent
     ],
     entryComponents: [EventModalComponent],
     imports: [

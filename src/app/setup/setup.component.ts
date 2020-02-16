@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../environments/environment';
 import {forkJoin, Observable} from 'rxjs';
 import {Team} from '../objects/team-object';
+import {Match} from '../objects/match-object';
 
 @Component({
   selector: 'app-setup',
@@ -36,16 +37,14 @@ export class SetupComponent implements OnInit {
       private logger: LoggerService,
       private modalController: ModalController,
   ) {
-    this.getEvents();
-    this.createEventForm();
-
   }
 
   private createEventForm(): void {
     this.eventForm = this.fb.group({
-      country: ['', Validators.required],
-      eventCode: ['', Validators.required],
-      eventShortName: ''
+      country: [this.selectedEventStorage.event.country, Validators.required],
+      eventCode: [this.selectedEventStorage.event.event_code, Validators.required],
+      eventShortName: this.selectedEventStorage.event.short_name,
+      deviceName: [this.selectedEventStorage.deviceName, Validators.required],
     });
     this.onEventFormChange();
   }
@@ -106,32 +105,46 @@ export class SetupComponent implements OnInit {
   public getEventStorageFromApiAndSaveToLocalStorage(e: FrcEvent): void {
     this.logger.max('SetupComponent, getTeamsForEventAndSaveToLocalStorage: ', e);
     this.spinner = true;
-    this.dataInputService.getTeamIdsForEvent(environment.eventYear, e.event_code).subscribe(result => {
-      this.logger.max('SetupComponent, getTeamsForEventAndSaveToLocalStorage: ', result);
-      const teamKeys: string[] = Object.keys(result);
-      const list: Observable<Team>[] = [];
 
-      teamKeys.forEach(k => {
-        list.push(this.dataInputService.getTeamInfoFromTeamKey(k));
-      });
+    this.dataInputService.getMatchesForEvent(e.key).subscribe(result => {
+      this.logger.max('SetupComponent, getMatchesForEvent, result: ', result);
+      const matches: Match[] = result;
+      this.dataInputService.getTeamIdsForEvent(environment.eventYear, e.event_code).subscribe(result => {
+        this.logger.max('SetupComponent, getTeamsForEventAndSaveToLocalStorage: ', result);
+        const teamKeys: string[] = Object.keys(result);
+        const list: Observable<Team>[] = [];
 
-      const eventStorage: EventStorage = new EventStorage();
-      eventStorage.event = e;
-      forkJoin(list).subscribe(results => {
-        this.logger.max('dataComponent, forkJoin, results: ', results);
-        results.forEach(t => {
-          eventStorage.teams.push(t);
+        teamKeys.forEach(k => {
+          list.push(this.dataInputService.getTeamInfoFromTeamKey(k));
         });
-        this.dataStorageService.addToEventsStorage(eventStorage);
-        this.selectedEventStorage = eventStorage;
-        this.selectedEventStorage.teams.sort((a: Team, b: Team) => {
-          return a.nickname.localeCompare(b.nickname);
+
+        const eventStorage: EventStorage = new EventStorage();
+        eventStorage.event = e;
+        eventStorage.matches = matches;
+        forkJoin(list).subscribe(results => {
+          this.logger.max('setupComponent, forkJoin, results: ', results);
+          results.forEach(t => {
+            eventStorage.teams.push(t);
+          });
+          this.dataStorageService.addToEventsStorage(eventStorage);
+          this.selectedEventStorage = eventStorage;
+          this.selectedEventStorage.teams.sort((a: Team, b: Team) => {
+            return a.nickname.localeCompare(b.nickname);
+          });
+          this.logger.max('SetupComponent, GetTeamInfoFromTeamKey, eventStorage: ', eventStorage);
         });
+      }, reason => {
+        this.logger.error('SetupComponent, getTeamIdsForEvent, error: ', reason);
+      }, () => {
         this.spinner = false;
         this.createTeamForm();
-        this.logger.max('GetTeamInfoFromTeamKey, eventStorage: ', eventStorage);
-      });
-    })
+        this.logger.max('SetupComponent, getTeamIdsForEvent, finished');
+      })
+
+
+    });
+
+
   }
 
   async presentEventModal() {
@@ -140,7 +153,8 @@ export class SetupComponent implements OnInit {
       cssClass: ['ns-modal', 'ns-modal-page'],
       componentProps: {
         events: this.events,
-        country: this.selectedCountry
+        country: this.selectedCountry,
+        deviceName: ['', Validators.required]
       }
     });
     modal.onWillDismiss().then(data => {
@@ -185,10 +199,15 @@ export class SetupComponent implements OnInit {
   public onSubmit(): void {
     this.logger.max('SetupComponent, onSubmit saving EventStorage: ', this.selectedEventStorage);
     this.submitted = true;
+    this.selectedEventStorage.deviceName = this.eventForm.value.deviceName;
     this.dataStorageService.storeSelectedEventStorage(this.selectedEventStorage);
     this.successMessage = 'Event saved'
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.selectedEventStorage = this.dataStorageService.getSelectedEventStorage();
+    this.getEvents();
+    this.createEventForm();
+  }
 
 }

@@ -8,6 +8,9 @@ import {QrComponent} from './qr/qr.component';
 import {DataComponent} from './data/data.component';
 import {LoginComponent} from './login/login.component';
 import {SetupComponent} from './setup/setup.component';
+import {AutoComponent} from './scout/auto/auto.component';
+import {TeleComponent} from './scout/tele/tele.component';
+import {CommentComponent} from './scout/comment/comment.component';
 
 const routes: Routes = [
   {
@@ -18,7 +21,12 @@ const routes: Routes = [
   {path: 'data', component: DataComponent},
   {path: 'login', component: LoginComponent},
   {path: 'pit', component: PitComponent},
-  {path: 'scout', component: ScoutComponent},
+  {path: 'scout', component: ScoutComponent, children: [
+      {path: '', redirectTo: 'auto', pathMatch: 'full'},
+      {path: 'auto', component: AutoComponent},
+      {path: 'tele', component: TeleComponent},
+      {path: 'comment', component: CommentComponent}
+    ]},
   {path: 'setup', component: SetupComponent},
   {path: 'qr', component: QrComponent},
   {

@@ -22,7 +22,6 @@ export const environment = {
     level: NsLogLevel.max,
     outputTo: 'console',
   }
-
 };
 
 /*

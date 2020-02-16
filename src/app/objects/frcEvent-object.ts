@@ -1,11 +1,15 @@
 import {Team} from './team-object';
+import {Match} from './match-object';
 
 export class EventStorage {
     event: FrcEvent;
     teams: Team[];
+    deviceName: string;
+    matches: Match[];
     constructor() {
         this.event = new FrcEvent();
         this.teams = [];
+        this.deviceName = '';
     }
 }
 

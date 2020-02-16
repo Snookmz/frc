@@ -3,6 +3,7 @@ import {District, FrcEvent} from '../../objects/frcEvent-object';
 import {Observable} from 'rxjs';
 import {HttpService} from '../httpService/http.service';
 import {Team} from '../../objects/team-object';
+import {Match} from '../../objects/match-object';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,11 @@ export class DataInputService {
 
   public getDistrictsFromApi(): Observable<District[]> {
     const endpoint = 'districts/2020';
+    return this.httpService.httpGetBlueAlliance(endpoint);
+  }
+
+  public getMatchesForEvent(eventKey: string): Observable<Match[]> {
+    const endpoint = `event/${eventKey}/matches`;
     return this.httpService.httpGetBlueAlliance(endpoint);
   }
 

@@ -17,10 +17,24 @@
     </ion-col>
   </ion-row>
 
+  <ion-row justify-content-center class="ns-margin-top" *ngIf="selectedEventStorage.teams.length !== 0">
+    <ion-col size-lg="6" class="ns-card-info">
+      <h3>Currently selected event:</h3>
+      <p>{{selectedEventStorage.event.name}}</p>
+      <p>Device name is '{{selectedEventStorage.deviceName}}'</p>
+    </ion-col>
+  </ion-row>
+
   <form [formGroup]="eventForm" novalidate>
     <ion-row justify-content-center *ngIf="eventForm !== undefined" class="ns-margin-top">
       <ion-col size-lg="6" class="ns-card-note">
         <ion-list>
+          <ion-item>
+            <ion-label position="floating">
+              Device Name
+            </ion-label>
+            <ion-input formControlName="deviceName" placeholder="(Enter device name here)"></ion-input>
+          </ion-item>
           <ion-item>
             <ion-label position="floating">
               Country

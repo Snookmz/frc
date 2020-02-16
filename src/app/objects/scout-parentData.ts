@@ -1,5 +1,6 @@
 export class ScoutParentData {
     txEvent: string;
+    deviceName: string;
     teamDetails: TeamDetails;
     matchSetup: MatchSetup;
     results: Results;

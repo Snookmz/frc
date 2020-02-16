@@ -20,6 +20,7 @@ export class DataStorageService {
   ) { }
 
   public addToEventsStorage(eventStorage: EventStorage): void {
+    this.logger.max('DataStorageService, addToEventsStorage: ', eventStorage);
     const s = localStorage.getItem('eventsStorage');
     let eventsStorage: EventStorage[] = JSON.parse(s);
     if (eventsStorage === null) {
@@ -99,11 +100,13 @@ export class DataStorageService {
     const s = localStorage.getItem('eventsStorage');
     const eventsStorage: EventStorage[] = JSON.parse(s);
     let eventStorage: EventStorage = new EventStorage();
-    eventsStorage.forEach(e => {
-      if (e.event.event_code === event_code) {
-        eventStorage = e;
-      }
-    });
+    if (eventsStorage !== null) {
+      eventsStorage.forEach(e => {
+        if (e.event.event_code === event_code) {
+          eventStorage = e;
+        }
+      });
+    }
     return eventStorage;
 
   }
