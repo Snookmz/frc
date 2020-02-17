@@ -1,7 +1,147 @@
+<form [formGroup]="autoForm" novalidate>
     <ion-row>
         <ion-col>
-            Auto Form
+            <ion-row>
+                <ion-col class="ns-card-form">
+                    <ion-list>
+                        <ion-item color="primary">
+                            <ion-label>
+                                Driver Position
+                            </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-item>
+                                <ion-label>
+                                    Picture of positions
+                                </ion-label>
+                            </ion-item>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col formGroupName="auto" class="ns-card-form">
+                    <ion-list>
+                        <ion-item color="primary">
+                            <ion-label>
+                                Auto
+                            </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Does Auto?
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flStart"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Leave Line?
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flBaseLine"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="floating">
+                                Pickup New Cells?
+                            </ion-label>
+                            <ion-input type="number" formControlName="auto_numCellLoad"></ion-input>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col>
+            <ion-row>
+                <ion-col formGroupName="errors" class="ns-card-form">
+                    <ion-list>
+                        <ion-item color="danger">
+                            <ion-label>
+                                Errors
+                            </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Foul
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flFoul" color="danger"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Hit Robot
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flRobotContact" color="warning"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Lose Cells
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flLoseStartObject" color="warning"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Sector
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flCrossOver" color="warning"></ion-toggle>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+                <ion-col formGroupName="performance" class="ns-card-form">
+                    <ion-list>
+                        <ion-item color="primary">
+                            <ion-label>
+                                Performance
+                            </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="floating">
+                                Cells Fired
+                            </ion-label>
+                            <ion-input
+                                    placeholder="(Power cells fired)"
+                                    type="number" formControlName="auto_numCellAttempt"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="floating">
+                                Cells Scored
+                            </ion-label>
+                            <ion-input type="number"
+                                       placeholder="(Power cells scored)"
+                                       formControlName="auto_numCellSuccess"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Outer Port
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flOuter" color="primary"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Inner Port
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flInner" color="primary"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Lower Port
+                            </ion-label>
+                            <ion-toggle formControlName="auto_flLower" color="primary"></ion-toggle>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+            </ion-row>
+
+        </ion-col>
+
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+        <ion-col size-lg="6">
+            <ion-button
+                    [disabled]="autoForm.pristine || autoForm.invalid"
+                    expand="block" color="success">
+                Save Auto
+            </ion-button>
         </ion-col>
     </ion-row>
+</form>
+
 
 

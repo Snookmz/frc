@@ -41,19 +41,19 @@ export class SetupComponent implements OnInit {
 
   private createEventForm(): void {
     this.eventForm = this.fb.group({
-      country: [this.selectedEventStorage.event.country, Validators.required],
-      eventCode: [this.selectedEventStorage.event.event_code, Validators.required],
-      eventShortName: this.selectedEventStorage.event.short_name,
-      deviceName: [this.selectedEventStorage.deviceName, Validators.required],
+      country: ['', Validators.required],
+      eventCode: ['', Validators.required],
+      eventShortName: '',
+      deviceName: ['', Validators.required],
     });
     this.onEventFormChange();
   }
 
-  private createTeamForm(): void {
-    this.teamForm = this.fb.group({
-      key: ['', Validators.required]
-    })
-  }
+  // private createTeamForm(): void {
+  //   this.teamForm = this.fb.group({
+  //     key: ['', Validators.required]
+  //   })
+  // }
 
 
   private getEvents(): void {
@@ -132,13 +132,18 @@ export class SetupComponent implements OnInit {
             return a.nickname.localeCompare(b.nickname);
           });
           this.logger.max('SetupComponent, GetTeamInfoFromTeamKey, eventStorage: ', eventStorage);
+        }, reason =>{
+          this.logger.error('SetupComponent, getTeamIdsForEvent, error: ', reason);
+        }, () => {
+          this.spinner = false;
+          // this.createTeamForm();
+          this.logger.max('SetupComponent, getTeamIdsForEvent, finished');
         });
       }, reason => {
         this.logger.error('SetupComponent, getTeamIdsForEvent, error: ', reason);
       }, () => {
-        this.spinner = false;
-        this.createTeamForm();
-        this.logger.max('SetupComponent, getTeamIdsForEvent, finished');
+        this.logger.max('SetupComponent, getMatchesForEvent, finished');
+
       })
 
 
@@ -153,8 +158,7 @@ export class SetupComponent implements OnInit {
       cssClass: ['ns-modal', 'ns-modal-page'],
       componentProps: {
         events: this.events,
-        country: this.selectedCountry,
-        deviceName: ['', Validators.required]
+        country: this.selectedCountry
       }
     });
     modal.onWillDismiss().then(data => {
@@ -187,7 +191,7 @@ export class SetupComponent implements OnInit {
             this.selectedEventStorage.teams.sort((a: Team, b: Team) => {
               return a.nickname.localeCompare(b.nickname);
             });
-            this.createTeamForm();
+            // this.createTeamForm();
             this.submitted = false;
           }
         }
@@ -198,14 +202,23 @@ export class SetupComponent implements OnInit {
 
   public onSubmit(): void {
     this.logger.max('SetupComponent, onSubmit saving EventStorage: ', this.selectedEventStorage);
+    this.logger.max('SetupComponent, onSubmit, form values: ', this.eventForm.value);
     this.submitted = true;
     this.selectedEventStorage.deviceName = this.eventForm.value.deviceName;
     this.dataStorageService.storeSelectedEventStorage(this.selectedEventStorage);
     this.successMessage = 'Event saved'
+    setTimeout(() => {
+      this.submitted = false;
+      this.successMessage = '';
+      this.errorMessage = '';
+      this.eventForm = undefined;
+      this.createEventForm();
+    }, 5000);
   }
 
   ngOnInit() {
     this.selectedEventStorage = this.dataStorageService.getSelectedEventStorage();
+    this.logger.max('SetupComponent, OnInit, selectEventStorage: ', this.selectedEventStorage);
     this.getEvents();
     this.createEventForm();
   }

@@ -17,10 +17,10 @@
     </ion-col>
   </ion-row>
 
-  <ion-row justify-content-center class="ns-margin-top" *ngIf="selectedEventStorage.teams.length !== 0">
+  <ion-row justify-content-center class="ns-margin-top" *ngIf="selectedEventStorage.teams.length !== 0 && selectedEventStorage.deviceName !== ''">
     <ion-col size-lg="6" class="ns-card-info">
       <h3>Currently selected event:</h3>
-      <p>{{selectedEventStorage.event.name}}</p>
+      <p>{{selectedEventStorage.event.name}} - {{selectedEventStorage.event.country}}</p>
       <p>Device name is '{{selectedEventStorage.deviceName}}'</p>
     </ion-col>
   </ion-row>
@@ -53,7 +53,7 @@
           </ion-item>
           <ion-item>
             <ion-button
-                    [disabled]="eventForm.get('country').pristine"
+                    [disabled]="eventForm.get('country').invalid"
                     (click)="presentEventModal()" >
               Select Event
             </ion-button>
@@ -64,7 +64,7 @@
           <ion-item lines="none">
             <ion-button color="success"
                         (click)="onSubmit()"
-                        [disabled]="eventForm.invalid || submitted">
+                        [disabled]="eventForm.invalid || submitted || spinner">
               Set Event
             </ion-button>
           </ion-item>

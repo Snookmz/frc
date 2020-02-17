@@ -3,7 +3,7 @@ import {LoggerService} from '../services/loggerService/logger.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EventStorage} from '../objects/frcEvent-object';
 import {DataStorageService} from '../services/dataStorageService/data-storage.service';
-import {Router} from '@angular/router';
+import {Route, Router} from '@angular/router';
 
 @Component({
   selector: 'app-scout',
@@ -20,6 +20,7 @@ export class ScoutComponent implements OnInit {
       private dataStorageService: DataStorageService,
       private fb: FormBuilder,
       private logger: LoggerService,
+      private router: Router
   ) {
   }
 
@@ -57,6 +58,9 @@ export class ScoutComponent implements OnInit {
 
   public selectForm(form: string):void {
     this.selectedForm = form;
+    this.router.navigateByUrl(`/scout/${form}`).catch(reason => {
+      this.logger.error('ScoutComponent, error navigating to ' + form, reason);
+    });
   }
 
 

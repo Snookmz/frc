@@ -169,10 +169,9 @@
 
     <ion-row class="ion-justify-content-center">
         <ion-col
-                routerLink="auto"
-                (click)="selectForm('auto')" size-lg="3" class="ns-pointer ns-focus">
+                (click)="selectForm('auto')" size-lg="2" class="ns-pointer ns-focus">
             <ion-item
-                    [color]="selectedForm === 'auto' ? 'success' : ''"
+                    [color]="selectedForm === 'auto' ? 'secondary' : ''"
                     [lines]="selectedForm !== 'auto' ? '' : 'none'">
                 <ion-label>
                     Auto
@@ -180,22 +179,20 @@
             </ion-item>
         </ion-col>
         <ion-col
-                routerLink="tele"
-                (click)="selectForm('tele')" size-lg="3" class="ns-pointer ns-focus">
+                (click)="selectForm('tele')" size-lg="2" class="ns-pointer ns-focus">
             <ion-item
                     [lines]="selectedForm !== 'tele' ? '' : 'none'"
-                    [color]="selectedForm === 'tele' ? 'success' : ''" lines="none">
+                    [color]="selectedForm === 'tele' ? 'secondary' : ''" lines="none">
                 <ion-label>
                     Tele
                 </ion-label>
             </ion-item>
         </ion-col>
         <ion-col
-                routerLink="comment"
-                (click)="selectForm('comment')" size-lg="3" class="ns-pointer ns-focus">
+                (click)="selectForm('comment')" size-lg="2" class="ns-pointer ns-focus">
             <ion-item
                     [lines]="selectedForm !== 'comment' ? '' : 'none'"
-                    [color]="selectedForm === 'comment' ? 'success' : ''" lines="none">
+                    [color]="selectedForm === 'comment' ? 'secondary' : ''" lines="none">
                 <ion-label>
                     Comment
                 </ion-label>
