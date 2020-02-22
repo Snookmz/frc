@@ -67,6 +67,9 @@ export class ScoutComponent implements OnInit {
   ngOnInit() {
     this.getSelectedEventStorage();
     this.createParentDataForm();
+    const route = this.router.url;
+    const routes = route.split('/');
+    this.selectForm(routes[routes.length - 1]);
   }
 
 }

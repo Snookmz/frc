@@ -9,15 +9,24 @@
 
 <ion-content>
 
-    <ion-row justify-content-center *ngIf="selectedEventStorage.event.key !== ''" class="ns-margin-top">
-        <ion-col size-lg="6">
-            <h1>Event {{selectedEventStorage.event.name}}</h1>
+    <ion-row *ngIf="selectedEventStorage.event.key !== ''" class="ns-margin-top ion-justify-content-center">
+        <ion-col size-lg="6" class="ns-card-form">
+            <ion-row>
+                <ion-col>
+                    Event {{selectedEventStorage.event.name}}
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    Device Name - {{selectedEventStorage.deviceName}}
+                </ion-col>
+            </ion-row>
         </ion-col>
     </ion-row>
 
     <ion-row
             *ngIf="selectedEventStorage.event.key === ''"
-            justify-content-center class="ns-margin-top">
+            class="ns-margin-top ion-justify-content-center">
         <ion-col size-lg="6" class="ns-card-note ns-pointer" routerLink="/setup">
             <p>
                 No event selected, please click here to choose one on the setup page
@@ -26,35 +35,33 @@
     </ion-row>
 
     <form [formGroup]="pitForm" novalidate *ngIf="selectedEventStorage.event.key !== ''">
-        <ion-row style="margin-top: 50px" justify-content-center>
-            <ion-col class="ns-card-note" size-xl="5" size-lg="7" size-md="8" size-xs="10">
-                <ion-row justify-content-center>
-                    <ion-col>
-                        <ion-item-group formGroupName="details">
-                            <ion-item-divider>
+        <ion-row class="ion-justify-content-center">
+            <ion-col>
+                <ion-row class="ion-justify-content-center">
+                    <ion-col size-lg="8" class="ns-card-form">
+                        <ion-list class="ns-pit-list" formGroupName="details">
+                            <ion-item color="primary">
                                 <ion-label>
-                                    Detail
+                                    Details
                                 </ion-label>
-                            </ion-item-divider>
-                            <ion-list class="ns-pit-list">
-                                <ion-item>
-                                    <ion-label position="floating">
-                                        Team
-                                    </ion-label>
-                                    <ion-select formControlName="idTeam">
-                                        <ion-select-option *ngFor="let t of selectedEventStorage.teams" [value]="t.key">
-                                            {{t.nickname}}
-                                        </ion-select-option>
-                                    </ion-select>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label position="floating">
-                                        Scout Name
-                                    </ion-label>
-                                    <ion-input formControlName="txScoutName"></ion-input>
-                                </ion-item>
-                            </ion-list>
-                        </ion-item-group>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label position="floating">
+                                    Team
+                                </ion-label>
+                                <ion-select formControlName="idTeam">
+                                    <ion-select-option *ngFor="let t of selectedEventStorage.teams" [value]="t.key">
+                                        {{t.nickname}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label position="floating">
+                                    Device Name
+                                </ion-label>
+                                <ion-input formControlName="txDeviceName"></ion-input>
+                            </ion-item>
+                        </ion-list>
                         <ion-item-group>
                             <ion-item-divider>
                                 <ion-label>
@@ -70,205 +77,207 @@
                                 </ion-item>
                             </ion-list>
                         </ion-item-group>
+                    </ion-col>
+                </ion-row>
 
-                        <ion-item-group formGroupName="robotStats">
-                            <ion-item-divider>
-                                <ion-label>
-                                    Robot Stats
-                                </ion-label>
-                            </ion-item-divider>
-                            <ion-list class="ns-pit-list">
-                                <ion-item>
-                                    <ion-label position="floating" >
-                                        Weight
-                                    </ion-label>
-                                    <ion-input *ngIf="!imperialUnits"
-                                               type="number"
-                                               formControlName="numWeight" placeholder="(kg)"></ion-input>
-                                    <ion-input *ngIf="imperialUnits"
-                                               type="number"
-                                               formControlName="numWeight" placeholder="(lb)"></ion-input>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label position="floating" >
-                                        Height
-                                    </ion-label>
-                                    <ion-input *ngIf="!imperialUnits"
-                                               type="number"
-                                               formControlName="numHeight" placeholder="(cm)"></ion-input>
-                                    <ion-input *ngIf="imperialUnits"
-                                               type="number"
-                                               formControlName="numHeight" placeholder="(inches)"></ion-input>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label position="floating" >
-                                        Team Uniform
-                                    </ion-label>
-                                    <ion-input formControlName="imgTeamUniform"></ion-input>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label position="floating" >
-                                        Robot Front
-                                    </ion-label>
-                                    <ion-input formControlName="imgRobotFront"></ion-input>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label position="floating" >
-                                        Robot Side
-                                    </ion-label>
-                                    <ion-input formControlName="imgRobotSide"></ion-input>
-                                </ion-item>
-                            </ion-list>
-                        </ion-item-group>
-
-                        <ion-item-group formGroupName="powerCells">
-                            <ion-item-divider>
-                                <ion-label>
-                                    Power Cells
-                                </ion-label>
-                            </ion-item-divider>
-                            <ion-list class="ns-pit-list">
-                                <ion-item [color]="pitForm.value['powerCells']['flCells'] ? 'success' : 'warning'">
-                                    <ion-label>
-                                        Manipulate
-                                    </ion-label>
-                                    <ion-toggle formControlName="flCells" color="primary"></ion-toggle>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label>
-                                        Ground Intake
-                                    </ion-label>
-                                    <ion-toggle formControlName="flIntakeGround" color="primary">
-                                    </ion-toggle>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label>
-                                        High Loading Station Intake
-                                    </ion-label>
-                                    <ion-toggle formControlName="flIntakeHigh" color="primary"></ion-toggle>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label position="floating">
-                                        Storage Capacity
-                                    </ion-label>
-                                    <ion-input type="number" formControlName="numStorage" placeholder="(number)"></ion-input>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label position="floating">
-                                        Shooting Mechanism
-                                    </ion-label>
-                                    <ion-textarea formControlName="txShooting" placeholder="Description of mechanism" ></ion-textarea>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-list>
-                                        <ion-item lines="none">
-                                            <ion-label>
-                                                Lower Target
+                <ion-row class="ion-justify-content-center">
+                    <ion-col size-lg="5">
+                        <ion-row>
+                            <ion-col class="ns-card-form">
+                                <ion-item-group formGroupName="robotStats">
+                                    <ion-item-divider>
+                                        <ion-label>
+                                            Robot Stats
+                                        </ion-label>
+                                    </ion-item-divider>
+                                    <ion-list class="ns-list-indent">
+                                        <ion-item>
+                                            <ion-label position="floating" >
+                                                Weight
                                             </ion-label>
-                                            <ion-toggle formControlName="flTargetLow"></ion-toggle>
-                                        </ion-item>
-                                        <ion-item lines="none">
-                                            <ion-label>
-                                                Outer Target
-                                            </ion-label>
-                                            <ion-toggle formControlName="flTargetOuter"></ion-toggle>
-                                        </ion-item>
-                                        <ion-item lines="none">
-                                            <ion-label>
-                                                Inner Target
-                                            </ion-label>
-                                            <ion-toggle formControlName="flTargetInner"></ion-toggle>
-                                        </ion-item>
-                                    </ion-list>
-                                </ion-item>
-                            </ion-list>
-                        </ion-item-group>
-
-                        <ion-item-group formGroupName="climb">
-                            <ion-item-divider>
-                                <ion-label>
-                                    Climb
-                                </ion-label>
-                            </ion-item-divider>
-                            <ion-row>
-                                <ion-col>
-                                    <ion-list class="ns-pit-list">
-                                        <ion-item [color]="pitForm.value['climb']['flClimb'] ? 'success' : 'warning'">
-                                            <ion-label>
-                                                Can Climb
-                                            </ion-label>
-                                            <ion-toggle formControlName="flClimb"></ion-toggle>
+                                            <ion-input *ngIf="!imperialUnits"
+                                                       type="number"
+                                                       formControlName="numWeight" placeholder="(kg)"></ion-input>
+                                            <ion-input *ngIf="imperialUnits"
+                                                       type="number"
+                                                       formControlName="numWeight" placeholder="(lb)"></ion-input>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>
-                                                Climb Type
-                                            </ion-label>
-                                            <ion-select formControlName="idClimbType">
-                                                <ion-select-option value="1">Rigid</ion-select-option>
-                                                <ion-select-option value="2">Flexible</ion-select-option>
-                                            </ion-select>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label position="floating">
+                                            <ion-label position="floating" >
                                                 Height
                                             </ion-label>
-                                            <ion-input formControlName="numClimbHeight" type="number"></ion-input>
+                                            <ion-input *ngIf="!imperialUnits"
+                                                       type="number"
+                                                       formControlName="numHeight" placeholder="(cm)"></ion-input>
+                                            <ion-input *ngIf="imperialUnits"
+                                                       type="number"
+                                                       formControlName="numHeight" placeholder="(inches)"></ion-input>
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label position="floating" >
+                                                Team Uniform
+                                            </ion-label>
+                                            <ion-input formControlName="imgTeamUniform"></ion-input>
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label position="floating" >
+                                                Robot Front
+                                            </ion-label>
+                                            <ion-input formControlName="imgRobotFront"></ion-input>
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label position="floating" >
+                                                Robot Side
+                                            </ion-label>
+                                            <ion-input formControlName="imgRobotSide"></ion-input>
+                                        </ion-item>
+                                    </ion-list>
+                                </ion-item-group>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col class="ns-card-form">
+                                    <ion-list formGroupName="powerCells">
+                                        <ion-item [color]="pitForm.value['powerCells']['flCells'] ? 'success' : 'warning'">
+                                            <ion-label>
+                                                Can Manipulate Power Cells
+                                            </ion-label>
+                                            <ion-toggle formControlName="flCells" color="primary"></ion-toggle>
                                         </ion-item>
                                         <ion-item>
                                             <ion-label>
-                                                Secure Hold
+                                                Ground Intake
                                             </ion-label>
-                                            <ion-toggle formControlName="flClimbSecure"></ion-toggle>
+                                            <ion-toggle formControlName="flIntakeGround" color="primary">
+                                            </ion-toggle>
                                         </ion-item>
                                         <ion-item>
                                             <ion-label>
-                                                Time (Grip)
+                                                High Loading Station Intake
                                             </ion-label>
-                                            <ion-select formControlName="idClimbGrab">
-                                                <ion-select-option value="1">NA</ion-select-option>
-                                                <ion-select-option value="2">Slow</ion-select-option>
-                                                <ion-select-option value="3">Medium</ion-select-option>
-                                                <ion-select-option value="4">Fast</ion-select-option>
-                                            </ion-select>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>
-                                                Time (Grip to Climb)
-                                            </ion-label>
-                                            <ion-select formControlName="idClimbSpeed">
-                                                <ion-select-option value="1">NA</ion-select-option>
-                                                <ion-select-option value="2">Slow</ion-select-option>
-                                                <ion-select-option value="3">Medium</ion-select-option>
-                                                <ion-select-option value="4">Fast</ion-select-option>
-                                            </ion-select>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label>
-                                                Tilting
-                                            </ion-label>
-                                            <ion-toggle formControlName="flClimbTilt"></ion-toggle>
+                                            <ion-toggle formControlName="flIntakeHigh" color="primary"></ion-toggle>
                                         </ion-item>
                                         <ion-item>
                                             <ion-label position="floating">
-                                                Climb Mechanism
+                                                Storage Capacity
                                             </ion-label>
-                                            <ion-textarea formControlName="txClimb" placeholder="Description of climb mechanism" >
-                                            </ion-textarea>
+                                            <ion-input type="number" formControlName="numStorage" placeholder="(number)"></ion-input>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>
-                                                Preferred Position
+                                            <ion-label position="floating">
+                                                Shooting Mechanism
                                             </ion-label>
-                                            <ion-select formControlName="idClimbPos">
-                                                <ion-select-option value="1">NA</ion-select-option>
-                                                <ion-select-option value="2">Any</ion-select-option>
-                                                <ion-select-option value="3">Inner</ion-select-option>
-                                                <ion-select-option value="4">Middle</ion-select-option>
-                                                <ion-select-option value="5">Outer</ion-select-option>
-                                            </ion-select>
+                                            <ion-textarea formControlName="txShooting" placeholder="Description of mechanism" ></ion-textarea>
                                         </ion-item>
+                                        <ion-item>
+                                            <ion-list>
+                                                <ion-item lines="none">
+                                                    <ion-label>
+                                                        Lower Target
+                                                    </ion-label>
+                                                    <ion-toggle formControlName="flTargetLow"></ion-toggle>
+                                                </ion-item>
+                                                <ion-item lines="none">
+                                                    <ion-label>
+                                                        Outer Target
+                                                    </ion-label>
+                                                    <ion-toggle formControlName="flTargetOuter"></ion-toggle>
+                                                </ion-item>
+                                                <ion-item lines="none">
+                                                    <ion-label>
+                                                        Inner Target
+                                                    </ion-label>
+                                                    <ion-toggle formControlName="flTargetInner"></ion-toggle>
+                                                </ion-item>
+                                            </ion-list>
+                                        </ion-item>
+                                    </ion-list>
+                            </ion-col>
+                        </ion-row>
 
-                                        <ion-item-group>
+                    </ion-col>
+
+                    <ion-col size-lg="5">
+                        <ion-row>
+                            <ion-col class="ns-card-form">
+                                <ion-list class="ns-pit-list" formGroupName="climb">
+                                    <ion-item [color]="pitForm.value['climb']['flClimb'] ? 'success' : 'warning'">
+                                        <ion-label>
+                                            Can Climb
+                                        </ion-label>
+                                        <ion-toggle formControlName="flClimb"></ion-toggle>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label>
+                                            Climb Type
+                                        </ion-label>
+                                        <ion-select formControlName="idClimbType">
+                                            <ion-select-option value="1">Rigid</ion-select-option>
+                                            <ion-select-option value="2">Flexible</ion-select-option>
+                                        </ion-select>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label position="floating">
+                                            Height
+                                        </ion-label>
+                                        <ion-input formControlName="numClimbHeight" type="number"></ion-input>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label>
+                                            Secure Hold
+                                        </ion-label>
+                                        <ion-toggle formControlName="flClimbSecure"></ion-toggle>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label>
+                                            Time (Grip)
+                                        </ion-label>
+                                        <ion-select formControlName="idClimbGrab">
+                                            <ion-select-option value="1">NA</ion-select-option>
+                                            <ion-select-option value="2">Slow</ion-select-option>
+                                            <ion-select-option value="3">Medium</ion-select-option>
+                                            <ion-select-option value="4">Fast</ion-select-option>
+                                        </ion-select>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label>
+                                            Time (Grip to Climb)
+                                        </ion-label>
+                                        <ion-select formControlName="idClimbSpeed">
+                                            <ion-select-option value="1">NA</ion-select-option>
+                                            <ion-select-option value="2">Slow</ion-select-option>
+                                            <ion-select-option value="3">Medium</ion-select-option>
+                                            <ion-select-option value="4">Fast</ion-select-option>
+                                        </ion-select>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label>
+                                            Tilting
+                                        </ion-label>
+                                        <ion-toggle formControlName="flClimbTilt"></ion-toggle>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label position="floating">
+                                            Climb Mechanism
+                                        </ion-label>
+                                        <ion-textarea formControlName="txClimb" placeholder="Description of climb mechanism" >
+                                        </ion-textarea>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-label>
+                                            Preferred Position
+                                        </ion-label>
+                                        <ion-select formControlName="idClimbPos">
+                                            <ion-select-option value="1">NA</ion-select-option>
+                                            <ion-select-option value="2">Any</ion-select-option>
+                                            <ion-select-option value="3">Inner</ion-select-option>
+                                            <ion-select-option value="4">Middle</ion-select-option>
+                                            <ion-select-option value="5">Outer</ion-select-option>
+                                        </ion-select>
+                                    </ion-item>
+
+
+                                        <ion-list class="ns-pit-list">
                                             <ion-item
                                                     [color]="pitForm.value['climb']['flClimbLevel'] ? 'success' : 'warning'" >
                                                 <ion-label>
@@ -278,56 +287,58 @@
                                                         color="primary"
                                                         formControlName="flClimbLevel"></ion-toggle>
                                             </ion-item>
-                                            <ion-list class="ns-pit-list">
-                                                <ion-item>
-                                                    <ion-label>
-                                                        Level Self
-                                                    </ion-label>
-                                                    <ion-toggle color="primary" formControlName="flClimbLevelSelf"></ion-toggle>
-                                                </ion-item>
-                                                <ion-item>
-                                                    <ion-label>
-                                                        Level Other
-                                                    </ion-label>
-                                                    <ion-toggle color="primary" formControlName="flClimbLevelOther"></ion-toggle>
-                                                </ion-item>
-                                                <ion-item>
-                                                    <ion-label>
-                                                        Reposition While Hanging
-                                                    </ion-label>
-                                                    <ion-toggle color="primary" formControlName="flClimbMove">
-                                                    </ion-toggle>
-                                                </ion-item>
-                                                <ion-item>
-                                                    <ion-label>
-                                                        Buddy Climb
-                                                    </ion-label>
-                                                    <ion-toggle color="primary" formControlName="flClimbOther">
-                                                    </ion-toggle>
-                                                </ion-item>
-                                                <ion-item>
-                                                    <ion-label position="floating">
-                                                        Buddies
-                                                    </ion-label>
-                                                    <ion-input
-                                                            type="number"
-                                                            placeholder="(How many?)"
-                                                            formControlName="numClimbOther"></ion-input>
-                                                </ion-item>
-                                            </ion-list>
-                                        </ion-item-group>
-                                    </ion-list>
-                                </ion-col>
-                            </ion-row>
-                        </ion-item-group>
+                                            <ion-item>
+                                                <ion-label>
+                                                    Level Self
+                                                </ion-label>
+                                                <ion-toggle color="primary" formControlName="flClimbLevelSelf"></ion-toggle>
+                                            </ion-item>
+                                            <ion-item>
+                                                <ion-label>
+                                                    Level Other
+                                                </ion-label>
+                                                <ion-toggle color="primary" formControlName="flClimbLevelOther"></ion-toggle>
+                                            </ion-item>
+                                            <ion-item>
+                                                <ion-label>
+                                                    Reposition While Hanging
+                                                </ion-label>
+                                                <ion-toggle color="primary" formControlName="flClimbMove">
+                                                </ion-toggle>
+                                            </ion-item>
+                                            <ion-item>
+                                                <ion-label>
+                                                    Buddy Climb
+                                                </ion-label>
+                                                <ion-toggle color="primary" formControlName="flClimbOther">
+                                                </ion-toggle>
+                                            </ion-item>
+                                            <ion-item>
+                                                <ion-label position="floating">
+                                                    Buddies
+                                                </ion-label>
+                                                <ion-input
+                                                        type="number"
+                                                        placeholder="(How many?)"
+                                                        formControlName="numClimbOther"></ion-input>
+                                            </ion-item>
+                                        </ion-list>
+                                </ion-list>
+                            </ion-col>
+                        </ion-row>
+                    </ion-col>
 
+                </ion-row>
+
+                <ion-row class="ion-justify-content-center">
+                    <ion-col size-lg="5" class="ns-card-form" style="margin-right: 10px">
                         <ion-item-group formGroupName="controlPanel">
                             <ion-item-divider>
                                 <ion-label>
                                     Control Panel
                                 </ion-label>
                             </ion-item-divider>
-                            <ion-list class="ns-pit-list">
+                            <ion-list class="ns-list-indent">
                                 <ion-item [color]="pitForm.value['controlPanel']['flPanel'] ? 'success' : 'warning'" >
                                     <ion-label>
                                         Manipulate Control Panel
@@ -366,7 +377,8 @@
                                 </ion-item>
                             </ion-list>
                         </ion-item-group>
-
+                    </ion-col>
+                    <ion-col class="ns-card-form" size-lg="5">
                         <ion-item-group formGroupName="auto">
                             <ion-item-divider>
                                 <ion-label>
@@ -408,6 +420,8 @@
 
                         </ion-item-group>
 
+
+
                     </ion-col>
                 </ion-row>
 
@@ -441,6 +455,8 @@
                     </ion-col>
                 </ion-row>
             </ion-col>
+
+
         </ion-row>
 
     </form>

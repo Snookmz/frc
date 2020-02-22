@@ -14,11 +14,13 @@ export class ControlPanel {
     tele_idPanelRotationTime: number;
     tele_flPanelPosition: boolean;
     tele_idPanelPositionTime: number;
+    tele_numPanelFailure: number;
     constructor() {
         this.tele_flPanelRotation = false;
         this.tele_idPanelRotationTime = 0;
         this.tele_flPanelPosition = false;
         this.tele_idPanelPositionTime = 0;
+        this.tele_numPanelFailure = 0;
     }
 }
 

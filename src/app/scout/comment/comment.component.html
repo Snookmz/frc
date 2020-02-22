@@ -1,6 +1,181 @@
-<ion-row>
-    <ion-col>
-        Comment Form
-    </ion-col>
-</ion-row>
+<form [formGroup]="commentForm">
+    <ion-row>
+        <ion-col class="ns-card-form">
+            <ion-row>
+                <ion-col>
+                    <ion-item color="primary">
+                        <ion-label>
+                            Quick Ratings
+                        </ion-label>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col formGroupName="drive">
+                    <ion-list>
+                        <ion-item>
+                            <ion-label>
+                                Assist
+                            </ion-label>
+                            <ion-toggle formControlName="comm_flAssist" color="primary"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Ability
+                            </ion-label>
+                            <ion-select formControlName="comm_flAssist">
+                                <ion-select-option value="1">Terrible</ion-select-option>
+                                <ion-select-option value="2">Average</ion-select-option>
+                                <ion-select-option value="3">Good</ion-select-option>
+                                <ion-select-option value="4">Amazing</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Defence Rating
+                            </ion-label>
+                            <ion-select formControlName="comm_idDefenceRating">
+                                <ion-select-option value="1">NA</ion-select-option>
+                                <ion-select-option value="2">Weak</ion-select-option>
+                                <ion-select-option value="3">Harassment</ion-select-option>
+                                <ion-select-option value="4">Game Changing</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+                <ion-col formGroupName="quickRatings">
+                    <ion-row>
+                        <ion-col>
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label>
+                                        Worked with Alliance
+                                    </ion-label>
+                                    <ion-toggle formControlName="comm_flAlliance" color="primary"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Worked to a Strategy
+                                    </ion-label>
+                                    <ion-toggle formControlName="comm_flStrategy" color="primary"></ion-toggle>
+                                </ion-item>
+                            </ion-list>
+                        </ion-col>
+                        <ion-col>
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label>
+                                        No Teamwork
+                                    </ion-label>
+                                    <ion-toggle formControlName="comm_flOwnThing" color="primary"></ion-toggle>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Recovered
+                                    </ion-label>
+                                    <ion-toggle formControlName="comm_flRecovery" color="primary"></ion-toggle>
+                                </ion-item>
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+
+                </ion-col>
+            </ion-row>
+
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-row>
+                <ion-col formGroupName="loadType" class="ns-card-form">
+                    <ion-list>
+                        <ion-item color="primary">
+                            <ion-label>
+                                Intake
+                            </ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Ground Intake</ion-label>
+                            <ion-toggle formControlName="comm_flIntakeGround" color="primary"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>High Intake</ion-label>
+                            <ion-toggle formControlName="comm_flIntakeHigh" color="primary"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Robot Intake</ion-label>
+                            <ion-toggle formControlName="comm_flIntakeRobot" color="primary"></ion-toggle>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+                <ion-col formGroupName="shotType" class="ns-card-form">
+                    <ion-list>
+                        <ion-item color="primary">
+                            <ion-label>Shot Type</ion-label>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Far Side
+                            </ion-label>
+                            <ion-toggle formControlName="comm_flShotFar"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Mid Zone
+                            </ion-label>
+                            <ion-toggle formControlName="comm_flShotMid"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Near Zone
+                            </ion-label>
+                            <ion-toggle formControlName="comm_flShotNear"></ion-toggle>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>
+                                Wall
+                            </ion-label>
+                            <ion-toggle formControlName="comm_flShotWall"></ion-toggle>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col formGroupName="advice">
+            <ion-item color="primary">
+                <ion-label>
+                    Comments
+                </ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-textarea placeholder="Comments on performance" formControlName="comm_txNotes"></ion-textarea>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    Highlight team (consider regardless of performance)
+                </ion-label>
+                <ion-toggle color="primary" formControlName="comm_flHighlight"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>
+                    Warning (Scout team further before considering)
+                </ion-label>
+                <ion-toggle color="primary" formControlName="comm_flWarning"></ion-toggle>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+        <ion-col size-lg="6">
+            <ion-button
+                    [disabled]="commentForm.pristine || commentForm.invalid"
+                    expand="block" color="success">
+                Save Comments
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</form>
 

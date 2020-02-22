@@ -64,6 +64,7 @@ export class PitComponent implements OnInit {
       details: this.fb.group({
         idTeam: [teamKey, Validators.required],
         // name: ['', Validators.required],
+        txDeviceName: this.selectedEventStorage.deviceName,
         txScoutName: [ps.pit.details.txScoutName, Validators.required],
       }),
       robotStats: this.fb.group({
