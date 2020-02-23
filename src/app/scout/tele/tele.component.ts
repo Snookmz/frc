@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../../services/loggerService/logger.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-tele',
@@ -13,10 +14,11 @@ export class TeleComponent implements OnInit {
 
   constructor(
       private fb: FormBuilder,
-      private logger: LoggerService
+      private logger: LoggerService,
+      public router: Router,
   ) { }
 
-  private createTeleForm(): void {
+  public createTeleForm(): void {
     this.teleForm = this.fb.group({
       controlPanel: this.fb.group({
         tele_flPanelRotation: false,
@@ -52,7 +54,6 @@ export class TeleComponent implements OnInit {
   }
 
   public decreaseValue(group: string, el: string): void {
-    this.logger.max('TeleComponent, decreaseValue of: ', group, el);
     let currentVal: number = parseInt(this.teleForm.value[group][el], 10);
     if (currentVal === 0) {
       currentVal = 0;
@@ -61,17 +62,26 @@ export class TeleComponent implements OnInit {
     if (currentVal < 1) {
       currentVal = 0;
     }
+    if (el === 'tele_numCellSuccess') {
+      this.decreaseValue(group, 'tele_numCellAttempt');
+    } else if (el === 'tele_numPanelSuccess') {
+      this.decreaseValue(group, 'tele_numPanelAttempt');
+    }
     this.teleForm.patchValue({[group]: {[el]: currentVal}});
   }
 
 
   public increaseValue(group: string, el: string): void {
-    this.logger.max('TeleComponent, increaseValue of: ', group, el);
     let currentVal: number = parseInt(this.teleForm.value[group][el], 10);
     if (currentVal === 0) {
       currentVal = 0;
     }
     currentVal++;
+    if (el === 'tele_numCellSuccess') {
+      this.increaseValue(group, 'tele_numCellAttempt');
+    } else if (el === 'tele_numPanelSuccess') {
+      this.increaseValue(group, 'tele_numPanelAttempt');
+    }
     this.teleForm.patchValue({[group]: {[el]: currentVal}});
   }
 

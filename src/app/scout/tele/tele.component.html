@@ -1,11 +1,11 @@
 <form [formGroup]="teleForm" novalidate *ngIf="teleForm !== undefined">
     <ion-row>
         <ion-col>
-            <ion-row formGroupName="performance" *ngIf="false">
+            <ion-row formGroupName="performance">
                 <ion-col class="ns-card-form">
                     <ion-row>
                         <ion-col>
-                            <ion-item color="primary">
+                            <ion-item color="medium">
                                 <ion-label>
                                     Rocket
                                 </ion-label>
@@ -14,45 +14,35 @@
                     </ion-row>
                     <ion-row>
                         <ion-col>
-                            <ion-row>
-                                <ion-col size="12">
-                                    <ion-item lines="none">
-                                        <ion-label>
-                                            Cell Attempts
-                                        </ion-label>
-                                    </ion-item>
-                                </ion-col>
-                            </ion-row>
-                            <ion-row>
-                                <ion-col>
-                                    <ion-button
-                                            color="success"
-                                            (click)="increaseValue('performance','tele_numCellAttempt')">
-                                        +
-                                    </ion-button>
-                                </ion-col>
-                                <ion-col>
-                                    {{teleForm.value['performance']['tele_numCellAttempt']}}
-                                </ion-col>
-                                <ion-col>
-                                    <ion-button
-                                            color="danger"
-                                            (click)="decreaseValue('performance', 'tele_numCellAttempt')">
-                                        -
-                                    </ion-button>
-                                </ion-col>
-                            </ion-row>
-                            <ion-row>
-                                <ion-col>
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Cell Attempts
+                                    </ion-label>
                                     <ion-row>
                                         <ion-col>
-                                            <ion-item lines="none">
-                                                <ion-label>
-                                                    Cell Success
-                                                </ion-label>
-                                            </ion-item>
+                                            <ion-button
+                                                    color="success"
+                                                    (click)="increaseValue('performance','tele_numCellAttempt')">
+                                                +
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-input type="number" formControlName="tele_numCellAttempt"></ion-input>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-button
+                                                    color="danger"
+                                                    (click)="decreaseValue('performance', 'tele_numCellAttempt')">
+                                                -
+                                            </ion-button>
                                         </ion-col>
                                     </ion-row>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Cell Success
+                                    </ion-label>
                                     <ion-row>
                                         <ion-col>
                                             <ion-button
@@ -62,7 +52,7 @@
                                             </ion-button>
                                         </ion-col>
                                         <ion-col>
-                                            {{teleForm.value['performance']['tele_numCellSuccess']}}
+                                            <ion-input type="number" formControlName="tele_numCellSuccess"></ion-input>
                                         </ion-col>
                                         <ion-col>
                                             <ion-button
@@ -72,27 +62,27 @@
                                             </ion-button>
                                         </ion-col>
                                     </ion-row>
-                                </ion-col>
-                            </ion-row>
+                                </ion-item>
+                            </ion-list>
                         </ion-col>
                         <ion-col>
                             <img src="assets/imgs/ports.png" style="width: 100px" >
                         </ion-col>
                         <ion-col>
                             <ion-list>
-                                <ion-item class="ns-pointer" (click)="setTelePosition('tele_flOuter')">
+                                <ion-item class="ns-pointer">
                                     <ion-label>
                                         Outer
                                     </ion-label>
                                     <ion-toggle formControlName="tele_flOuter" color="primary"></ion-toggle>
                                 </ion-item>
-                                <ion-item class="ns-pointer" (click)="setTelePosition('tele_flInner')">
+                                <ion-item class="ns-pointer">
                                     <ion-label>
                                         Inner
                                     </ion-label>
                                     <ion-toggle formControlName="tele_flInner" color="primary"></ion-toggle>
                                 </ion-item>
-                                <ion-item class="ns-pointer" (click)="setTelePosition('tele_flLower')">
+                                <ion-item class="ns-pointer">
                                     <ion-label>
                                         Lower
                                     </ion-label>
@@ -107,7 +97,7 @@
                 <ion-col>
                     <ion-row>
                         <ion-col>
-                            <ion-item color="primary">
+                            <ion-item color="medium">
                                 <ion-label>
                                     Control Panel
                                 </ion-label>
@@ -162,34 +152,59 @@
 
                     <ion-row>
                         <ion-col size="6">
-                            <ion-row>
-                                <ion-col size="12">
-                                    <ion-item lines="none">
-                                        <ion-label>
-                                            Attempts
-                                        </ion-label>
-                                    </ion-item>
-                                </ion-col>
-                            </ion-row>
-                            <ion-row class="ion-justify-content-center">
-                                <ion-col size="3">
-                                    <ion-button
-                                            color="success"
-                                            (click)="increaseValue('controlPanel', 'tele_numPanelAttempt')">
-                                        +
-                                    </ion-button>
-                                </ion-col>
-                                <ion-col size="1">
-                                    {{teleForm.value['controlPanel']['tele_numPanelAttempt']}}
-                                </ion-col>
-                                <ion-col size="3">
-                                    <ion-button
-                                            color="danger"
-                                            (click)="decreaseValue('controlPanel', 'tele_numPanelAttempt')">
-                                        -
-                                    </ion-button>
-                                </ion-col>
-                            </ion-row>
+
+                            <ion-list>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Panel Attempts
+                                    </ion-label>
+                                    <ion-row class="ion-justify-content-center">
+                                        <ion-col>
+                                            <ion-button
+                                                    color="success"
+                                                    (click)="increaseValue('controlPanel', 'tele_numPanelAttempt')">
+                                                +
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-input type="number" formControlName="tele_numPanelAttempt"></ion-input>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-button
+                                                    color="danger"
+                                                    (click)="decreaseValue('controlPanel', 'tele_numPanelAttempt')">
+                                                -
+                                            </ion-button>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="floating">
+                                        Panel Success
+                                    </ion-label>
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-button
+                                                    color="success"
+                                                    (click)="increaseValue('controlPanel', 'tele_numPanelSuccess')">
+                                                +
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-input type="number" formControlName="tele_numPanelSuccess"></ion-input>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-button
+                                                    color="danger"
+                                                    (click)="decreaseValue('controlPanel', 'tele_numPanelSuccess')">
+                                                -
+                                            </ion-button>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-item>
+                            </ion-list>
+
+
                             <ion-row class="ion-justify-content-center">
                                 <ion-col size="6">
                                     <ion-row>
@@ -201,25 +216,7 @@
                                             </ion-item>
                                         </ion-col>
                                     </ion-row>
-                                    <ion-row>
-                                        <ion-col>
-                                            <ion-button
-                                                    color="success"
-                                                    (click)="increaseValue('controlPanel', 'tele_numPanelSuccess')">
-                                                +
-                                            </ion-button>
-                                        </ion-col>
-                                        <ion-col size="1">
-                                            {{teleForm.value['controlPanel']['tele_numPanelSuccess']}}
-                                        </ion-col>
-                                        <ion-col>
-                                            <ion-button
-                                                    color="danger"
-                                                    (click)="decreaseValue('controlPanel', 'tele_numPanelSuccess')">
-                                                -
-                                            </ion-button>
-                                        </ion-col>
-                                    </ion-row>
+
                                 </ion-col>
                             </ion-row>
                         </ion-col>
@@ -236,7 +233,7 @@
         </ion-col>
         <ion-col formGroupName="endGame">
             <ion-list>
-                <ion-item color="primary">
+                <ion-item color="medium">
                     <ion-label>
                         End Game
                     </ion-label>
@@ -291,22 +288,25 @@
                     </ion-select>
                 </ion-item>
                 <ion-item>
-                    <ion-label>
+                    <ion-label position="floating">
                         Buddies
                     </ion-label>
-                    <ion-col>
-                        {{teleForm.value['endGame']['tele_numClimbOthers']}}
-                    </ion-col>
-                    <ion-col size="1">
-                        <ion-button
-                                (click)="increaseValue('endGame', 'tele_numClimbOthers')"
-                                color="success">+</ion-button>
-                    </ion-col>
-                    <ion-col size="1">
-                        <ion-button
-                                (click)="decreaseValue('endGame', 'tele_numClimbOthers')"
-                                color="danger">-</ion-button>
-                    </ion-col>
+                    <ion-row>
+                        <ion-col>
+                            <ion-button
+                                    (click)="increaseValue('endGame', 'tele_numClimbOthers')"
+                                    color="success">+</ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-input type="number" formControlName="tele_numClimbOthers"></ion-input>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button
+                                    (click)="decreaseValue('endGame', 'tele_numClimbOthers')"
+                                    color="danger">-</ion-button>
+                        </ion-col>
+                    </ion-row>
+
                 </ion-item>
                 <ion-item>
                     <ion-label>
@@ -316,13 +316,13 @@
                 </ion-item>
                 <ion-item>
                     <ion-label>
-                       Correction
+                       Balance Correction
                     </ion-label>
                     <ion-toggle formControlName="tele_flClimbCorrection" color="primary"></ion-toggle>
                 </ion-item>
                 <ion-item>
                     <ion-label>
-                        Fail
+                        Fall
                     </ion-label>
                     <ion-toggle formControlName="tele_flClimbFall" color="primary"></ion-toggle>
                 </ion-item>
@@ -330,11 +330,21 @@
         </ion-col>
     </ion-row>
     <ion-row class="ion-justify-content-center">
-        <ion-col size-lg="6">
+        <ion-col>
             <ion-button
                     [disabled]="teleForm.pristine || teleForm.invalid"
                     expand="block" color="success">
                 Save Tele
+            </ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button expand="block" color="light" (click)="createTeleForm()">
+                Cancel
+            </ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button color="danger" expand="block" (click)="router.navigateByUrl('/setup')">
+                Cancel
             </ion-button>
         </ion-col>
     </ion-row>
