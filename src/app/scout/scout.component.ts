@@ -12,9 +12,11 @@ import {Route, Router} from '@angular/router';
 })
 export class ScoutComponent implements OnInit {
 
+  public driveStationColor = '';
   public parentDataForm: FormGroup;
   public selectedEventStorage: EventStorage;
   public selectedForm = 'auto';
+
 
   constructor(
       private dataStorageService: DataStorageService,
@@ -30,14 +32,14 @@ export class ScoutComponent implements OnInit {
       teamDetails: this.fb.group({
         numMatch: ['', Validators.required],
         idAlliance: ['', Validators.required],
-        idDriveStation: ['', Validators.required],
+        idDriveStation: [{value: '', disabled: true}, Validators.required],
         idTeam: ['', Validators.required],
-        txScoutName: [this.selectedEventStorage.deviceName, Validators.required]
+        txScoutName: ''
       }),
       matchSetup: this.fb.group({
         idStartFacing: '',
         idStartPosition: '',
-        numStartCells: '',
+        numStartCells: 0,
       }),
       results: this.fb.group({
         flRed: false,
@@ -48,6 +50,7 @@ export class ScoutComponent implements OnInit {
       })
 
     });
+    this.onFormChange();
     this.logger.debug('ScoutComponent, createScoutForm, returning: ', this.parentDataForm);
   }
 
@@ -56,11 +59,47 @@ export class ScoutComponent implements OnInit {
     this.logger.max('ScoutComponent, getSelectedEventStorage: ', this.selectedEventStorage);
   }
 
+
+  public decreaseValue(group: string, el: string): void {
+    let currentVal: number = parseInt(this.parentDataForm.value[group][el], 10);
+    if (currentVal === 0) {
+      currentVal = 0;
+    }
+    currentVal--;
+    if (currentVal < 1) {
+      currentVal = 0;
+    }
+    this.parentDataForm.patchValue({[group]: {[el]: currentVal}});
+  }
+
+
+  public increaseValue(group: string, el: string): void {
+    let currentVal: number = parseInt(this.parentDataForm.value[group][el], 10);
+    if (currentVal === 0) {
+      currentVal = 0;
+    }
+    currentVal++;
+    this.parentDataForm.patchValue({[group]: {[el]: currentVal}});
+  }
+
   public selectForm(form: string):void {
     this.selectedForm = form;
     this.router.navigateByUrl(`/scout/${form}`).catch(reason => {
       this.logger.error('ScoutComponent, error navigating to ' + form, reason);
     });
+  }
+
+  private onFormChange(): void {
+    this.parentDataForm.get('teamDetails').get('idAlliance').valueChanges.subscribe(val => {
+      this.logger.max('ScoutComponent, onFormChanges, idAlliance: ', val);
+      this.parentDataForm.get('teamDetails').get('idDriveStation').enable();
+      if (val === '1') {
+        this.driveStationColor = 'Red';
+      } else {
+        this.driveStationColor = 'Blue';
+      }
+      this.logger.max('ScoutComponent, onFormChange, drive station color: ', this.driveStationColor);
+    })
   }
 
 

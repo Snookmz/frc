@@ -22,11 +22,30 @@
     <ion-row class="ion-justify-content-center" *ngIf="selectedEventStorage.teams.length !== 0">
         <ion-col>
             <form [formGroup]="parentDataForm" novalidate>
-                <ion-row>
-                    <ion-col>
-                        <h1>
-                            {{selectedEventStorage.event.name}}
-                        </h1>
+                <ion-row class="ion-justify-content-center">
+                    <ion-col size-lg="10" class="ns-card-form">
+                        <ion-row>
+                            <ion-col>
+                                <ion-item lines="none">
+                                    <ion-label position="floating">
+                                        Event
+                                    </ion-label>
+                                    <h1>
+                                        {{selectedEventStorage.event.name}}
+                                    </h1>
+                                </ion-item>
+
+                            </ion-col>
+                            <ion-col formGroupName="teamDetails">
+                                <ion-item style="padding-top: 8px">
+                                    <ion-label position="floating">
+                                        Scout Name
+                                    </ion-label>
+                                    <ion-input formControlName="txScoutName" placeholder="(Scout Name)"></ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+
                     </ion-col>
                 </ion-row>
                 <ion-row class="ion-justify-content-center">
@@ -47,7 +66,7 @@
                                     <ion-label position="floating">
                                         Alliance
                                     </ion-label>
-                                    <ion-select formGroupName="idAlliance" placeholder="(select color)">
+                                    <ion-select formControlName="idAlliance" placeholder="(select color)">
                                         <ion-select-option value="1">Red</ion-select-option>
                                         <ion-select-option value="2">Blue</ion-select-option>
                                     </ion-select>
@@ -58,10 +77,10 @@
                                     <ion-label position="floating">
                                         Drive Station
                                     </ion-label>
-                                    <ion-select formGroupName="idDriveStation" placeholder="(select station)">
-                                        <ion-select-option value="1">1</ion-select-option>
-                                        <ion-select-option value="2">2</ion-select-option>
-                                        <ion-select-option value="3">3</ion-select-option>
+                                    <ion-select formControlName="idDriveStation" placeholder="(select station)">
+                                        <ion-select-option value="1">{{driveStationColor}} 1</ion-select-option>
+                                        <ion-select-option value="2">{{driveStationColor}} 2</ion-select-option>
+                                        <ion-select-option value="3">{{driveStationColor}} 3</ion-select-option>
                                     </ion-select>
                                 </ion-item>
                             </ion-col>
@@ -70,7 +89,7 @@
                                     <ion-label position="floating">
                                         Team
                                     </ion-label>
-                                    <ion-select formGroupName="idTeam" placeholder="(select team)">
+                                    <ion-select formControlName="idTeam" placeholder="(select team)">
                                         <ion-select-option
                                                 *ngFor="let t of selectedEventStorage.teams" [value]="t.key">
                                             {{t.key}} - {{t.nickname}}
@@ -87,11 +106,6 @@
                             <!--                            </ion-input>-->
                             <!--                        </ion-item>-->
                             <!--                    </ion-col>-->
-                            <ion-col>
-                                <ion-button color="success" *ngIf="parentDataForm.invalid || parentDataForm.pristine">
-                                    Save
-                                </ion-button>
-                            </ion-col>
                         </ion-row>
                         <ion-row formGroupName="matchSetup">
                             <ion-col>
@@ -123,7 +137,23 @@
                                     <ion-label position="floating">
                                         Starting Cells
                                     </ion-label>
-                                    <ion-input type="number" formControlName="numStartCells" placeholder="(cells to start with)"></ion-input>
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-button color="success"
+                                                        (click)="increaseValue('matchSetup', 'numStartCells')">
+                                                +
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-input type="number" formControlName="numStartCells"></ion-input>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-button color="danger"
+                                                        (click)="decreaseValue('matchSetup', 'numStartCells')">
+                                                -
+                                            </ion-button>
+                                        </ion-col>
+                                    </ion-row>
                                 </ion-item>
                             </ion-col>
                         </ion-row>
@@ -198,6 +228,28 @@
                 </ion-row>
 
             </form>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+        <ion-col class="ns-card-form" size-lg="4">
+            <ion-row>
+                <ion-col>
+                    <ion-button color="success" *ngIf="parentDataForm.invalid || parentDataForm.pristine">
+                        Save
+                    </ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button color="light" (click)="parentDataForm.reset()" >Clear</ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button color="danger" (click)="parentDataForm.reset(); router.navigateByUrl('/setup')">
+                        Cancel
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+
+
         </ion-col>
     </ion-row>
 

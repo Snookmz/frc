@@ -53,7 +53,7 @@
                                 </ion-label>
                                 <ion-select formControlName="idTeam">
                                     <ion-select-option *ngFor="let t of selectedEventStorage.teams" [value]="t.key">
-                                        {{t.nickname}}
+                                        {{t.key}} - {{t.nickname}}
                                     </ion-select-option>
                                 </ion-select>
                             </ion-item>

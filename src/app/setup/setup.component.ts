@@ -132,6 +132,11 @@ export class SetupComponent implements OnInit {
           this.spinner = false;
           // this.createTeamForm();
           this.logger.max('SetupComponent, getTeamIdsForEvent, finished');
+          const otherTeam: Team = new Team();
+          otherTeam.key = 'frc00000';
+          otherTeam.nickname = 'Other';
+          otherTeam.name = 'Other';
+          this.selectedEventStorage.teams.push(otherTeam);
         });
       }, reason => {
         this.logger.error('SetupComponent, getTeamIdsForEvent, error: ', reason);
