@@ -235,15 +235,22 @@
         <ion-col class="ns-card-form" size-lg="4">
             <ion-row>
                 <ion-col>
-                    <ion-button color="success" *ngIf="parentDataForm.invalid || parentDataForm.pristine">
+                    <ion-button
+                            (click)="onSubmit()"
+                            expand="block"
+                            color="success" *ngIf="parentDataForm.invalid || parentDataForm.pristine">
                         Save
                     </ion-button>
                 </ion-col>
                 <ion-col>
-                    <ion-button color="light" (click)="parentDataForm.reset()" >Clear</ion-button>
+                    <ion-button
+                            expand="block"
+                            color="light" (click)="parentDataForm.reset()" >Clear</ion-button>
                 </ion-col>
                 <ion-col>
-                    <ion-button color="danger" (click)="parentDataForm.reset(); router.navigateByUrl('/setup')">
+                    <ion-button
+                            expand="block"
+                            color="danger" (click)="parentDataForm.reset(); router.navigateByUrl('/setup')">
                         Cancel
                     </ion-button>
                 </ion-col>

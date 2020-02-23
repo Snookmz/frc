@@ -1,0 +1,22 @@
+.ns-auto-ul {
+  list-style: none;
+  margin: 0;
+
+  & li {
+    padding: 10px;
+  }
+}
+
+.ns-auto-ul-blue {
+  @extend .ns-auto-ul;
+  & li {
+    background-color: #3880ff;
+  }
+}
+
+.ns-auto-ul-red {
+  @extend .ns-auto-ul;
+  & li {
+    background-color: #f04141;
+  }
+}

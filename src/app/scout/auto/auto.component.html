@@ -3,26 +3,47 @@
         <ion-col>
             <ion-row>
                 <ion-col class="ns-card-form">
-                    <ion-list>
-                        <ion-item color="primary">
-                            <ion-label>
-                                Driver Position
-                            </ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-item>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item color="medium">
                                 <ion-label>
-                                    Picture of positions
+                                    Driver Position
                                 </ion-label>
                             </ion-item>
-                        </ion-item>
-                    </ion-list>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="2">
+                            <ul class="ns-auto-ul-blue">
+                                <li> :{{parentData.teamDetails.idAlliance}} - {{parentData.teamDetails.idDriveStation}}</li>
+                                <li>
+                                   {{autoForm.value['position']['red1']}}
+                                </li>
+                                <li *ngIf="autoForm.value['position']['red1']">
+                                    Red 1
+
+                                </li>
+                            </ul>
+
+                        </ion-col>
+                        <ion-col>
+                            <img src="assets/imgs/field.png">
+                        </ion-col>
+
+                        <ion-col size="2">
+                            <ul *ngIf="parentData.teamDetails.idAlliance === 1" class="ns-auto-ul-red">
+                                <li *ngIf="parentData.teamDetails.idDriveStation === 1">
+                                    one
+                                </li>
+                            </ul>
+                        </ion-col>
+                    </ion-row>
                 </ion-col>
             </ion-row>
             <ion-row>
                 <ion-col formGroupName="auto" class="ns-card-form">
                     <ion-list>
-                        <ion-item color="primary">
+                        <ion-item color="medium">
                             <ion-label>
                                 Auto
                             </ion-label>
@@ -86,7 +107,7 @@
                 </ion-col>
                 <ion-col formGroupName="performance" class="ns-card-form">
                     <ion-list>
-                        <ion-item color="primary">
+                        <ion-item color="medium">
                             <ion-label>
                                 Performance
                             </ion-label>
@@ -95,17 +116,45 @@
                             <ion-label position="floating">
                                 Cells Fired
                             </ion-label>
-                            <ion-input
-                                    placeholder="(Power cells fired)"
-                                    type="number" formControlName="auto_numCellAttempt"></ion-input>
+                            <ion-row>
+                                <ion-col>
+                                    <ion-button color="success"
+                                                (click)="increaseValue('performance', 'auto_numCellAttempt')">
+                                        +
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col>
+                                    <ion-input type="number" formControlName="auto_numCellAttempt"></ion-input>
+                                </ion-col>
+                                <ion-col>
+                                    <ion-button color="danger"
+                                                (click)="decreaseValue('performance', 'auto_numCellAttempt')">
+                                        -
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
                         </ion-item>
                         <ion-item>
                             <ion-label position="floating">
                                 Cells Scored
                             </ion-label>
-                            <ion-input type="number"
-                                       placeholder="(Power cells scored)"
-                                       formControlName="auto_numCellSuccess"></ion-input>
+                            <ion-row>
+                                <ion-col>
+                                    <ion-button color="success"
+                                                (click)="increaseValue('performance', 'auto_numCellSuccess')">
+                                        +
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col>
+                                    <ion-input type="number" formControlName="auto_numCellSuccess"></ion-input>
+                                </ion-col>
+                                <ion-col>
+                                    <ion-button color="danger"
+                                                (click)="decreaseValue('performance', 'auto_numCellSuccess')">
+                                        -
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
                         </ion-item>
                         <ion-item>
                             <ion-label>
@@ -138,6 +187,18 @@
                     [disabled]="autoForm.pristine || autoForm.invalid"
                     expand="block" color="success">
                 Save Auto
+            </ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button (click)="autoForm.reset()"
+                expand="block" color="light">
+                Clear
+            </ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button (click)="router.navigateByUrl('/setup')"
+                expand="block" color="danger">
+                Cancel
             </ion-button>
         </ion-col>
     </ion-row>
