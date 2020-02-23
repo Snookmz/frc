@@ -20,15 +20,17 @@
     </ion-row>
 
     <ion-row class="ion-justify-content-center" *ngIf="selectedEventStorage.teams.length !== 0">
-        <ion-col size-lg="8">
+        <ion-col>
             <form [formGroup]="parentDataForm" novalidate>
                 <ion-row>
                     <ion-col>
-                        {{selectedEventStorage.event.name}}
+                        <h1>
+                            {{selectedEventStorage.event.name}}
+                        </h1>
                     </ion-col>
                 </ion-row>
-                <ion-row>
-                    <ion-col class="ns-card-form">
+                <ion-row class="ion-justify-content-center">
+                    <ion-col class="ns-card-form" size-lg="10">
                         <ion-row formGroupName="teamDetails">
                             <ion-col>
                                 <ion-item>
@@ -130,36 +132,68 @@
 
                 </ion-row>
 
-                <ion-row>
-                    <ion-col class="ns-card-form">
-                        <ion-row formGroupName="results">
-                            <ion-col size="8">
-                                <ion-item>
+                <ion-row class="ion-justify-content-center" formGroupName="results">
+                    <ion-col class="ns-card-form-danger" size-lg="6">
+                            <ion-row>
+                                <ion-col size="8">
+                                    <ion-item class="ns-item-danger" lines="none">
+                                        <ion-label class="ns-label-danger">
+                                            <p class="ns-p-danger">
+                                                Total Robot Failure
+                                            </p>
+                                            <p class="ns-p-danger">
+                                                (Crash, Stop etc)
+                                            </p>
+                                        </ion-label>
+                                        <ion-toggle formControlName="flCrash" color="secondary"></ion-toggle>
+                                    </ion-item>
+                                </ion-col>
+                                <ion-col size="4">
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-item class="ns-item-danger" lines="none">
+                                                <ion-label>
+                                                    Red Card
+                                                </ion-label>
+                                                <ion-toggle formControlName="flRed" color="danger"></ion-toggle>
+                                            </ion-item>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-item class="ns-item-danger" lines="none">
+                                                <ion-label>
+                                                    Yellow Card
+                                                </ion-label>
+                                                <ion-toggle formControlName="flYellow" color="warning"></ion-toggle>
+                                            </ion-item>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-col>
+                            </ion-row>
+                    </ion-col>
+                    <ion-col class="ns-card-form-success" size-lg="4">
+                        <ion-row>
+                            <ion-col>
+                                <ion-item class="ns-item-success" lines="none">
                                     <ion-label>
-                                        Total Robot Failure (Crash, Stop etc)
+                                        Achieved RP #1
                                     </ion-label>
-                                    <ion-toggle formControlName="flCrash" color="secondary"></ion-toggle>
+                                    <ion-toggle formControlName="flRanking1" color="primary"></ion-toggle>
                                 </ion-item>
                             </ion-col>
-                            <ion-col size="4">
-                                <ion-list>
-                                    <ion-item>
-                                        <ion-label>
-                                            Red Card
-                                        </ion-label>
-                                        <ion-toggle formControlName="flRed" color="danger"></ion-toggle>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-label>
-                                            Yellow Card
-                                        </ion-label>
-                                        <ion-toggle formControlName="flYellow" color="warning"></ion-toggle>
-                                    </ion-item>
-                                </ion-list>
-
-                            </ion-col>
-
                         </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <ion-item class="ns-item-success" lines="none">
+                                    <ion-label>
+                                        Achieved RP #1
+                                    </ion-label>
+                                    <ion-toggle formControlName="flRanking2" color="primary"></ion-toggle>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+
                     </ion-col>
                 </ion-row>
 

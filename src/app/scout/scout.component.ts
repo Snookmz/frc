@@ -43,8 +43,8 @@ export class ScoutComponent implements OnInit {
         flRed: false,
         flYellow: false,
         flCrash: false,
-        flRanking1: '',
-        flRanking2: ''
+        flRanking1: false,
+        flRanking2: false
       })
 
     });

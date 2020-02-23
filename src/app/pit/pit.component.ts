@@ -59,13 +59,13 @@ export class PitComponent implements OnInit {
     this.logger.max('PitComponent, createForm, powerCellsDisabled: ', JSON.stringify(powerCellsDisabled));
 
     this.pitForm = this.fb.group({
-      imperialUnits: [ps.pit.imperialUnits, Validators.required],
       event: this.selectedEventStorage.event.event_code,
       details: this.fb.group({
         idTeam: [teamKey, Validators.required],
         // name: ['', Validators.required],
-        txDeviceName: this.selectedEventStorage.deviceName,
-        txScoutName: [ps.pit.details.txScoutName, Validators.required],
+        txDeviceName: [this.selectedEventStorage.deviceName, Validators.required],
+        txScoutName: [ps.pit.details.txScoutName],
+        imperialUnits: [ps.pit.imperialUnits, Validators.required],
       }),
       robotStats: this.fb.group({
         numWeight: ps.pit.robotStats.numWeight,
@@ -131,7 +131,7 @@ export class PitComponent implements OnInit {
   public convertValuesToPitClass(v: any): Pit {
     const p: Pit = new Pit();
     this.logger.max('PitComponent, convertValuesToPitClass: ', v);
-    p.imperialUnits = v.imperialUnits;
+    p.imperialUnits = v.details.imperialUnits;
     p.event = v.event;
     p.details.idTeam = v.details.idTeam;
     // p.details.team = this.getTeamFromTeamId(v.details.teamId);
@@ -218,8 +218,31 @@ export class PitComponent implements OnInit {
     return team;
   }
 
+
+  public decreaseValue(group: string, el: string): void {
+    let currentVal: number = parseInt(this.pitForm.value[group][el], 10);
+    if (currentVal === 0) {
+      currentVal = 0;
+    }
+    currentVal--;
+    if (currentVal < 1) {
+      currentVal = 0;
+    }
+    this.pitForm.patchValue({[group]: {[el]: currentVal}});
+  }
+
+
+  public increaseValue(group: string, el: string): void {
+    let currentVal: number = parseInt(this.pitForm.value[group][el], 10);
+    if (currentVal === 0) {
+      currentVal = 0;
+    }
+    currentVal++;
+    this.pitForm.patchValue({[group]: {[el]: currentVal}});
+  }
+
   private onChanges(): void {
-    this.pitForm.get('imperialUnits').valueChanges.subscribe(val => {
+    this.pitForm.get('details').get('imperialUnits').valueChanges.subscribe(val => {
       this.logger.max('PitComponent, onChanges, imperialUnits: ', val);
       this.imperialUnits = val;
     });
@@ -274,11 +297,13 @@ export class PitComponent implements OnInit {
         this.pitForm.get('climb').get('flClimbLevelOther').enable();
         this.pitForm.get('climb').get('flClimbMove').enable();
         this.pitForm.get('climb').get('flClimbOther').enable();
+        this.pitForm.get('climb').get('numClimbOther').enable();
       } else {
         this.pitForm.get('climb').get('flClimbLevelSelf').disable();
         this.pitForm.get('climb').get('flClimbLevelOther').disable();
         this.pitForm.get('climb').get('flClimbMove').disable();
         this.pitForm.get('climb').get('flClimbOther').disable();
+        this.pitForm.get('climb').get('numClimbOther').disable();
       }
     });
 

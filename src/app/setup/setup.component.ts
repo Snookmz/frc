@@ -49,12 +49,6 @@ export class SetupComponent implements OnInit {
     this.onEventFormChange();
   }
 
-  // private createTeamForm(): void {
-  //   this.teamForm = this.fb.group({
-  //     key: ['', Validators.required]
-  //   })
-  // }
-
 
   private getEvents(): void {
     this.events = this.dataStorageService.getEventsFromStorage();
@@ -199,6 +193,7 @@ export class SetupComponent implements OnInit {
 
     })
   }
+
 
   public onSubmit(): void {
     this.logger.max('SetupComponent, onSubmit saving EventStorage: ', this.selectedEventStorage);

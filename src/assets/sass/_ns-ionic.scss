@@ -14,3 +14,19 @@
 .ns-focus:focus {
   outline: 0;
 }
+
+ion-item.ns-item-danger {
+  --background: #f04141;
+  color: $white;
+}
+
+ion-label.ns-label-danger {
+  --color: #f04141;
+}
+
+ion-item.ns-item-success {
+  --background: #10dc60;
+  color: $white;
+}
+
+

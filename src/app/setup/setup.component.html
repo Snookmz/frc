@@ -9,7 +9,7 @@
 
 <ion-content>
 
-  <ion-row justify-content-center class="ns-margin-top">
+  <ion-row class="ns-margin-top ion-justify-content-center">
     <ion-col size-lg="6" class="ns-card-info">
       <p>
         First select the country of the event, then select the event itself. Event and team details will then be pulled from the TBA API and stored locally.
@@ -17,7 +17,8 @@
     </ion-col>
   </ion-row>
 
-  <ion-row justify-content-center class="ns-margin-top" *ngIf="selectedEventStorage.teams.length !== 0 && selectedEventStorage.deviceName !== ''">
+  <ion-row class="ns-margin-top ion-justify-content-center"
+           *ngIf="selectedEventStorage.teams.length !== 0 && selectedEventStorage.deviceName !== ''">
     <ion-col size-lg="6" class="ns-card-info">
       <h3>Currently selected event:</h3>
       <p>{{selectedEventStorage.event.name}} - {{selectedEventStorage.event.country}}</p>
@@ -26,7 +27,7 @@
   </ion-row>
 
   <form [formGroup]="eventForm" novalidate>
-    <ion-row justify-content-center *ngIf="eventForm !== undefined" class="ns-margin-top">
+    <ion-row *ngIf="eventForm !== undefined" class="ns-margin-top ion-justify-content-center">
       <ion-col size-lg="6" class="ns-card-note">
         <ion-list>
           <ion-item>

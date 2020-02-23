@@ -40,9 +40,11 @@
                 <ion-row class="ion-justify-content-center">
                     <ion-col size-lg="8" class="ns-card-form">
                         <ion-list class="ns-pit-list" formGroupName="details">
-                            <ion-item color="primary">
+                            <ion-item color="medium">
                                 <ion-label>
-                                    Details
+                                    <h1>
+                                        Details
+                                    </h1>
                                 </ion-label>
                             </ion-item>
                             <ion-item>
@@ -61,22 +63,13 @@
                                 </ion-label>
                                 <ion-input formControlName="txDeviceName"></ion-input>
                             </ion-item>
-                        </ion-list>
-                        <ion-item-group>
-                            <ion-item-divider>
+                            <ion-item>
                                 <ion-label>
-                                    Measurement
+                                    Imperial Units
                                 </ion-label>
-                            </ion-item-divider>
-                            <ion-list class="ns-pit-list">
-                                <ion-item>
-                                    <ion-label>
-                                        Imperial Units
-                                    </ion-label>
-                                    <ion-toggle formControlName="imperialUnits" color="primary"></ion-toggle>
-                                </ion-item>
-                            </ion-list>
-                        </ion-item-group>
+                                <ion-toggle formControlName="imperialUnits" color="primary"></ion-toggle>
+                            </ion-item>
+                        </ion-list>
                     </ion-col>
                 </ion-row>
 
@@ -84,34 +77,67 @@
                     <ion-col size-lg="5">
                         <ion-row>
                             <ion-col class="ns-card-form">
-                                <ion-item-group formGroupName="robotStats">
-                                    <ion-item-divider>
-                                        <ion-label>
-                                            Robot Stats
-                                        </ion-label>
-                                    </ion-item-divider>
-                                    <ion-list class="ns-list-indent">
-                                        <ion-item>
-                                            <ion-label position="floating" >
-                                                Weight
+                                    <ion-list class="ns-list-indent" formGroupName="robotStats">
+                                        <ion-item color="medium" lines="none">
+                                            <ion-label>
+                                                <h1>Robot Stats</h1>
                                             </ion-label>
-                                            <ion-input *ngIf="!imperialUnits"
-                                                       type="number"
-                                                       formControlName="numWeight" placeholder="(kg)"></ion-input>
-                                            <ion-input *ngIf="imperialUnits"
-                                                       type="number"
-                                                       formControlName="numWeight" placeholder="(lb)"></ion-input>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label position="floating" >
-                                                Height
+                                            <ion-label position="floating"
+                                                       *ngIf="pitForm.value['details']['imperialUnits']">
+                                                Weight (lb)
                                             </ion-label>
-                                            <ion-input *ngIf="!imperialUnits"
-                                                       type="number"
-                                                       formControlName="numHeight" placeholder="(cm)"></ion-input>
-                                            <ion-input *ngIf="imperialUnits"
-                                                       type="number"
-                                                       formControlName="numHeight" placeholder="(inches)"></ion-input>
+                                            <ion-label position="floating"
+                                                       *ngIf="!pitForm.value['details']['imperialUnits']">
+                                                Weight (kg)
+                                            </ion-label>
+                                            <ion-row>
+                                                <ion-col>
+                                                    <ion-button color="success"
+                                                            (click)="increaseValue('robotStats', 'numWeight')">
+                                                        +
+                                                    </ion-button>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-input type="number" formControlName="numWeight"></ion-input>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-button color="danger"
+                                                            (click)="decreaseValue('robotStats', 'numWeight')">
+                                                        -
+                                                    </ion-button>
+                                                </ion-col>
+                                            </ion-row>
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label
+                                                    *ngIf="pitForm.value['details']['imperialUnits']"
+                                                    position="floating">
+                                                Height (inches)
+                                            </ion-label>
+                                            <ion-label
+                                                    *ngIf="!pitForm.value['details']['imperialUnits']"
+                                                    position="floating">
+                                                Height (cm)
+                                            </ion-label>
+                                            <ion-row>
+                                                <ion-col>
+                                                    <ion-button color="success"
+                                                                (click)="increaseValue('robotStats', 'numHeight')">
+                                                        +
+                                                    </ion-button>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-input type="number" formControlName="numHeight"></ion-input>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-button color="danger"
+                                                                (click)="decreaseValue('robotStats', 'numHeight')">
+                                                        -
+                                                    </ion-button>
+                                                </ion-col>
+                                            </ion-row>
                                         </ion-item>
                                         <ion-item>
                                             <ion-label position="floating" >
@@ -132,12 +158,18 @@
                                             <ion-input formControlName="imgRobotSide"></ion-input>
                                         </ion-item>
                                     </ion-list>
-                                </ion-item-group>
                             </ion-col>
                         </ion-row>
                         <ion-row>
                             <ion-col class="ns-card-form">
                                     <ion-list formGroupName="powerCells">
+                                        <ion-item color="medium">
+                                            <ion-label>
+                                                <h1>
+                                                    Power Cells
+                                                </h1>
+                                            </ion-label>
+                                        </ion-item>
                                         <ion-item [color]="pitForm.value['powerCells']['flCells'] ? 'success' : 'warning'">
                                             <ion-label>
                                                 Can Manipulate Power Cells
@@ -201,6 +233,13 @@
                         <ion-row>
                             <ion-col class="ns-card-form">
                                 <ion-list class="ns-pit-list" formGroupName="climb">
+                                    <ion-item color="medium">
+                                        <ion-label>
+                                            <h1>
+                                                Climbing
+                                            </h1>
+                                        </ion-label>
+                                    </ion-item>
                                     <ion-item [color]="pitForm.value['climb']['flClimb'] ? 'success' : 'warning'">
                                         <ion-label>
                                             Can Climb
@@ -217,14 +256,43 @@
                                         </ion-select>
                                     </ion-item>
                                     <ion-item>
-                                        <ion-label position="floating">
-                                            Height
-                                        </ion-label>
-                                        <ion-input formControlName="numClimbHeight" type="number"></ion-input>
+<!--                                        <ion-label position="floating">-->
+<!--                                            Climb Height-->
+<!--                                        </ion-label>-->
+<!--                                        <ion-input formControlName="numClimbHeight" type="number"></ion-input>-->
+                                            <ion-label
+                                                    *ngIf="pitForm.value['details']['imperialUnits']"
+                                                    position="floating">
+                                                Max Height Above Ground (inches)
+                                            </ion-label>
+                                            <ion-label
+                                                    *ngIf="!pitForm.value['details']['imperialUnits']"
+                                                    position="floating">
+                                                Max Height Above Ground (cm)
+                                            </ion-label>
+                                            <ion-row>
+                                                <ion-col>
+                                                    <ion-button color="success"
+                                                                [disabled]="pitForm.get('climb').get('numClimbHeight').disabled"
+                                                                (click)="increaseValue('climb', 'numClimbHeight')">
+                                                        +
+                                                    </ion-button>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-input type="number" formControlName="numClimbHeight"></ion-input>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-button color="danger"
+                                                                [disabled]="pitForm.get('climb').get('numClimbHeight').disabled"
+                                                                (click)="decreaseValue('climb', 'numClimbHeight')">
+                                                        -
+                                                    </ion-button>
+                                                </ion-col>
+                                            </ion-row>
                                     </ion-item>
                                     <ion-item>
                                         <ion-label>
-                                            Secure Hold
+                                            Active Hold?
                                         </ion-label>
                                         <ion-toggle formControlName="flClimbSecure"></ion-toggle>
                                     </ion-item>
@@ -234,9 +302,9 @@
                                         </ion-label>
                                         <ion-select formControlName="idClimbGrab">
                                             <ion-select-option value="1">NA</ion-select-option>
-                                            <ion-select-option value="2">Slow</ion-select-option>
-                                            <ion-select-option value="3">Medium</ion-select-option>
-                                            <ion-select-option value="4">Fast</ion-select-option>
+                                            <ion-select-option value="2">> 7 sec (slow)</ion-select-option>
+                                            <ion-select-option value="3">3-7 sec (medium)</ion-select-option>
+                                            <ion-select-option value="4">< 3 sec (fast)</ion-select-option>
                                         </ion-select>
                                     </ion-item>
                                     <ion-item>
@@ -245,14 +313,14 @@
                                         </ion-label>
                                         <ion-select formControlName="idClimbSpeed">
                                             <ion-select-option value="1">NA</ion-select-option>
-                                            <ion-select-option value="2">Slow</ion-select-option>
-                                            <ion-select-option value="3">Medium</ion-select-option>
-                                            <ion-select-option value="4">Fast</ion-select-option>
+                                            <ion-select-option value="2">> 7 sec (slow)</ion-select-option>
+                                            <ion-select-option value="3">3-7 sec (medium)</ion-select-option>
+                                            <ion-select-option value="4">< 3 sec (fast)</ion-select-option>
                                         </ion-select>
                                     </ion-item>
                                     <ion-item>
                                         <ion-label>
-                                            Tilting
+                                            Tilted Bar?
                                         </ion-label>
                                         <ion-toggle formControlName="flClimbTilt"></ion-toggle>
                                     </ion-item>
@@ -265,7 +333,7 @@
                                     </ion-item>
                                     <ion-item>
                                         <ion-label>
-                                            Preferred Position
+                                            Preferred Climb Position
                                         </ion-label>
                                         <ion-select formControlName="idClimbPos">
                                             <ion-select-option value="1">NA</ion-select-option>
@@ -317,10 +385,25 @@
                                                 <ion-label position="floating">
                                                     Buddies
                                                 </ion-label>
-                                                <ion-input
-                                                        type="number"
-                                                        placeholder="(How many?)"
-                                                        formControlName="numClimbOther"></ion-input>
+                                                <ion-row>
+                                                    <ion-col>
+                                                        <ion-button color="success"
+                                                                    [disabled]="pitForm.get('climb').get('numClimbOther').disabled"
+                                                                    (click)="increaseValue('climb', 'numClimbOther')">
+                                                            +
+                                                        </ion-button>
+                                                    </ion-col>
+                                                    <ion-col>
+                                                        <ion-input type="number" formControlName="numClimbOther"></ion-input>
+                                                    </ion-col>
+                                                    <ion-col>
+                                                        <ion-button color="danger"
+                                                                    [disabled]="pitForm.get('climb').get('numClimbOther').disabled"
+                                                                    (click)="decreaseValue('climb', 'numClimbOther')">
+                                                            -
+                                                        </ion-button>
+                                                    </ion-col>
+                                                </ion-row>
                                             </ion-item>
                                         </ion-list>
                                 </ion-list>
@@ -332,13 +415,14 @@
 
                 <ion-row class="ion-justify-content-center">
                     <ion-col size-lg="5" class="ns-card-form" style="margin-right: 10px">
-                        <ion-item-group formGroupName="controlPanel">
-                            <ion-item-divider>
-                                <ion-label>
-                                    Control Panel
-                                </ion-label>
-                            </ion-item-divider>
-                            <ion-list class="ns-list-indent">
+                            <ion-list class="ns-list-indent" formGroupName="controlPanel">
+                                <ion-item color="medium">
+                                    <ion-label>
+                                        <h1>
+                                            Control Panel
+                                        </h1>
+                                    </ion-label>
+                                </ion-item>
                                 <ion-item [color]="pitForm.value['controlPanel']['flPanel'] ? 'success' : 'warning'" >
                                     <ion-label>
                                         Manipulate Control Panel
@@ -347,7 +431,7 @@
                                 </ion-item>
                                 <ion-item>
                                     <ion-label>
-                                        Brakes
+                                        Can Stop Wheel
                                     </ion-label>
                                     <ion-toggle formControlName="flPanelBrake" color="primary"></ion-toggle>
                                 </ion-item>
@@ -376,16 +460,15 @@
                                     <ion-textarea formControlName="txPanelSensor" placeholder="(What kind of sensor etc)" ></ion-textarea>
                                 </ion-item>
                             </ion-list>
-                        </ion-item-group>
                     </ion-col>
                     <ion-col class="ns-card-form" size-lg="5">
-                        <ion-item-group formGroupName="auto">
-                            <ion-item-divider>
-                                <ion-label>
-                                    Auto
-                                </ion-label>
-                            </ion-item-divider>
-                            <ion-list class="ns-pit-list">
+
+                            <ion-list class="ns-pit-list" formGroupName="auto">
+                                <ion-item color="medium">
+                                    <ion-label>
+                                        <h1>Auto</h1>
+                                    </ion-label>
+                                </ion-item>
                                 <ion-item [color]="pitForm.value['auto']['flAuto'] ? 'success' : 'warning'">
                                     <ion-label>
                                         Does Auto
@@ -394,11 +477,11 @@
                                 </ion-item>
                                 <ion-item>
                                     <ion-label>
-                                        Line
+                                        Leaves Line
                                     </ion-label>
                                     <ion-toggle formControlName="flAutoLine" color="primary"></ion-toggle>
                                 </ion-item>
-                                <ion-item [color]="pitForm.value['climb']['flPanel'] ? 'success' : 'warning'">
+                                <ion-item [color]="pitForm.value['auto']['flAutoShoot'] ? 'success' : 'warning'">
                                     <ion-label>
                                         Can Shoot
                                     </ion-label>
@@ -408,52 +491,113 @@
                                     <ion-label position="floating">
                                         Balls
                                     </ion-label>
-                                    <ion-input formControlName="numAutoShoot" type="number" placeholder="(number)"></ion-input>
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-button color="success"
+                                                        [disabled]="pitForm.get('auto').get('numAutoShoot').disabled"
+                                                        (click)="increaseValue('auto', 'numAutoShoot')">
+                                                +
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-input type="number" formControlName="numAutoShoot"></ion-input>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-button color="danger"
+                                                        [disabled]="pitForm.get('auto').get('numAutoShoot').disabled"
+                                                        (click)="decreaseValue('auto', 'numAutoShoot')">
+                                                -
+                                            </ion-button>
+                                        </ion-col>
+                                    </ion-row>
                                 </ion-item>
                                 <ion-item>
                                     <ion-label position="floating">
                                         Pick up
                                     </ion-label>
-                                    <ion-input formControlName="numAutoLoad" type="number" placeholder="(number)"></ion-input>
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-button color="success"
+                                                        [disabled]="pitForm.get('auto').get('numAutoLoad').disabled"
+                                                        (click)="increaseValue('auto', 'numAutoLoad')">
+                                                +
+                                            </ion-button>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-input type="number" formControlName="numAutoLoad"></ion-input>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-button color="danger"
+                                                        [disabled]="pitForm.get('auto').get('numAutoLoad').disabled"
+                                                        (click)="decreaseValue('auto', 'numAutoLoad')">
+                                                -
+                                            </ion-button>
+                                        </ion-col>
+                                    </ion-row>
                                 </ion-item>
                             </ion-list>
-
-                        </ion-item-group>
-
-
-
                     </ion-col>
                 </ion-row>
 
 
-                <ion-row *ngIf="spinner" justify-content-center>
+                <ion-row *ngIf="spinner" class="ion-justify-content-center">
                     <ion-col size-md="2">
                         <ion-spinner></ion-spinner>
                     </ion-col>
                 </ion-row>
 
-                <ion-row *ngIf="successMessage" justify-content-center>
-                    <ion-col size-md="12">
+                <ion-row *ngIf="successMessage" class="ion-justify-content-center">
+                    <ion-col class="ns-card-form" size-lg="6">
                         <ion-item color="success">
                             {{successMessage}}
                         </ion-item>
                     </ion-col>
                 </ion-row>
 
-                <ion-row justify-content-center>
-                    <ion-col size-md="6">
-                        <ion-button expand="block"
-                                    color="success"
-                                    (click)="onSubmit()" [disabled]="pitForm.pristine || pitForm.invalid">
-                            Save
-                        </ion-button>
-                    </ion-col>
-                    <ion-col size-md="6">
-                        <ion-button expand="block" color="danger" (click)="pitForm.reset()">
-                            Clear
-                        </ion-button>
+                <ion-row *ngIf="pitForm.dirty && pitForm.invalid" class="ion-justify-content-center">
+                    <ion-col class="ns-card-form" size-lg="6">
+                        <ion-list>
+                            <ion-item *ngIf="pitForm.get('details').get('idTeam').invalid" color="danger">
+                                <ion-label>
+                                    You must select a team
+                                </ion-label>
+                            </ion-item>
+                            <ion-item *ngIf="pitForm.get('details').get('imperialUnits').invalid" color="danger">
+                                <ion-label>
+                                    You must select measurement units
+                                </ion-label>
+                            </ion-item>
+                            <ion-item *ngIf="pitForm.get('details').get('txDeviceName').invalid" color="danger">
+                                <ion-label>
+                                    You must enter a device name
+                                </ion-label>
+                            </ion-item>
+                        </ion-list>
                     </ion-col>
                 </ion-row>
+
+                <ion-row class="ion-justify-content-center">
+                    <ion-col class="ns-card-form" size-lg="6">
+                        <ion-row>
+                            <ion-col size-md="6">
+                                <ion-button expand="block"
+                                            color="success"
+                                            (click)="onSubmit()" [disabled]="pitForm.pristine || pitForm.invalid">
+                                    Save
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size-md="6">
+                                <ion-button expand="block" color="danger" (click)="pitForm.reset()">
+                                    Clear
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-col>
+
+                </ion-row>
+
+
+
             </ion-col>
 
 

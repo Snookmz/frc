@@ -15,7 +15,7 @@ import {CommentComponent} from './scout/comment/comment.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'main',
+    redirectTo: 'setup',
     pathMatch: 'full'
   },
   {path: 'data', component: DataComponent},

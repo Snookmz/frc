@@ -1,3 +1,4 @@
+
 .ns-list-horizontal {
   list-style: none;
   padding: 0;
@@ -25,4 +26,8 @@
 
 .ns-ul-match-right {
   @extend .ns-ul-match;
+}
+
+p.ns-p-danger {
+  color: #fff;
 }

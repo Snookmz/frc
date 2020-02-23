@@ -145,7 +145,10 @@ export class DataStorageService {
 
   public getSelectedEventStorage(): EventStorage {
     const s: string = localStorage.getItem('selectedEventStorage');
-    const es: EventStorage = JSON.parse(s);
+    let es: EventStorage = JSON.parse(s);
+    if (es === null) {
+      es = new EventStorage();
+    }
     return es;
   }
 
