@@ -20,7 +20,7 @@ export class AutoComponent implements OnInit {
       private fb: FormBuilder,
       private formService: FormService,
       private logger: LoggerService,
-      private router: Router
+      public router: Router
   ) { }
 
   private createAutoForm(): void {

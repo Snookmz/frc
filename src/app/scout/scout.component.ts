@@ -25,7 +25,7 @@ export class ScoutComponent implements OnInit {
       private fb: FormBuilder,
       private formService: FormService,
       private logger: LoggerService,
-      private router: Router
+      public router: Router
   ) {
   }
 

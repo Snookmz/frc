@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../../services/loggerService/logger.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-comment',
@@ -13,7 +14,8 @@ export class CommentComponent implements OnInit {
 
   constructor(
       private fb: FormBuilder,
-      private logger: LoggerService
+      private logger: LoggerService,
+      public router: Router
   ) { }
 
   private createCommentForm(): void {
@@ -30,8 +32,8 @@ export class CommentComponent implements OnInit {
         comm_flRecovery: false,
       }),
       advice: this.fb.group({
-        comm_flWarning: false,
-        comm_flHighlight: false,
+        comm_flWarning: [false, Validators.required],
+        comm_flHighlight: [false, Validators.required],
         comm_txNotes: ''
       }),
       shotType: this.fb.group({

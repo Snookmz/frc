@@ -16,6 +16,12 @@
   text-align: center;
 }
 
+.ns-card-no-padding {
+  @extend .ns-card;
+  padding: 0;
+  margin: 0;
+}
+
 .ns-card-info {
   @extend .ns-card;
   color: $info;
