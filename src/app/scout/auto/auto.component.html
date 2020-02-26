@@ -1,6 +1,6 @@
-<form [formGroup]="autoForm" novalidate>
+<form [formGroup]="autoForm" novalidate *ngIf="autoForm !== undefined">
     <ion-row>
-        <ion-col>
+        <ion-col size-lg="6" size="12">
             <ion-row>
                 <ion-col class="ns-card-form">
                     <ion-row>
@@ -64,7 +64,23 @@
                             <ion-label position="floating">
                                 Pickup New Cells?
                             </ion-label>
-                            <ion-input type="number" formControlName="auto_numCellLoad"></ion-input>
+                            <ion-row>
+                                <ion-col>
+                                    <ion-button color="success"
+                                                (click)="increaseValue('auto', 'auto_numCellLoad')">
+                                        +
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col>
+                                    <ion-input type="number" formControlName="auto_numCellLoad"></ion-input>
+                                </ion-col>
+                                <ion-col>
+                                    <ion-button color="danger"
+                                                (click)="decreaseValue('auto', 'auto_numCellLoad')">
+                                        -
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
                         </ion-item>
                     </ion-list>
                 </ion-col>
@@ -72,7 +88,7 @@
         </ion-col>
         <ion-col>
             <ion-row>
-                <ion-col formGroupName="errors" class="ns-card-form">
+                <ion-col formGroupName="errors" class="ns-card-form" size-lg="6" size="12">
                     <ion-list>
                         <ion-item color="danger">
                             <ion-label>
@@ -185,6 +201,7 @@
         <ion-col size-lg="6">
             <ion-button
                     [disabled]="autoForm.pristine || autoForm.invalid"
+                    (click)="onSubmit()"
                     expand="block" color="success">
                 Save Auto
             </ion-button>

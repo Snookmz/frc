@@ -1,3 +1,20 @@
+import {ScoutAuto} from './scout-auto';
+import {ScoutTele} from './scoutTele';
+import {ScoutComments} from './scout-Comments';
+
+export class Scout {
+    parentData: ScoutParentData;
+    auto: ScoutAuto;
+    tele: ScoutTele;
+    comments: ScoutComments;
+    constructor() {
+        this.parentData = new ScoutParentData();
+        this.auto = new ScoutAuto();
+        this.tele = new ScoutTele();
+        this.comments = new ScoutComments();
+    }
+}
+
 export class ScoutParentData {
     txEvent: string;
     deviceName: string;
@@ -9,6 +26,7 @@ export class ScoutParentData {
         this.teamDetails = new TeamDetails();
         this.matchSetup = new MatchSetup();
         this.results = new Results();
+
     }
 
 }

@@ -23,7 +23,7 @@
         <ion-col>
             <form [formGroup]="parentDataForm" novalidate>
                 <ion-row class="ion-justify-content-center">
-                    <ion-col size-lg="10" class="ns-card-form">
+                    <ion-col size-xl="8" size-lg="10" size-md="12" class="ns-card-form">
                         <ion-row>
                             <ion-col>
                                 <ion-item lines="none">
@@ -238,7 +238,7 @@
                     <ion-button
                             (click)="onSubmit()"
                             expand="block"
-                            color="success" *ngIf="parentDataForm.invalid || parentDataForm.pristine">
+                            color="success" [disabled]="parentDataForm.invalid || parentDataForm.pristine">
                         Save
                     </ion-button>
                 </ion-col>

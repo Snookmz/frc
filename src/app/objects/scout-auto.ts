@@ -1,7 +1,12 @@
 export class ScoutAuto {
-    auto: string;
-    errors: string;
-    performance: string;
+    auto: Auto;
+    errors: Errors;
+    performance: Performance;
+    constructor() {
+        this.auto = new Auto();
+        this.errors = new Errors();
+        this.performance = new Performance();
+    }
 }
 
 export class Auto {

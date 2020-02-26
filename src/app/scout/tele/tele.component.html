@@ -1,6 +1,6 @@
 <form [formGroup]="teleForm" novalidate *ngIf="teleForm !== undefined">
     <ion-row>
-        <ion-col>
+        <ion-col size-lg="6" size="12">
             <ion-row formGroupName="performance">
                 <ion-col class="ns-card">
                     <ion-row>
@@ -19,7 +19,7 @@
                                     <ion-label position="floating">
                                         Cell Attempts
                                     </ion-label>
-                                    <ion-row>
+                                    <ion-row class="ion-nowrap">
                                         <ion-col>
                                             <ion-button
                                                     color="success"
@@ -27,7 +27,7 @@
                                                 +
                                             </ion-button>
                                         </ion-col>
-                                        <ion-col>
+                                        <ion-col size="4">
                                             <ion-input type="number" formControlName="tele_numCellAttempt"></ion-input>
                                         </ion-col>
                                         <ion-col>
@@ -43,7 +43,7 @@
                                     <ion-label position="floating">
                                         Cell Success
                                     </ion-label>
-                                    <ion-row>
+                                    <ion-row class="ion-nowrap">
                                         <ion-col>
                                             <ion-button
                                                     color="success"
@@ -51,7 +51,7 @@
                                                 +
                                             </ion-button>
                                         </ion-col>
-                                        <ion-col>
+                                        <ion-col size="4">
                                             <ion-input type="number" formControlName="tele_numCellSuccess"></ion-input>
                                         </ion-col>
                                         <ion-col>
@@ -65,8 +65,8 @@
                                 </ion-item>
                             </ion-list>
                         </ion-col>
-                        <ion-col>
-                            <img src="assets/imgs/ports.png" style="width: 100px" >
+                        <ion-col *ngIf="deviceWidth >= 1200">
+                            <img src="assets/imgs/ports.png">
                         </ion-col>
                         <ion-col>
                             <ion-list>
@@ -152,7 +152,6 @@
 
                     <ion-row>
                         <ion-col size="6">
-
                             <ion-list>
                                 <ion-item>
                                     <ion-label position="floating">
@@ -203,24 +202,8 @@
                                     </ion-row>
                                 </ion-item>
                             </ion-list>
-
-
-                            <ion-row class="ion-justify-content-center">
-                                <ion-col size="6">
-                                    <ion-row>
-                                        <ion-col>
-                                            <ion-item lines="none">
-                                                <ion-label>
-                                                    Panel Success
-                                                </ion-label>
-                                            </ion-item>
-                                        </ion-col>
-                                    </ion-row>
-
-                                </ion-col>
-                            </ion-row>
                         </ion-col>
-                        <ion-col size="6">
+                        <ion-col size="6" *ngIf="deviceWidth >= 743">
                             <ion-row class="ion-justify-content-center">
                                 <ion-col>
                                     <img src="assets/imgs/tele.png">
@@ -332,6 +315,7 @@
     <ion-row class="ion-justify-content-center">
         <ion-col>
             <ion-button
+                    (click)="onSubmit()"
                     [disabled]="teleForm.pristine || teleForm.invalid"
                     expand="block" color="success">
                 Save Tele

@@ -4,6 +4,7 @@ import {LoggerService} from '../../services/loggerService/logger.service';
 import {ScoutParentData} from '../../objects/scout-parentData';
 import {FormService} from '../../services/formService/form.service';
 import {Router} from '@angular/router';
+import {ScoutAuto} from '../../objects/scout-auto';
 
 @Component({
   selector: 'app-auto',
@@ -23,7 +24,7 @@ export class AutoComponent implements OnInit {
       public router: Router
   ) { }
 
-  private createAutoForm(): void {
+  private createAutoForm(a: ScoutAuto): void {
     this.autoForm = this.fb.group({
       position: this.fb.group({
         red1: false,
@@ -34,24 +35,31 @@ export class AutoComponent implements OnInit {
         blue3: false
       }),
       auto: this.fb.group({
-        auto_flStart: [false, Validators.required],
-        auto_flBaseLine: [{value: false, disabled: true}],
-        auto_numCellLoad: [{value: false, disabled: true}]
+        auto_flStart: [a.auto.auto_flStart, Validators.required],
+        auto_flBaseLine: [{value: a.auto.auto_flBaseLine, disabled: !a.auto.auto_flStart}],
+        auto_numCellLoad: [{value: a.auto.auto_numCellLoad, disabled: !a.auto.auto_flStart}]
       }),
       errors: this.fb.group({
-        auto_flFoul: false,
-        auto_flRobotContact: false,
-        auto_flLoseStartObject: false,
-        auto_flCrossOver: false
+        auto_flFoul: a.errors.auto_flFoul,
+        auto_flRobotContact: a.errors.auto_flRobotContact,
+        auto_flLoseStartObject: a.errors.auto_flLoseStartObject,
+        auto_flCrossOver: a.errors.auto_flCrossover
       }),
       performance: this.fb.group({
-        auto_numCellAttempt: 0,
-        auto_numCellSuccess: 0,
-        auto_flOuter: false,
-        auto_flInner: false,
-        auto_flLower: false
+        auto_numCellAttempt: a.performance.auto_numCellAttempt,
+        auto_numCellSuccess: a.performance.auto_numCellSuccess,
+        auto_flOuter: a.performance.auto_flOuter,
+        auto_flInner: a.performance.auto_flInner,
+        auto_flLower: a.performance.auto_flLower
       })
     });
+
+    if (this.parentData.teamDetails.idAlliance === 1) {
+      this.autoForm.patchValue({position: {['red' + this.parentData.teamDetails.idDriveStation]: true}})
+    } else {
+      this.autoForm.patchValue({position: {['blue' + this.parentData.teamDetails.idDriveStation]: true}})
+    }
+
     this.logger.max('AutoComponent, createAutoForm: ', this.autoForm);
     this.onFormChanges();
 
@@ -98,16 +106,35 @@ export class AutoComponent implements OnInit {
     })
   }
 
+  public onSubmit(): void {
+    this.logger.debug('AutoComponent, onSubmit, values: ', this.autoForm.value);
+    const v = this.autoForm.value;
+    const a: ScoutAuto = new ScoutAuto();
+    a.auto.auto_flStart = v.auto.auto_flStart;
+    a.auto.auto_flBaseLine = v.auto.auto_flBaseLine;
+    a.auto.auto_numCellLoad = v.auto.auto_numCellLoad;
+
+    a.errors.auto_flFoul = v.errors.auto_flFoul;
+    a.errors.auto_flRobotContact = v.errors.auto_flRobotContact;
+    a.errors.auto_flLoseStartObject = v.errors.auto_flLoseStartObject;
+    a.errors.auto_flCrossover = v.errors.auto_flCrossOver;
+
+    a.performance.auto_numCellAttempt = v.performance.auto_numCellAttempt;
+    a.performance.auto_numCellSuccess = v.performance.auto_numCellSuccess;
+    a.performance.auto_flOuter = v.performance.auto_flOuter;
+    a.performance.auto_flInner = v.performance.auto_flInner;
+    a.performance.auto_flLower = v.performance.auto_flLower;
+
+    this.formService.pushAutoData(a);
+
+
+  }
+
   ngOnInit() {
-    this.createAutoForm();
-    this.formService.parentData$.subscribe(p => {
-      this.logger.max('AutoComponent, parentData$: ', p);
-      this.parentData = p;
-      if (p.teamDetails.idAlliance === 1) {
-        this.autoForm.patchValue({position: {['red' + p.teamDetails.idDriveStation]: true}})
-      } else {
-        this.autoForm.patchValue({position: {['blue' + p.teamDetails.idDriveStation]: true}})
-      }
+    this.formService.scout$.subscribe(s => {
+      this.logger.max('AutoComponent, scout$: ', s);
+      this.parentData = s.parentData;
+      this.createAutoForm(s.auto);
     })
 
   }

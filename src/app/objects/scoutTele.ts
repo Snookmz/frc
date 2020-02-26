@@ -14,13 +14,15 @@ export class ControlPanel {
     tele_idPanelRotationTime: number;
     tele_flPanelPosition: boolean;
     tele_idPanelPositionTime: number;
-    tele_numPanelFailure: number;
+    tele_numPanelAttempt: number;
+    tele_numPanelSuccess: number;
     constructor() {
         this.tele_flPanelRotation = false;
         this.tele_idPanelRotationTime = 0;
         this.tele_flPanelPosition = false;
         this.tele_idPanelPositionTime = 0;
-        this.tele_numPanelFailure = 0;
+        this.tele_numPanelAttempt = 0;
+        this.tele_numPanelSuccess = 0;
     }
 }
 
@@ -30,6 +32,7 @@ export class EndGame {
     tele_idClimbGrabTime: number;
     tele_idClimbTime: number;
     tele_idClimbOutcome: number;
+    tele_idClimbPos: number;
     tele_numClimbOthers: number;
     tele_flClimbBalance: boolean;
     tele_flClimbCorrection: boolean;
@@ -39,6 +42,7 @@ export class EndGame {
         this.tele_idClimb = 0;
         this.tele_idClimbGrabTime = 0;
         this.tele_idClimbTime = 0;
+        this.tele_idClimbPos = 0;
         this.tele_idClimbOutcome = 0;
         this.tele_numClimbOthers = 0;
         this.tele_flClimbBalance = false;
