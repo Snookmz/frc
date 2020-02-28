@@ -4,14 +4,14 @@ export class ScoutComments {
     advice: Advice;
     shotType: ShotType;
     loadType: LoadType;
-    general: string;
+    comm_txNotes: string;
     constructor() {
         this.drive = new Drive();
         this.quickRatings = new QuickRatings();
         this.advice = new Advice();
         this.shotType = new ShotType();
         this.loadType = new LoadType();
-        this.general = '';
+        this.comm_txNotes = '';
     }
 }
 

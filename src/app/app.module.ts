@@ -24,6 +24,7 @@ import {EventModalComponent} from './setup/event-modal/event-modal.component';
 import {AutoComponent} from './scout/auto/auto.component';
 import {TeleComponent} from './scout/tele/tele.component';
 import {CommentComponent} from './scout/comment/comment.component';
+import {StorageComponent} from './storage/storage.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +40,8 @@ import {CommentComponent} from './scout/comment/comment.component';
         SetupComponent,
         AutoComponent,
         TeleComponent,
-        CommentComponent
+        CommentComponent,
+        StorageComponent
     ],
     entryComponents: [EventModalComponent],
     imports: [

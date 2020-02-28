@@ -17,13 +17,13 @@
                             <ion-label>
                                 Assist Other Robot
                             </ion-label>
-                            <ion-toggle formControlName="comm_flAssist" color="medium"></ion-toggle>
+                            <ion-toggle formControlName="comm_flAssist" color="primary"></ion-toggle>
                         </ion-item>
                         <ion-item>
                             <ion-label>
                                 Drive Rating
                             </ion-label>
-                            <ion-select formControlName="comm_flAssist">
+                            <ion-select formControlName="comm_idDriveRating">
                                 <ion-select-option value="1">Terrible</ion-select-option>
                                 <ion-select-option value="2">Average</ion-select-option>
                                 <ion-select-option value="3">Good</ion-select-option>
@@ -171,6 +171,7 @@
     <ion-row class="ion-justify-content-center">
         <ion-col size-lg="6">
             <ion-button
+                    (click)="onSubmit()"
                     [disabled]="commentForm.pristine || commentForm.invalid"
                     expand="block" color="success">
                 Save Auto

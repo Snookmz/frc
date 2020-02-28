@@ -24,7 +24,11 @@ export class AutoComponent implements OnInit {
       public router: Router
   ) { }
 
-  private createAutoForm(a: ScoutAuto): void {
+  private createAutoForm(a?: ScoutAuto): void {
+    if (a === undefined) {
+      a = new ScoutAuto();
+    }
+
     this.autoForm = this.fb.group({
       position: this.fb.group({
         red1: false,

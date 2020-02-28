@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {Scout, ScoutParentData} from '../../objects/scout-parentData';
 import {ScoutAuto} from '../../objects/scout-auto';
 import {ScoutTele} from '../../objects/scoutTele';
+import {ScoutComments} from '../../objects/scout-Comments';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class FormService {
 
 
   constructor() { }
+
+  public getScout(): Scout {
+    return this._scout.getValue();
+  }
 
   public pushParentData(p: ScoutParentData): void {
     const s: Scout = this._scout.getValue();
@@ -30,6 +35,12 @@ export class FormService {
   public pushTeleData(t: ScoutTele): void {
     const s: Scout = this._scout.getValue();
     s.tele = t;
+    this._scout.next(s);
+  }
+
+  public pushCommentData(c: ScoutComments): void {
+    const s: Scout = this._scout.getValue();
+    s.comments = c;
     this._scout.next(s);
   }
 }

@@ -6,6 +6,8 @@ import {DataStorageService} from '../services/dataStorageService/data-storage.se
 import {Router} from '@angular/router';
 import {ScoutParentData} from '../objects/scout-parentData';
 import {FormService} from '../services/formService/form.service';
+import {Platform} from '@ionic/angular';
+import {ValidatorService} from '../services/validatorService/validator.service';
 
 @Component({
   selector: 'app-scout',
@@ -15,9 +17,13 @@ import {FormService} from '../services/formService/form.service';
 export class ScoutComponent implements OnInit {
 
   public driveStationColor = '';
+  public displayWidth = 0;
   public parentDataForm: FormGroup;
   public selectedEventStorage: EventStorage;
   public selectedForm = 'auto';
+  public saveMatchSpinner = false;
+  public saveParentDataSpinner = false;
+  public showHelp = true;
 
 
   constructor(
@@ -25,43 +31,46 @@ export class ScoutComponent implements OnInit {
       private fb: FormBuilder,
       private formService: FormService,
       private logger: LoggerService,
-      public router: Router
+      private platform: Platform,
+      public router: Router,
+      private validator: ValidatorService
   ) {
   }
 
-  public createParentDataForm(): void {
+  public createParentDataForm(p?: ScoutParentData, eventCode?: string): void {
+    if (p === undefined) {
+      p = new ScoutParentData();
+    }
+    if (eventCode === undefined) {
+      eventCode = '';
+    }
+
     this.parentDataForm = this.fb.group({
-      frcEvent: [this.selectedEventStorage.event.event_code, Validators.required],
+      frcEvent: [eventCode, Validators.required],
       teamDetails: this.fb.group({
-        numMatch: ['', Validators.required],
-        idAlliance: ['', Validators.required],
-        idDriveStation: [{value: '', disabled: true}, Validators.required],
-        idTeam: ['', Validators.required],
-        txScoutName: ''
+        numMatch: [p.teamDetails.numMatch, [Validators.required, this.validator.notEmpty]],
+        idAlliance: [p.teamDetails.idAlliance, [Validators.required, this.validator.notEmpty]],
+        idDriveStation: [{value: p.teamDetails.idDriveStation, disabled: true}, Validators.required],
+        idTeam: [p.teamDetails.idTeam, [Validators.required, this.validator.notEmpty]],
+        txScoutName: p.teamDetails.txScoutName
       }),
       matchSetup: this.fb.group({
-        idStartFacing: '',
-        idStartPosition: '',
-        numStartCells: 0,
+        idStartFacing: p.matchSetup.idStartFacing,
+        idStartPosition: p.matchSetup.idStartPosition,
+        numStartCells: p.matchSetup.numStartCells,
       }),
       results: this.fb.group({
-        flRed: false,
-        flYellow: false,
-        flCrash: false,
-        flRanking1: false,
-        flRanking2: false
+        flRed: p.results.flRed,
+        flYellow: p.results.flYellow,
+        flCrash: p.results.flCrash,
+        flRanking1: p.results.flRanking1,
+        flRanking2: p.results.flRanking2
       })
 
     });
     this.onFormChange();
     this.logger.debug('ScoutComponent, createScoutForm, returning: ', this.parentDataForm);
   }
-
-  private getSelectedEventStorage(): void {
-    this.selectedEventStorage = this.dataStorageService.getSelectedEventStorage();
-    this.logger.max('ScoutComponent, getSelectedEventStorage: ', this.selectedEventStorage);
-  }
-
 
   public decreaseValue(group: string, el: string): void {
     let currentVal: number = parseInt(this.parentDataForm.value[group][el], 10);
@@ -108,32 +117,38 @@ export class ScoutComponent implements OnInit {
   public onSubmit(): void {
     this.logger.max('ScoutComponent, onSubmit, values: ', this.parentDataForm.value);
 
-    const p: ScoutParentData = new ScoutParentData();
-    const v: any = this.parentDataForm.value;
-    p.txEvent = v.frcEvent;
-    p.teamDetails.numMatch = v.teamDetails.numMatch;
-    p.teamDetails.idAlliance = v.teamDetails.idAlliance;
-    p.teamDetails.idDriveStation = v.teamDetails.idDriveStation;
-    p.teamDetails.txScoutName = v.teamDetails.txScoutName;
-
-    p.matchSetup.idStartFacing = v.matchSetup.idStartFacing;
-    p.matchSetup.idStartPosition = v.matchSetup.idStartPosition;
-    p.matchSetup.numStartCells = v.matchSetup.numStartCells;
-
-    p.results.flRed = v['results'].flRed;
-    p.results.flYellow = v['results'].flYellow;
-    p.results.flCrash = v['results'].flCrash;
-    p.results.flRanking1 = v['results'].flRanking1;
-    p.results.flRanking2 = v['results'].flRanking2;
+    const p: ScoutParentData = this.parentDataForm.value;
+    this.saveParentDataSpinner = true;
+    setTimeout(() => {
+      this.saveParentDataSpinner = false;
+    }, 1000);
 
     this.formService.pushParentData(p);
 
   }
 
+  public saveMatch(): void {
+    this.logger.max('ScoutComponent, saveMatch: ', this.formService.getScout());
+    this.saveMatchSpinner = true;
+    this.dataStorageService.storeScoutMatch(this.formService.getScout());
+    setTimeout(() => {
+      this.saveMatchSpinner = false;
+    }, 1000);
+
+  }
 
   ngOnInit() {
-    this.getSelectedEventStorage();
-    this.createParentDataForm();
+
+    this.displayWidth = this.platform.width();
+    this.platform.resize.subscribe(async () => {
+      this.displayWidth = this.platform.width();
+    });
+
+    this.formService.scout$.subscribe(s => {
+      this.selectedEventStorage = this.dataStorageService.getSelectedEventStorage();
+      this.createParentDataForm(s.parentData, this.selectedEventStorage.event.event_code)
+    });
+
     const route = this.router.url;
     const routes = route.split('/');
     this.selectForm(routes[routes.length - 1]);

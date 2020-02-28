@@ -3,6 +3,7 @@ import {LoggerService} from '../loggerService/logger.service';
 import {Pit, PitStorage} from '../../objects/pit-classes';
 import {EventStorage, FrcEvent} from '../../objects/frcEvent-object';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {Scout} from '../../objects/scout-parentData';
 
 @Injectable({
   providedIn: 'root'
@@ -143,6 +144,17 @@ export class DataStorageService {
     return pitStorage;
   }
 
+  public getScoutMatches(): Scout[] {
+    const matches = localStorage.getItem('matches');
+    let scouts: Scout[] = [];
+    if (matches === null) {
+      return scouts;
+    } else {
+      scouts = JSON.parse(matches);
+      return scouts;
+    }
+  }
+
   public getSelectedEventStorage(): EventStorage {
     const s: string = localStorage.getItem('selectedEventStorage');
     let es: EventStorage = JSON.parse(s);
@@ -155,6 +167,16 @@ export class DataStorageService {
   public storeEvents(es: FrcEvent[]): void {
     this.logger.debug('dataStorageService, storeEvents: ', es);
     localStorage.setItem('events', JSON.stringify(es));
+  }
+
+  public storeScoutMatch(s: Scout): void {
+    let scouts: Scout[] = [];
+    const matches = localStorage.getItem('matches');
+    if (matches !== null) {
+      scouts = JSON.parse(matches);
+    }
+    scouts.push(s);
+    localStorage.setItem('matches', JSON.stringify(scouts));
   }
 
   public storePit(pit: Pit): void {

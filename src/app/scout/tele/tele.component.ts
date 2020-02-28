@@ -24,7 +24,11 @@ export class TeleComponent implements OnInit {
       public formService: FormService
   ) { }
 
-  public createTeleForm(t: ScoutTele): void {
+  public createTeleForm(t?: ScoutTele): void {
+    if (t === undefined) {
+      t = new ScoutTele();
+    }
+
     this.teleForm = this.fb.group({
       controlPanel: this.fb.group({
         tele_flPanelRotation: t.controlPanel.tele_flPanelRotation,
@@ -110,31 +114,7 @@ export class TeleComponent implements OnInit {
 
   public onSubmit(): void {
     this.logger.max('TeleComponent, onSubmit, values: ', this.teleForm.value);
-
-    const v = this.teleForm.value;
-    const t: ScoutTele = new ScoutTele();
-    t.controlPanel.tele_flPanelRotation = v.controlPanel.tele_flPanelRotation;
-    t.controlPanel.tele_idPanelRotationTime = v.controlPanel.tele_idPanelRotationTime;
-    t.controlPanel.tele_flPanelPosition = v.controlPanel.tele_flPanelPosition;
-    t.controlPanel.tele_idPanelPositionTime = v.controlPanel.tele_idPanelPositionTime;
-    t.controlPanel.tele_numPanelAttempt = v.controlPanel.tele_numPanelAttempt;
-    t.controlPanel.tele_numPanelSuccess = v.controlPanel.tele_numPanelSuccess;
-
-    t.endGame.tele_flPark = v.endGame.tele_flPark;
-    t.endGame.tele_idClimb = v.endGame.tele_idClimb;
-    t.endGame.tele_idClimbGrabTime = v.endGame.tele_idClimbGrabTime;
-    t.endGame.tele_idClimbTime = v.endGame.tele_idClimbTime;
-    t.endGame.tele_idClimbOutcome = v.endGame.tele_idClimbOutcome;
-    t.endGame.tele_numClimbOthers = v.endGame.tele_numClimbOthers;
-    t.endGame.tele_flClimbBalance = v.endGame.tele_flClimbBalance;
-    t.endGame.tele_flClimbCorrection = v.endGame.tele_flClimbFall;
-
-    t.performance.tele_numCellAttempt = v.performance.tele_numCellAttempt;
-    t.performance.tele_numCellSuccess = v.performance.tele_numCellSuccess;
-    t.performance.tele_flOuter = v.performance.tele_flOuter;
-    t.performance.tele_flInner = v.performance.tele_flInner;
-    t.performance.tele_flLower = v.performance.tele_flLower;
-
+    const t: ScoutTele = this.teleForm.value;
     this.formService.pushTeleData(t);
 
   }
