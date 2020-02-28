@@ -24,30 +24,32 @@ export class NsInterceptor implements HttpInterceptor {
     public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
         this.logger.max('NsInterceptor, request: ', req);
 
-        return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
-                this.logger.max('NsInterceptor, event: ', event);
-                if (event instanceof HttpResponse) {
-                    if (event.status !== 200) {
-                        this.logger.max('NsInterceptor, non-200 status, event: ', event);
-                    }
-                }
-                return event;
-            }),
-            retryWhen(errors => errors.pipe(
-                concatMap((error, count) => {
-                    this.logger.max('NsInterceptor, intercept, concatMap, error: ', error);
-                    if (error.status === 0) {
-                        this.logger.error('NsInterceptor, unknown error, unable to contact server', error);
-                        return throwError(error);
-                    } else {
-                        this.logger.error('NsInterceptor, error count > 3 or matched error, returning error: ', count, error);
-                        return this.returnThrowError(count, error);
-                        // return throwError(error.error);
-                    }
-                }),
-                delay(environment.httpRefreshDelay)
-            ))
-        );
+        return next.handle(req);
+
+        // return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
+        //         this.logger.max('NsInterceptor, event: ', event);
+        //         if (event instanceof HttpResponse) {
+        //             if (event.status !== 200) {
+        //                 this.logger.max('NsInterceptor, non-200 status, event: ', event);
+        //             }
+        //         }
+        //         return event;
+        //     }),
+        //     retryWhen(errors => errors.pipe(
+        //         concatMap((error, count) => {
+        //             this.logger.max('NsInterceptor, intercept, concatMap, error: ', error);
+        //             if (error.status === 0) {
+        //                 this.logger.error('NsInterceptor, unknown error, unable to contact server', error);
+        //                 return throwError(error);
+        //             } else {
+        //                 this.logger.error('NsInterceptor, error count > 3 or matched error, returning error: ', count, error);
+        //                 return this.returnThrowError(count, error);
+        //                 // return throwError(error.error);
+        //             }
+        //         }),
+        //         delay(environment.httpRefreshDelay)
+        //     ))
+        // );
     }
 
     public returnOfError(error: any): Observable<any> {

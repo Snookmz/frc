@@ -73,7 +73,16 @@ export class DataStorageService {
       pits.push(p);
     });
     return pits;
+  }
 
+  public getPits(): PitStorage[] {
+    let pits: PitStorage[] = [];
+    const pitsStorage = localStorage.getItem('pitsStorage');
+    if (pitsStorage !== null) {
+      pits = JSON.parse(pitsStorage);
+    }
+
+    return pits;
   }
 
   public getEventsFromStorage(): FrcEvent[] {

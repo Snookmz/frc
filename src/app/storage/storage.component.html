@@ -8,6 +8,72 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-row *ngIf="scouts.length !== 0">
+    <ion-col size-xl="6" size-lg="8" size="12">
+      <ion-row>
+        <ion-col>
+          <ul *ngFor="let s of scouts" (click)="selectedScout = s" class="ns-pointer">
+            <li>
+              Scout - {{s.parentData.teamDetails.txScoutName}}
+            </li>
+            <li>
+              Match - {{s.parentData.teamDetails.numMatch}}
+            </li>
+            <li>
+              Team key - {{s.parentData.teamDetails.idTeam}}
+            </li>
+            <!--        <li><pre>{{m | json}}</pre></li>-->
+          </ul>
+        </ion-col>
+        <ion-col *ngIf="selectedScout.parentData.teamDetails.numMatch !== 0">
+          <h2>QR code for match {{selectedScout.parentData.teamDetails.numMatch}}</h2>
+          <ion-button (click)="printScoutQrCode(selectedScout)">
+            Generate QR
+          </ion-button>
+          <ngx-qrcode
+                  qrc-element-type="text"
+                  qrc-version="40"
+                  [qrc-value] = "qrValue"></ngx-qrcode>
+        </ion-col>
+        <ion-col  *ngIf="selectedScout.parentData.teamDetails.numMatch !== 0">
+          <ion-row>
+            <ion-col *ngIf="scoutSpinner">
+              <ion-spinner></ion-spinner>
+            </ion-col>
+            <ion-col *ngIf="!scoutSpinner">
+              <ion-button (click)="sendScoutToApi(selectedScout)">Send Scout to Api</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="pits.length !== 0">
+        <ion-col size-xl="6" size-lg="8" size="12">
+          <ion-row>
+            <ion-col>
+              <ul (click)="selectedPit = p; pitQr = ''"
+                  *ngFor="let p of pits" class="ns-pointer">
+                <li>Team - {{p.team.nickname}} ({{p.team.key}})</li>
+              </ul>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col *ngIf="selectedPit.team.key !== ''">
+          <h2>QR code for pit from team {{selectedPit.team.nickname}} ({{selectedPit.team.key}})</h2>
+          <ion-button (click)="printPitQrCode(selectedPit)">
+            Generate QR
+          </ion-button>
+          <ngx-qrcode
+                  qrc-element-type="text"
+                  qrc-version="40"
+                  [qrc-value] = "pitQr"></ngx-qrcode>
+        </ion-col>
+      </ion-row>
+
+    </ion-col>
+  </ion-row>
+
   <ion-row>
 <!--    <ion-col size-xl="6" size-lg="8" size="12" *ngIf="frcEvents.length !== 0">-->
 <!--      <h1>-->

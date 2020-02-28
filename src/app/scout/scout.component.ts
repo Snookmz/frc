@@ -84,7 +84,6 @@ export class ScoutComponent implements OnInit {
     this.parentDataForm.patchValue({[group]: {[el]: currentVal}});
   }
 
-
   public increaseValue(group: string, el: string): void {
     let currentVal: number = parseInt(this.parentDataForm.value[group][el], 10);
     if (currentVal === 0) {
@@ -117,8 +116,29 @@ export class ScoutComponent implements OnInit {
   public onSubmit(): void {
     this.logger.max('ScoutComponent, onSubmit, values: ', this.parentDataForm.value);
 
-    const p: ScoutParentData = this.parentDataForm.value;
+    const p: ScoutParentData = new ScoutParentData();
+    const v = this.parentDataForm.value;
     this.saveParentDataSpinner = true;
+
+    p.txEvent = v.frcEvent;
+    p.deviceName = this.selectedEventStorage.deviceName;
+
+    p.teamDetails.numMatch = parseInt(v.teamDetails.numMatch, 10);
+    p.teamDetails.idAlliance = parseInt(v.teamDetails.idAlliance, 10);
+    p.teamDetails.idDriveStation = parseInt(v.teamDetails.idDriveStation, 10);
+    p.teamDetails.idTeam = parseInt(v.teamDetails.idTeam, 10);
+    p.teamDetails.txScoutName = v.teamDetails.txScoutName;
+
+    p.matchSetup.idStartPosition = parseInt(v.matchSetup.idStartFacing, 10);
+    p.matchSetup.idStartPosition = parseInt(v.matchSetup.idStartPosition, 10);
+    p.matchSetup.numStartCells = parseInt(v.matchSetup.numStartCells, 10);
+
+    p.results.flRed = v['results'].flRed;
+    p.results.flYellow = v['results'].flYellow;
+    p.results.flCrash = v['results'].flCrash;
+    p.results.flRanking1 = v['results'].flRanking1;
+    p.results.flRanking2 = v['results'].flRanking2;
+
     setTimeout(() => {
       this.saveParentDataSpinner = false;
     }, 1000);

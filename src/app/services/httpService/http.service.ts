@@ -21,7 +21,7 @@ export class HttpService {
     if (this.device === 'mobile') {
       // return this.cordovaHttpPost(query, url);
     } else {
-      return this.httpPostAuthenticated(query, url);
+      return this.webPost(query, url);
     }
 
   }
@@ -68,16 +68,9 @@ export class HttpService {
     return this.http.get(url, httpOptionsAuth);
   }
 
-  private httpPostAuthenticated(query: Post, url: string): Observable<any> {
-    const httpOptionsAuth = {
-      headers: new HttpHeaders({
-        // 'Content-Type': 'application/json',
-        'X-TBA-Auth-Key': this.blueAllianceReadKey
-      })
-    };
-
-    this.logger.max('HttpService, httpPostAuthenticated: ', url, query, httpOptionsAuth);
-    return this.http.post<ReturnJson>(url, query, httpOptionsAuth);
+  private webPost(query: Post, url: string): Observable<any> {
+    this.logger.max('HttpService, httpPost: ', `${environment.url.base}${url}`, query);
+    return this.http.post<ReturnJson>(`${environment.url.base}${url}`, query);
   }
 
 }

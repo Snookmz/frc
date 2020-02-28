@@ -21,6 +21,10 @@ export const environment = {
     logDelay: 500,
     level: NsLogLevel.max,
     outputTo: 'console',
+  },
+  url: {
+    base: 'http://localhost:8002',
+    scouts: '/scouts'
   }
 };
 
