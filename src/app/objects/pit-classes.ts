@@ -14,7 +14,7 @@ export class PitStorage {
 
 export class Pit {
     imperialUnits: boolean;
-    event: FrcEvent;
+    event: string;
     details: Details;
     robotStats: RobotStats;
     powerCells: PowerCells;
@@ -25,7 +25,7 @@ export class Pit {
     record: Record;
     constructor() {
         this.imperialUnits = false;
-        this.event = new FrcEvent();
+        this.event = '';
         this.details = new Details();
         this.robotStats = new RobotStats();
         this.powerCells = new PowerCells();
@@ -86,7 +86,7 @@ export class PowerCells {
 
 export class Climb {
     flClimb: boolean; // can climb
-    idClimbType: string;
+    idClimbType: number;
     numClimbHeight: number;
     flClimbSecure: boolean;
     idClimbGrab: number; // 1=NA, 2=slow, 3=Med, 4=fast
@@ -103,7 +103,7 @@ export class Climb {
 
     constructor() {
         this.flClimb = false;
-        this.idClimbType = '';
+        this.idClimbType = 0;
         this.numClimbHeight = 0;
         this.flClimbSecure = false;
         this.idClimbGrab = 1;

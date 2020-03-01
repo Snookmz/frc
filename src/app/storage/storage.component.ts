@@ -26,8 +26,11 @@ export class StorageComponent implements OnInit {
   public pits: PitStorage[] = [];
   public selectedPit: PitStorage = new PitStorage();
   public scoutSpinner = false;
+  public pitSpinner = false;
   public errorMessage = '';
   public successMessage = '';
+  public pitSuccessMessage = '';
+  public pitErrorMessage = '';
 
   constructor(
       private logger: LoggerService,
@@ -37,28 +40,65 @@ export class StorageComponent implements OnInit {
 
 
   public printScoutQrCode(s: Scout): void {
+    this.selectedScout = s;
     this.qrValue = `${JSON.stringify(s)}`;
   }
 
   public printPitQrCode(p: PitStorage): void {
+    this.selectedPit = p;
     this.pitQr = `${JSON.stringify(p.pit)}`;
   }
 
-  public sendScoutToApi(s: Scout): void {
+  public sendScoutsToApi(): void {
     const p: Post = new Post();
-    p.json = s;
+    p.json = this.scouts;
     this.scoutSpinner = true;
     this.httpService.httpPost(p, `${environment.url.scouts}`).subscribe(result => {
       this.logger.max('StorageComponent, sendScoutToApi, result: ', result);
-      this.successMessage = 'Scout saved'
+      this.successMessage = 'Scouts saved to Dropbox';
+      this.scoutSpinner = false;
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 3000);
     }, reason => {
       this.logger.error('StorageComponent, sendScoutToApi, error: ', reason);
       this.scoutSpinner = false;
       this.errorMessage = reason.message;
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 4000);
     }, () => {
       this.logger.debug('StorageComponent, sendScoutToApi, complete');
     })
+  }
 
+  public sendPitsToApi(): void {
+    const p: Post = new Post();
+
+    const pits: Pit[] = [];
+    this.pits.forEach(p => {
+      pits.push(p.pit);
+    });
+
+    p.json = pits;
+    this.pitSpinner = true;
+    this.httpService.httpPost(p, `${environment.url.pits}`).subscribe(result => {
+      this.logger.max('StorageComponent, sendScoutToApi, result: ', result);
+      this.pitSuccessMessage = 'Pits saved';
+      this.pitSpinner = false;
+      setTimeout(() => {
+        this.pitSuccessMessage = '';
+      }, 3000);
+    }, reason => {
+      this.logger.error('StorageComponent, sendScoutToApi, error: ', reason);
+      this.pitSpinner = false;
+      this.pitErrorMessage = reason.message;
+      setTimeout(() => {
+        this.pitErrorMessage = '';
+      }, 4000);
+    }, () => {
+      this.logger.debug('StorageComponent, sendScoutToApi, complete');
+    })
   }
 
   ngOnInit() {

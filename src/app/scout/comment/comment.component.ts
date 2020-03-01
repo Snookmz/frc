@@ -25,6 +25,8 @@ export class CommentComponent implements OnInit {
     if (c === undefined) {
       c = new ScoutComments();
     }
+    this.logger.max('CommentComponent, createCommentForm, comments: ', c);
+
     this.commentForm = this.fb.group({
       drive: this.fb.group({
         comm_flAssist: c.drive.comm_flAssist,
@@ -58,8 +60,31 @@ export class CommentComponent implements OnInit {
 
   public onSubmit(): void {
     this.logger.max('CommentComponent, onSubmit, values: ', this.commentForm.value);
-    const c: ScoutComments = this.commentForm.value;
+    const c: ScoutComments = new ScoutComments();
+    const v = this.commentForm.value;
     c.comm_txNotes = this.commentForm.value.advice.comm_txNotes;
+    c.drive.comm_flAssist = v.drive.comm_flAssist;
+    c.drive.comm_idDriveRating = parseInt(v.drive.comm_idDriveRating, 10);
+    c.drive.comm_idDefenceRating = parseInt(v.drive.comm_idDefenceRating, 10);
+
+    c.quickRatings.comm_flAlliance = v.quickRatings.comm_flAlliance;
+    c.quickRatings.comm_flStrategy = v.quickRatings.comm_flStrategy;
+    c.quickRatings.comm_flOwnThing = v.quickRatings.comm_flOwnThing;
+    c.quickRatings.comm_flRecovery = v.quickRatings.comm_flRecovery;
+
+    c.advice.comm_flWarning = v.advice.comm_flWarning;
+    c.advice.comm_flHighlight = v.advice.comm_flHighlight;
+
+    c.shotType.comm_flShotFar = v.shotType.comm_flShotFar;
+    c.shotType.comm_flShotMid = v.shotType.comm_flShotMid;
+    c.shotType.comm_flShotNear = v.shotType.comm_flShotNear;
+    c.shotType.comm_flShotWall = v.shotType.comm_flShotWall;
+
+    c.loadType.comm_flIntakeGround = v.loadType.comm_flIntakeGround;
+    c.loadType.comm_flIntakeHigh = v.loadType.comm_flIntakeHigh;
+    c.loadType.comm_flIntakeRobot = v.loadType.comm_flIntakeRobot;
+
+
     this.formService.pushCommentData(c);
   }
 

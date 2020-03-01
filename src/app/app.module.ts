@@ -25,6 +25,7 @@ import {AutoComponent} from './scout/auto/auto.component';
 import {TeleComponent} from './scout/tele/tele.component';
 import {CommentComponent} from './scout/comment/comment.component';
 import {StorageComponent} from './storage/storage.component';
+import {HTTP} from '@ionic-native/http/ngx';
 
 @NgModule({
     declarations: [
@@ -56,6 +57,7 @@ import {StorageComponent} from './storage/storage.component';
         HttpInterceptorProviders,
         StatusBar,
         SplashScreen,
+        HTTP,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
     ],
     bootstrap: [AppComponent]

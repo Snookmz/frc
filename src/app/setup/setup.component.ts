@@ -123,7 +123,7 @@ export class SetupComponent implements OnInit {
           this.dataStorageService.addToEventsStorage(eventStorage);
           this.selectedEventStorage = eventStorage;
           this.selectedEventStorage.teams.sort((a: Team, b: Team) => {
-            return a.nickname.localeCompare(b.nickname);
+            return a.key.localeCompare(b.key);
           });
           this.logger.max('SetupComponent, GetTeamInfoFromTeamKey, eventStorage: ', eventStorage);
         }, reason =>{

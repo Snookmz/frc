@@ -44,6 +44,9 @@ export class ScoutComponent implements OnInit {
     if (eventCode === undefined) {
       eventCode = '';
     }
+    this.logger.max('ScoutComponent, createParentDataForm, p, eventCode: ', p, eventCode);
+
+    this.parentDataForm = undefined;
 
     this.parentDataForm = this.fb.group({
       frcEvent: [eventCode, Validators.required],
@@ -51,7 +54,7 @@ export class ScoutComponent implements OnInit {
         numMatch: [p.teamDetails.numMatch, [Validators.required, this.validator.notEmpty]],
         idAlliance: [p.teamDetails.idAlliance, [Validators.required, this.validator.notEmpty]],
         idDriveStation: [{value: p.teamDetails.idDriveStation, disabled: true}, Validators.required],
-        idTeam: [p.teamDetails.idTeam, [Validators.required, this.validator.notEmpty]],
+        idTeam: [p.teamDetails.idTeam, [Validators.required]],
         txScoutName: p.teamDetails.txScoutName
       }),
       matchSetup: this.fb.group({
@@ -120,13 +123,13 @@ export class ScoutComponent implements OnInit {
     const v = this.parentDataForm.value;
     this.saveParentDataSpinner = true;
 
-    p.txEvent = v.frcEvent;
+    p.txEvent = this.selectedEventStorage.event.event_code;
     p.deviceName = this.selectedEventStorage.deviceName;
 
     p.teamDetails.numMatch = parseInt(v.teamDetails.numMatch, 10);
     p.teamDetails.idAlliance = parseInt(v.teamDetails.idAlliance, 10);
     p.teamDetails.idDriveStation = parseInt(v.teamDetails.idDriveStation, 10);
-    p.teamDetails.idTeam = parseInt(v.teamDetails.idTeam, 10);
+    p.teamDetails.idTeam = v.teamDetails.idTeam;
     p.teamDetails.txScoutName = v.teamDetails.txScoutName;
 
     p.matchSetup.idStartPosition = parseInt(v.matchSetup.idStartFacing, 10);
@@ -142,6 +145,8 @@ export class ScoutComponent implements OnInit {
     setTimeout(() => {
       this.saveParentDataSpinner = false;
     }, 1000);
+
+    this.createParentDataForm(p, this.selectedEventStorage.event.event_code);
 
     this.formService.pushParentData(p);
 

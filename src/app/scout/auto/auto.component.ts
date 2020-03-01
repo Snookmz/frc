@@ -116,15 +116,15 @@ export class AutoComponent implements OnInit {
     const a: ScoutAuto = new ScoutAuto();
     a.auto.auto_flStart = v.auto.auto_flStart;
     a.auto.auto_flBaseLine = v.auto.auto_flBaseLine;
-    a.auto.auto_numCellLoad = v.auto.auto_numCellLoad;
+    a.auto.auto_numCellLoad = parseInt(v.auto.auto_numCellLoad, 10);
 
     a.errors.auto_flFoul = v.errors.auto_flFoul;
     a.errors.auto_flRobotContact = v.errors.auto_flRobotContact;
     a.errors.auto_flLoseStartObject = v.errors.auto_flLoseStartObject;
     a.errors.auto_flCrossover = v.errors.auto_flCrossOver;
 
-    a.performance.auto_numCellAttempt = v.performance.auto_numCellAttempt;
-    a.performance.auto_numCellSuccess = v.performance.auto_numCellSuccess;
+    a.performance.auto_numCellAttempt = parseInt(v.performance.auto_numCellAttempt, 10);
+    a.performance.auto_numCellSuccess = parseInt(v.performance.auto_numCellSuccess, 10);
     a.performance.auto_flOuter = v.performance.auto_flOuter;
     a.performance.auto_flInner = v.performance.auto_flInner;
     a.performance.auto_flLower = v.performance.auto_flLower;

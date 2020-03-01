@@ -132,14 +132,15 @@ export class PitComponent implements OnInit {
     const p: Pit = new Pit();
     this.logger.max('PitComponent, convertValuesToPitClass: ', v);
     p.imperialUnits = v.details.imperialUnits;
+
     p.event = v.event;
     p.details.idTeam = v.details.idTeam;
     // p.details.team = this.getTeamFromTeamId(v.details.teamId);
     p.details.name = v.details.name;
     p.details.txScoutName = v.details.txScoutName;
 
-    p.robotStats.numWeight = v.robotStats.numWeight;
-    p.robotStats.numHeight = v.robotStats.numHeight;
+    p.robotStats.numWeight = parseInt(v.robotStats.numWeight, 10);
+    p.robotStats.numHeight = parseInt(v.robotStats.numHeight, 10);
     p.robotStats.imgTeamUniform = v.robotStats.imgTeamUniform;
     p.robotStats.imgRobotFront = v.robotStats.imgRobotFront;
     p.robotStats.imgRobotSide = v.robotStats.imgRobotSide;
@@ -148,7 +149,7 @@ export class PitComponent implements OnInit {
     if (p.powerCells.flCells) {
       p.powerCells.flIntakeGround = v.powerCells.flIntakeGround;
       p.powerCells.flIntakeHigh = v.powerCells.flIntakeHigh;
-      p.powerCells.numStorage = v.powerCells.numStorage;
+      p.powerCells.numStorage = parseInt(v.powerCells.numStorage, 10);
       p.powerCells.txShooting = v.powerCells.txShooting;
       p.powerCells.flTargetLow = v.powerCells.flTargetLow;
       p.powerCells.flTargetOuter = v.powerCells.flTargetOuter;
@@ -157,14 +158,14 @@ export class PitComponent implements OnInit {
 
     p.climb.flClimb = v.climb.flClimb;
     if (p.climb.flClimb) {
-      p.climb.idClimbType = v.climb.idClimbType;
-      p.climb.numClimbHeight = v.climb.numClimbHeight;
+      p.climb.idClimbType = parseInt(v.climb.idClimbType, 10);
+      p.climb.numClimbHeight = parseInt(v.climb.numClimbHeight, 10);
       p.climb.flClimbSecure = v.climb.flClimbSecure;
-      p.climb.idClimbGrab = v.climb.idClimbGrab;
-      p.climb.idClimbSpeed = v.climb.idClimbSpeed;
+      p.climb.idClimbGrab = parseInt(v.climb.idClimbGrab, 10);
+      p.climb.idClimbSpeed = parseInt(v.climb.idClimbSpeed, 10);
       p.climb.flClimbTilt = v.climb.flClimbTilt;
       p.climb.txClimb = v.climb.txClimb;
-      p.climb.idClimbPos = v.climb.idClimbPos;
+      p.climb.idClimbPos = parseInt(v.climb.idClimbPos, 10);
       p.climb.flClimbLevel = v.climb.flClimbLevel;
       if (p.climb.flClimbLevel) {
         p.climb.flClimbLevelSelf = v.climb.flClimbLevelSelf;
@@ -173,7 +174,7 @@ export class PitComponent implements OnInit {
       }
       p.climb.flClimbOther = v.climb.flClimbOther;
       if (p.climb.flClimbOther) {
-        p.climb.numClimbOther = v.climb.numClimbOther;
+        p.climb.numClimbOther = parseInt(v.climb.numClimbOther, 10);
       }
     }
 
@@ -191,8 +192,8 @@ export class PitComponent implements OnInit {
       p.auto.flAutoLine = v.auto.flAutoLine;
       p.auto.flAutoShoot = v.auto.flAutoShoot;
       if (p.auto.flAutoShoot) {
-        p.auto.numAutoShoot = v.auto.numAutoShoot;
-        p.auto.numAutoLoad = v.auto.numAutoLoad;
+        p.auto.numAutoShoot = parseInt(v.auto.numAutoShoot, 10);
+        p.auto.numAutoLoad = parseInt(v.auto.numAutoLoad, 10);
       }
     }
 
@@ -203,6 +204,12 @@ export class PitComponent implements OnInit {
     }
     p.record.dtModified = new Date().toString();
     p.record.txComputerName = v.record.txComputerName;
+
+    if (!p.imperialUnits) {
+      p.robotStats.numWeight = p.robotStats.numWeight * 2.20462;
+      p.robotStats.numHeight = p.robotStats.numHeight / 2.54;
+      p.climb.numClimbHeight = p.climb.numClimbHeight / 2.54;
+    }
 
     this.logger.max('PitComponent, convertValuesToPitClasses, returning: ', p);
     return p;

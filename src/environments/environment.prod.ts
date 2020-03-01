@@ -18,6 +18,11 @@ export const environment = {
     logDelay: 500,
     level: NsLogLevel.max,
     outputTo: 'console',
+  },
+  url: {
+    base: 'https://frcapi.heathsnoek.me',
+    scouts: '/scouts',
+    pits: '/pits'
   }
 };
 

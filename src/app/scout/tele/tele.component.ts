@@ -13,7 +13,7 @@ import {FormService} from '../../services/formService/form.service';
 })
 export class TeleComponent implements OnInit {
   public teleForm: FormGroup;
-  public deviceWidth = '';
+  public deviceWidth: number = 0;
 
 
   constructor(
@@ -114,7 +114,34 @@ export class TeleComponent implements OnInit {
 
   public onSubmit(): void {
     this.logger.max('TeleComponent, onSubmit, values: ', this.teleForm.value);
-    const t: ScoutTele = this.teleForm.value;
+    const t: ScoutTele = new ScoutTele();
+    const v = this.teleForm.value;
+
+    t.controlPanel.tele_flPanelRotation = v.controlPanel.tele_flPanelRotation;
+    t.controlPanel.tele_idPanelRotationTime = parseInt(v.controlPanel.tele_idPanelRotationTime, 10);
+    t.controlPanel.tele_flPanelPosition = v.controlPanel.tele_flPanelPosition;
+    t.controlPanel.tele_idPanelPositionTime = parseInt(v.controlPanel.tele_idPanelPositionTime, 10);
+    t.controlPanel.tele_numPanelAttempt = parseInt(v.controlPanel.tele_numPanelAttempt, 10);
+    t.controlPanel.tele_numPanelSuccess = parseInt(v.controlPanel.tele_numPanelSuccess, 10);
+
+    t.endGame.tele_flPark = v.endGame.tele_flPark;
+    t.endGame.tele_idClimb = parseInt(v.endGame.tele_idClimb, 10);
+    t.endGame.tele_idClimbGrabTime = parseInt(v.endGame.tele_idClimbGrabTime, 10);
+    t.endGame.tele_idClimbTime = parseInt(v.endGame.tele_idClimbTime, 10);
+    t.endGame.tele_idClimbOutcome = parseInt(v.endGame.tele_idClimbOutcome, 10);
+    t.endGame.tele_idClimbPos = parseInt(v.endGame.tele_idClimbPos, 10);
+    t.endGame.tele_numClimbOthers = parseInt(v.endGame.tele_numClimbOthers, 10);
+    t.endGame.tele_flClimbBalance = v.endGame.tele_flClimbBalance;
+    t.endGame.tele_flClimbCorrection = v.endGame.tele_flClimbCorrection;
+    t.endGame.tele_flClimbFall = v.endGame.tele_flClimbFall;
+
+    t.performance.tele_numCellAttempt = parseInt(v.performance.tele_numCellAttempt, 10);
+    t.performance.tele_numCellSuccess = parseInt(v.performance.tele_numCellSuccess, 10);
+    t.performance.tele_flOuter = v.performance.tele_flOuter;
+    t.performance.tele_flInner = v.performance.tele_flInner;
+    t.performance.tele_flLower = v.performance.tele_flLower;
+
+
     this.formService.pushTeleData(t);
 
   }

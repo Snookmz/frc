@@ -1,5 +1,7 @@
 {
   "name": "frc",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

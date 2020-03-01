@@ -193,7 +193,23 @@
                                             <ion-label position="floating">
                                                 Storage Capacity
                                             </ion-label>
-                                            <ion-input type="number" formControlName="numStorage" placeholder="(number)"></ion-input>
+                                            <ion-row>
+                                                <ion-col>
+                                                    <ion-button color="success"
+                                                                (click)="increaseValue('powerCells', 'numStorage')">
+                                                        +
+                                                    </ion-button>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-input type="number" formControlName="numStorage"></ion-input>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <ion-button color="danger"
+                                                                (click)="decreaseValue('powerCells', 'numStorage')">
+                                                        -
+                                                    </ion-button>
+                                                </ion-col>
+                                            </ion-row>
                                         </ion-item>
                                         <ion-item>
                                             <ion-label position="floating">

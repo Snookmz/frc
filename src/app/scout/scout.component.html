@@ -7,6 +7,7 @@
         <ion-spinner style="margin-right: 50px" slot="end" *ngIf="saveMatchSpinner"></ion-spinner>
         <ion-button
                 *ngIf="!saveMatchSpinner"
+                [disabled]="parentDataForm.invalid"
                 (click)="saveMatch()" color="success" slot="end">
             Save Match
         </ion-button>
@@ -180,7 +181,7 @@
                                                 (Crash, Stop etc)
                                             </p>
                                         </ion-label>
-                                        <ion-toggle formControlName="flCrash" color="secondary"></ion-toggle>
+                                        <ion-toggle formControlName="flCrash" color="primary"></ion-toggle>
                                     </ion-item>
                                 </ion-col>
                                 <ion-col size-lg="5" size="12">
@@ -190,7 +191,7 @@
                                                 <ion-label>
                                                     Red Card
                                                 </ion-label>
-                                                <ion-toggle formControlName="flRed" color="danger"></ion-toggle>
+                                                <ion-toggle formControlName="flRed" color="primary"></ion-toggle>
                                             </ion-item>
                                         </ion-col>
                                     </ion-row>
@@ -200,7 +201,7 @@
                                                 <ion-label>
                                                     Yellow Card
                                                 </ion-label>
-                                                <ion-toggle formControlName="flYellow" color="warning"></ion-toggle>
+                                                <ion-toggle formControlName="flYellow" color="primary"></ion-toggle>
                                             </ion-item>
                                         </ion-col>
                                     </ion-row>
@@ -212,7 +213,7 @@
                             <ion-col>
                                 <ion-item class="ns-item-success" lines="none">
                                     <ion-label>
-                                        Achieved RP #1
+                                        Operational (Hanging)
                                     </ion-label>
                                     <ion-toggle formControlName="flRanking1" color="primary"></ion-toggle>
                                 </ion-item>
@@ -222,7 +223,7 @@
                             <ion-col>
                                 <ion-item class="ns-item-success" lines="none">
                                     <ion-label>
-                                        Achieved RP #1
+                                       Energised (Activated)
                                     </ion-label>
                                     <ion-toggle formControlName="flRanking2" color="primary"></ion-toggle>
                                 </ion-item>
@@ -236,7 +237,7 @@
         </ion-col>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center">
+    <ion-row class="ion-justify-content-center" *ngIf="selectedEventStorage.teams.length !== 0">
         <ion-col class="ns-card-form" size-lg="4">
             <ion-row>
                 <ion-col>
@@ -267,7 +268,7 @@
         </ion-col>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center">
+    <ion-row class="ion-justify-content-center" *ngIf="selectedEventStorage.teams.length !== 0">
         <ion-col
                 (click)="selectForm('auto')" size-lg="2" class="ns-pointer ns-focus">
             <ion-item
@@ -301,7 +302,7 @@
 
     </ion-row>
 
-    <ion-row *ngIf="displayWidth < 993 && !showHelp">
+    <ion-row *ngIf="displayWidth < 993 && !showHelp && selectedEventStorage.teams.length !== 0" >
         <ion-col>
             <ion-item lines="none">
                 <ion-icon slot="end" (click)="showHelp = !showHelp" name="help" color="medium"></ion-icon>
@@ -310,7 +311,7 @@
     </ion-row>
 
 
-    <ion-row class="ion-justify-content-center">
+    <ion-row class="ion-justify-content-center" *ngIf="selectedEventStorage.teams.length !== 0">
         <ion-col size-md="10" size-xs="12" *ngIf="displayWidth < 993 && showHelp">
             <ion-row>
                 <ion-col class="ns-card-help">
