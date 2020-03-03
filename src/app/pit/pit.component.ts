@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../services/loggerService/logger.service';
 import {Pit, PitStorage, TeamMember} from '../objects/pit-classes';
@@ -6,6 +6,8 @@ import {DataInputService} from '../services/dataInputService/data-input.service'
 import {DataStorageService} from '../services/dataStorageService/data-storage.service';
 import {EventStorage, FrcEvent} from '../objects/frcEvent-object';
 import {Team} from '../objects/team-object';
+import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
+import {Platform} from '@ionic/angular';
 
 @Component({
   selector: 'app-pit',
@@ -22,13 +24,26 @@ export class PitComponent implements OnInit {
   public successMessage = '';
   public selectedEventStorage: EventStorage = new EventStorage();
   public selectedPitStorage: PitStorage = new PitStorage();
+  public device = 'web';
 
   constructor(
+      private camera: Camera,
       private dataInputService: DataInputService,
       private dataStorageService: DataStorageService,
       private fb: FormBuilder,
-      private logger: LoggerService
+      private logger: LoggerService,
+      private platform: Platform
   ) {
+
+    this.platform.ready().then(() => {
+      if (this.platform.is('cordova')) {
+        this.logger.debug('EnvironmentService, We are on a mobile device');
+        this.device = 'mobile';
+      } else {
+        this.logger.debug('EnvironmentService, We are in a web browser');
+        this.device = 'web';
+      }
+    });
   }
 
   private createForm(ps?: PitStorage, teamKey?: string): void {
@@ -389,6 +404,25 @@ export class PitComponent implements OnInit {
     // this.qrValue = `${JSON.stringify(this.pitForm.value)}`;
   }
 
+  public takePicture(): void {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      saveToPhotoAlbum: true
+    };
+
+    this.camera.getPicture(options).then((imageData) => {
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.logger.max('PitComponent, takePicture, image: ', base64Image);
+    }, (err) => {
+      // Handle error
+      this.logger.error('PitComponent, takePicture, error: ', err);
+    });
+  }
 
   ngOnInit() {
     this.dataStorageService.selectedEventStorage$.subscribe(value => {

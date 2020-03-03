@@ -21,19 +21,19 @@ export class Drive {
     comm_idDefenceRating: number;
     constructor() {
         this.comm_flAssist = false;
-        this.comm_idDefenceRating = 0;
+        this.comm_idDriveRating = 0;
         this.comm_idDefenceRating = 0;
     }
 }
 
 export class QuickRatings {
-    comm_flAlliance: number;
-    comm_flStrategy: number;
+    comm_flAlliance: boolean;
+    comm_flStrategy: boolean;
     comm_flOwnThing: boolean;
     comm_flRecovery: boolean;
     constructor() {
-        this.comm_flAlliance = 0;
-        this.comm_flStrategy = 0;
+        this.comm_flAlliance = false;
+        this.comm_flStrategy = false;
         this.comm_flOwnThing = false;
         this.comm_flRecovery = false;
     }

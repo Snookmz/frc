@@ -139,24 +139,30 @@
                                                 </ion-col>
                                             </ion-row>
                                         </ion-item>
-                                        <ion-item>
-                                            <ion-label position="floating" >
-                                                Team Uniform
-                                            </ion-label>
-                                            <ion-input formControlName="imgTeamUniform"></ion-input>
+                                        <ion-item *ngIf="device === 'mobile'">
+
+                                            <ion-button (click)="takePicture()">
+                                                Take picture
+                                            </ion-button>
                                         </ion-item>
-                                        <ion-item>
-                                            <ion-label position="floating" >
-                                                Robot Front
-                                            </ion-label>
-                                            <ion-input formControlName="imgRobotFront"></ion-input>
-                                        </ion-item>
-                                        <ion-item>
-                                            <ion-label position="floating" >
-                                                Robot Side
-                                            </ion-label>
-                                            <ion-input formControlName="imgRobotSide"></ion-input>
-                                        </ion-item>
+<!--                                        <ion-item>-->
+<!--                                            <ion-label position="floating" >-->
+<!--                                                Team Uniform-->
+<!--                                            </ion-label>-->
+<!--                                            <ion-input formControlName="imgTeamUniform"></ion-input>-->
+<!--                                        </ion-item>-->
+<!--                                        <ion-item>-->
+<!--                                            <ion-label position="floating" >-->
+<!--                                                Robot Front-->
+<!--                                            </ion-label>-->
+<!--                                            <ion-input formControlName="imgRobotFront"></ion-input>-->
+<!--                                        </ion-item>-->
+<!--                                        <ion-item>-->
+<!--                                            <ion-label position="floating" >-->
+<!--                                                Robot Side-->
+<!--                                            </ion-label>-->
+<!--                                            <ion-input formControlName="imgRobotSide"></ion-input>-->
+<!--                                        </ion-item>-->
                                     </ion-list>
                             </ion-col>
                         </ion-row>

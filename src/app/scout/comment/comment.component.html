@@ -1,5 +1,5 @@
 <form [formGroup]="commentForm">
-    <ion-row>
+    <ion-row *ngIf="commentForm !== undefined">
         <ion-col class="ns-card-form">
             <ion-row>
                 <ion-col>
@@ -23,7 +23,8 @@
                             <ion-label>
                                 Drive Rating
                             </ion-label>
-                            <ion-select formControlName="comm_idDriveRating">
+                            <ion-select
+                                    formControlName="comm_idDriveRating">
                                 <ion-select-option value="1">Terrible</ion-select-option>
                                 <ion-select-option value="2">Average</ion-select-option>
                                 <ion-select-option value="3">Good</ion-select-option>
@@ -34,7 +35,8 @@
                             <ion-label>
                                 Defence Rating
                             </ion-label>
-                            <ion-select formControlName="comm_idDefenceRating">
+                            <ion-select
+                                    formControlName="comm_idDefenceRating">
                                 <ion-select-option value="1">NA</ion-select-option>
                                 <ion-select-option value="2">Weak</ion-select-option>
                                 <ion-select-option value="3">Harassment</ion-select-option>
@@ -168,27 +170,27 @@
         </ion-col>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center">
-        <ion-col size-lg="6">
-            <ion-button
-                    (click)="onSubmit()"
-                    [disabled]="commentForm.pristine || commentForm.invalid"
-                    expand="block" color="success">
-                Save Comments
-            </ion-button>
-        </ion-col>
-        <ion-col>
-            <ion-button (click)="commentForm.reset()"
-                        expand="block" color="light">
-                Clear
-            </ion-button>
-        </ion-col>
-        <ion-col>
-            <ion-button (click)="router.navigateByUrl('/setup')"
-                        expand="block" color="danger">
-                Cancel
-            </ion-button>
-        </ion-col>
-    </ion-row>
+<!--    <ion-row class="ion-justify-content-center">-->
+<!--        <ion-col size-lg="6">-->
+<!--            <ion-button-->
+<!--                    (click)="onSubmit()"-->
+<!--                    [disabled]="commentForm.pristine || commentForm.invalid"-->
+<!--                    expand="block" color="success">-->
+<!--                Save Comments-->
+<!--            </ion-button>-->
+<!--        </ion-col>-->
+<!--        <ion-col>-->
+<!--            <ion-button (click)="commentForm.reset()"-->
+<!--                        expand="block" color="light">-->
+<!--                Clear-->
+<!--            </ion-button>-->
+<!--        </ion-col>-->
+<!--        <ion-col>-->
+<!--            <ion-button (click)="router.navigateByUrl('/setup')"-->
+<!--                        expand="block" color="danger">-->
+<!--                Cancel-->
+<!--            </ion-button>-->
+<!--        </ion-col>-->
+<!--    </ion-row>-->
 </form>
 

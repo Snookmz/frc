@@ -12,6 +12,7 @@ import {AutoComponent} from './scout/auto/auto.component';
 import {TeleComponent} from './scout/tele/tele.component';
 import {CommentComponent} from './scout/comment/comment.component';
 import {StorageComponent} from './storage/storage.component';
+import {FinishComponent} from './scout/finish/finish.component';
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
       {path: '', redirectTo: 'auto', pathMatch: 'full'},
       {path: 'auto', component: AutoComponent},
       {path: 'tele', component: TeleComponent},
-      {path: 'comment', component: CommentComponent}
+      {path: 'comment', component: CommentComponent},
+      {path: 'finish', component: FinishComponent}
     ]},
   {path: 'setup', component: SetupComponent},
   {path: 'qr', component: QrComponent},

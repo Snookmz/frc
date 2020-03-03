@@ -9,6 +9,10 @@
 
 <ion-content>
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-row *ngIf="scouts.length === 0" class="ion-justify-content-center ns-margin-top">
     <ion-col size-xl="5" size-lg="6" size-md="10" size-xs="12" class="ns-card-info">
       <h1>No Matches</h1>

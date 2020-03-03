@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../../services/loggerService/logger.service';
 import {Router} from '@angular/router';
@@ -11,9 +11,15 @@ import {FormService} from '../../services/formService/form.service';
   templateUrl: './tele.component.html',
   styleUrls: ['./tele.component.scss'],
 })
-export class TeleComponent implements OnInit {
+export class TeleComponent implements OnInit, OnDestroy {
   public teleForm: FormGroup;
   public deviceWidth: number = 0;
+
+  public compareWith = ((o1, o2) => {
+    // console.log('---------- o1: ', o1);
+    // console.log('----------- o2: ', o2);
+    return o1 && o2 ? o1 === o2 : o1 === o2;
+  });
 
 
   constructor(
@@ -32,19 +38,19 @@ export class TeleComponent implements OnInit {
     this.teleForm = this.fb.group({
       controlPanel: this.fb.group({
         tele_flPanelRotation: t.controlPanel.tele_flPanelRotation,
-        tele_idPanelRotationTime: [{value: t.controlPanel.tele_idPanelRotationTime, disabled: !t.controlPanel.tele_flPanelRotation}],
+        tele_idPanelRotationTime: [{value: `${t.controlPanel.tele_idPanelRotationTime}`, disabled: !t.controlPanel.tele_flPanelRotation}],
         tele_flPanelPosition: t.controlPanel.tele_flPanelPosition,
-        tele_idPanelPositionTime: [{value: t.controlPanel.tele_idPanelPositionTime, disabled: !t.controlPanel.tele_flPanelPosition}],
+        tele_idPanelPositionTime: [{value: `${t.controlPanel.tele_idPanelPositionTime}`, disabled: !t.controlPanel.tele_flPanelPosition}],
         tele_numPanelAttempt: t.controlPanel.tele_numPanelAttempt,
         tele_numPanelSuccess: t.controlPanel.tele_numPanelSuccess
       }),
       endGame: this.fb.group({
         tele_flPark: t.endGame.tele_flPark,
-        tele_idClimb: [t.endGame.tele_idClimb, Validators.required],
-        tele_idClimbGrabTime: t.endGame.tele_idClimbGrabTime,
-        tele_idClimbTime: t.endGame.tele_idClimbTime,
-        tele_idClimbOutcome: t.endGame.tele_idClimbOutcome,
-        tele_idClimbPos: t.endGame.tele_idClimbPos,
+        tele_idClimb: [`${t.endGame.tele_idClimb}`, Validators.required],
+        tele_idClimbGrabTime: `${t.endGame.tele_idClimbGrabTime}`,
+        tele_idClimbTime: `${t.endGame.tele_idClimbTime}`,
+        tele_idClimbOutcome: `${t.endGame.tele_idClimbOutcome}`,
+        tele_idClimbPos: `${t.endGame.tele_idClimbPos}`,
         tele_numClimbOthers: t.endGame.tele_numClimbOthers,
         tele_flClimbBalance: t.endGame.tele_flClimbBalance,
         tele_flClimbCorrection: t.endGame.tele_flClimbCorrection,
@@ -78,7 +84,6 @@ export class TeleComponent implements OnInit {
     }
     this.teleForm.patchValue({[group]: {[el]: currentVal}});
   }
-
 
   public increaseValue(group: string, el: string): void {
     let currentVal: number = parseInt(this.teleForm.value[group][el], 10);
@@ -141,9 +146,7 @@ export class TeleComponent implements OnInit {
     t.performance.tele_flInner = v.performance.tele_flInner;
     t.performance.tele_flLower = v.performance.tele_flLower;
 
-
     this.formService.pushTeleData(t);
-
   }
 
 
@@ -155,9 +158,9 @@ export class TeleComponent implements OnInit {
 
   ngOnInit() {
 
-    this.formService.scout$.subscribe(s => {
-      this.logger.max('TeleComponent, scout$: ', s);
-      this.createTeleForm(s.tele);
+    this.formService.tele$.subscribe(t => {
+      this.logger.max('TeleComponent, t$: ', t);
+      this.createTeleForm(t);
     });
 
     this.deviceWidth = this.platform.width();
@@ -166,6 +169,11 @@ export class TeleComponent implements OnInit {
       this.deviceWidth = this.platform.width();
     });
     // this.onWindowResize();
+  }
+
+  ngOnDestroy(): void {
+    this.logger.max('TeleComponent, onDestroy, form: ', this.teleForm.value);
+    this.onSubmit();
   }
 
 }

@@ -16,7 +16,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgxQRCodeModule} from 'ngx-qrcode2';
 import {QrComponent} from './qr/qr.component';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {DataComponent} from './data/data.component';
 import {LoginComponent} from './login/login.component';
 import {SetupComponent} from './setup/setup.component';
@@ -26,6 +26,8 @@ import {TeleComponent} from './scout/tele/tele.component';
 import {CommentComponent} from './scout/comment/comment.component';
 import {StorageComponent} from './storage/storage.component';
 import {HTTP} from '@ionic-native/http/ngx';
+import {Camera} from '@ionic-native/camera/ngx';
+import {FinishComponent} from './scout/finish/finish.component';
 
 @NgModule({
     declarations: [
@@ -42,7 +44,8 @@ import {HTTP} from '@ionic-native/http/ngx';
         AutoComponent,
         TeleComponent,
         CommentComponent,
-        StorageComponent
+        StorageComponent,
+        FinishComponent
     ],
     entryComponents: [EventModalComponent],
     imports: [
@@ -51,13 +54,14 @@ import {HTTP} from '@ionic-native/http/ngx';
         IonicModule.forRoot(),
         AppRoutingModule,
         NgxQRCodeModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     providers: [
         HttpInterceptorProviders,
         StatusBar,
         SplashScreen,
         HTTP,
+        Camera,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
     ],
     bootstrap: [AppComponent]

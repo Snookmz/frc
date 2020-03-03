@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../../services/loggerService/logger.service';
 import {Router} from '@angular/router';
@@ -10,7 +10,7 @@ import {ScoutComments} from '../../objects/scout-Comments';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
 })
-export class CommentComponent implements OnInit {
+export class CommentComponent implements OnInit, OnDestroy {
 
   public commentForm: FormGroup;
 
@@ -30,8 +30,8 @@ export class CommentComponent implements OnInit {
     this.commentForm = this.fb.group({
       drive: this.fb.group({
         comm_flAssist: c.drive.comm_flAssist,
-        comm_idDriveRating: c.drive.comm_idDriveRating,
-        comm_idDefenceRating: c.drive.comm_idDefenceRating,
+        comm_idDriveRating: `${c.drive.comm_idDriveRating}`,
+        comm_idDefenceRating: `${c.drive.comm_idDefenceRating}`,
       }),
       quickRatings: this.fb.group({
         comm_flAlliance: c.quickRatings.comm_flAlliance,
@@ -57,6 +57,12 @@ export class CommentComponent implements OnInit {
       }),
     })
   }
+
+  public compareWith = ((o1, o2) => {
+    // console.log('---------- o1: ', o1);
+    // console.log('----------- o2: ', o2);
+    return o1 && o2 ? o1 === o2 : o1 === o2;
+  });
 
   public onSubmit(): void {
     this.logger.max('CommentComponent, onSubmit, values: ', this.commentForm.value);
@@ -89,12 +95,16 @@ export class CommentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formService.scout$.subscribe(s => {
-      const c: ScoutComments = s.comments;
+    this.formService.comment$.subscribe(c => {
       this.createCommentForm(c);
     });
 
 
+  }
+
+  ngOnDestroy(): void {
+    this.logger.max('CommentComponent, onDestroy, form: ', this.commentForm.value);
+    this.onSubmit();
   }
 
 }

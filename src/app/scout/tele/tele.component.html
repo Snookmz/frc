@@ -118,7 +118,8 @@
                                     <ion-label>
                                         Time Taken
                                     </ion-label>
-                                    <ion-select formControlName="tele_idPanelRotationTime">
+                                    <ion-select
+                                            formControlName="tele_idPanelRotationTime">
                                         <ion-select-option value="1">NA</ion-select-option>
                                         <ion-select-option value="2">> 7 sec (slow)</ion-select-option>
                                         <ion-select-option value="3">3-7 sec (medium)</ion-select-option>
@@ -139,7 +140,8 @@
                                     <ion-label>
                                         Time Taken
                                     </ion-label>
-                                    <ion-select formControlName="tele_idPanelPositionTime">
+                                    <ion-select
+                                            formControlName="tele_idPanelPositionTime">
                                         <ion-select-option value="1">NA</ion-select-option>
                                         <ion-select-option value="2">> 7 sec (slow)</ion-select-option>
                                         <ion-select-option value="3">3-7 sec (medium)</ion-select-option>
@@ -231,7 +233,8 @@
                     <ion-label position="floating">
                         Climb
                     </ion-label>
-                    <ion-select formControlName="tele_idClimb" placeholder="(NA = not attempted)">
+                    <ion-select
+                            formControlName="tele_idClimb" placeholder="(NA = not attempted)">
                         <ion-select-option value="1">NA</ion-select-option>
                         <ion-select-option value="2">Failed</ion-select-option>
                         <ion-select-option value="3">Success</ion-select-option>
@@ -241,7 +244,8 @@
                     <ion-label position="floating">
                         Time to Grip
                     </ion-label>
-                    <ion-select formControlName="tele_idClimbGrabTime">
+                    <ion-select
+                            formControlName="tele_idClimbGrabTime">
                         <ion-select-option value="1">NA</ion-select-option>
                         <ion-select-option value="2">> 7 sec (slow)</ion-select-option>
                         <ion-select-option value="3">3-7 sec (medium)</ion-select-option>
@@ -252,7 +256,8 @@
                     <ion-label position="floating">
                         Time from Grip to Climb
                     </ion-label>
-                    <ion-select formControlName="tele_idClimbTime">
+                    <ion-select
+                            formControlName="tele_idClimbTime">
                         <ion-select-option value="1">NA</ion-select-option>
                         <ion-select-option value="2">> 7 sec (slow)</ion-select-option>
                         <ion-select-option value="3">3-7 sec (medium)</ion-select-option>
@@ -263,11 +268,24 @@
                     <ion-label position="floating">
                         Outcome
                     </ion-label>
-                    <ion-select formControlName="tele_idClimbOutcome">
+                    <ion-select
+                            formControlName="tele_idClimbOutcome">
                         <ion-select-option value="1">NA</ion-select-option>
                         <ion-select-option value="2">Self</ion-select-option>
                         <ion-select-option value="3">Self + Others</ion-select-option>
                         <ion-select-option value="4">Others</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">
+                        Preferred Position
+                    </ion-label>
+                    <ion-select
+                            formControlName="tele_idClimbPos">
+                        <ion-select-option value="1">NA</ion-select-option>
+                        <ion-select-option value="2">Inner</ion-select-option>
+                        <ion-select-option value="3">Middle</ion-select-option>
+                        <ion-select-option value="4">Outer</ion-select-option>
                     </ion-select>
                 </ion-item>
                 <ion-item>
@@ -312,26 +330,26 @@
             </ion-list>
         </ion-col>
     </ion-row>
-    <ion-row class="ion-justify-content-center">
-        <ion-col>
-            <ion-button
-                    (click)="onSubmit()"
-                    [disabled]="teleForm.pristine || teleForm.invalid"
-                    expand="block" color="success">
-                Save Tele
-            </ion-button>
-        </ion-col>
-        <ion-col>
-            <ion-button expand="block" color="light" (click)="createTeleForm()">
-                Clear
-            </ion-button>
-        </ion-col>
-        <ion-col>
-            <ion-button color="danger" expand="block" (click)="router.navigateByUrl('/setup')">
-                Cancel
-            </ion-button>
-        </ion-col>
-    </ion-row>
+<!--    <ion-row class="ion-justify-content-center">-->
+<!--        <ion-col>-->
+<!--            <ion-button-->
+<!--                    (click)="onSubmit()"-->
+<!--                    [disabled]="teleForm.pristine || teleForm.invalid"-->
+<!--                    expand="block" color="success">-->
+<!--                Save Tele-->
+<!--            </ion-button>-->
+<!--        </ion-col>-->
+<!--        <ion-col>-->
+<!--            <ion-button expand="block" color="light" (click)="createTeleForm()">-->
+<!--                Clear-->
+<!--            </ion-button>-->
+<!--        </ion-col>-->
+<!--        <ion-col>-->
+<!--            <ion-button color="danger" expand="block" (click)="router.navigateByUrl('/setup')">-->
+<!--                Cancel-->
+<!--            </ion-button>-->
+<!--        </ion-col>-->
+<!--    </ion-row>-->
 
 </form>
 

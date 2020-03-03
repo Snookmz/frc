@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LoggerService} from '../services/loggerService/logger.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EventStorage} from '../objects/frcEvent-object';
@@ -14,7 +14,7 @@ import {ValidatorService} from '../services/validatorService/validator.service';
   templateUrl: './scout.component.html',
   styleUrls: ['./scout.component.scss'],
 })
-export class ScoutComponent implements OnInit {
+export class ScoutComponent implements OnInit, OnDestroy {
 
   public driveStationColor = '';
   public displayWidth = 0;
@@ -25,6 +25,9 @@ export class ScoutComponent implements OnInit {
   public saveParentDataSpinner = false;
   public showHelp = true;
 
+  public compareWith = ((o1, o2) => {
+    return o1 && o2 ? o1 === o2 : o1 === o2;
+  });
 
   constructor(
       private dataStorageService: DataStorageService,
@@ -48,18 +51,20 @@ export class ScoutComponent implements OnInit {
 
     this.parentDataForm = undefined;
 
+    const driveStationDisabled = p.teamDetails.idAlliance === 0;
+
     this.parentDataForm = this.fb.group({
       frcEvent: [eventCode, Validators.required],
       teamDetails: this.fb.group({
         numMatch: [p.teamDetails.numMatch, [Validators.required, this.validator.notEmpty]],
-        idAlliance: [p.teamDetails.idAlliance, [Validators.required, this.validator.notEmpty]],
-        idDriveStation: [{value: p.teamDetails.idDriveStation, disabled: true}, Validators.required],
+        idAlliance: [`${p.teamDetails.idAlliance}`, [Validators.required, this.validator.notEmpty]],
+        idDriveStation: [{value: `${p.teamDetails.idDriveStation}`, disabled: driveStationDisabled}, Validators.required],
         idTeam: [p.teamDetails.idTeam, [Validators.required]],
         txScoutName: p.teamDetails.txScoutName
       }),
       matchSetup: this.fb.group({
-        idStartFacing: p.matchSetup.idStartFacing,
-        idStartPosition: p.matchSetup.idStartPosition,
+        idStartFacing: `${p.matchSetup.idStartFacing}`,
+        idStartPosition: `${p.matchSetup.idStartPosition}`,
         numStartCells: p.matchSetup.numStartCells,
       }),
       results: this.fb.group({
@@ -98,6 +103,7 @@ export class ScoutComponent implements OnInit {
 
   public selectForm(form: string):void {
     this.selectedForm = form;
+    this.onSubmit();
     this.router.navigateByUrl(`/scout/${form}`).catch(reason => {
       this.logger.error('ScoutComponent, error navigating to ' + form, reason);
     });
@@ -129,10 +135,13 @@ export class ScoutComponent implements OnInit {
     p.teamDetails.numMatch = parseInt(v.teamDetails.numMatch, 10);
     p.teamDetails.idAlliance = parseInt(v.teamDetails.idAlliance, 10);
     p.teamDetails.idDriveStation = parseInt(v.teamDetails.idDriveStation, 10);
+    if (isNaN(p.teamDetails.idDriveStation) ) {
+      p.teamDetails.idDriveStation = 0;
+    }
     p.teamDetails.idTeam = v.teamDetails.idTeam;
     p.teamDetails.txScoutName = v.teamDetails.txScoutName;
 
-    p.matchSetup.idStartPosition = parseInt(v.matchSetup.idStartFacing, 10);
+    p.matchSetup.idStartFacing = parseInt(v.matchSetup.idStartFacing, 10);
     p.matchSetup.idStartPosition = parseInt(v.matchSetup.idStartPosition, 10);
     p.matchSetup.numStartCells = parseInt(v.matchSetup.numStartCells, 10);
 
@@ -159,24 +168,33 @@ export class ScoutComponent implements OnInit {
     setTimeout(() => {
       this.saveMatchSpinner = false;
     }, 1000);
-
   }
 
+
+
   ngOnInit() {
+    this.logger.max('ScoutComponent, ngOnInit()');
 
     this.displayWidth = this.platform.width();
     this.platform.resize.subscribe(async () => {
       this.displayWidth = this.platform.width();
     });
 
-    this.formService.scout$.subscribe(s => {
-      this.selectedEventStorage = this.dataStorageService.getSelectedEventStorage();
-      this.createParentDataForm(s.parentData, this.selectedEventStorage.event.event_code)
-    });
+    this.selectedEventStorage = this.dataStorageService.getSelectedEventStorage();
+    this.createParentDataForm(this.formService.getParentData(), this.selectedEventStorage.event.event_code);
+
+    // this.formService.scout$.subscribe(s => {
+    //
+    // });
 
     const route = this.router.url;
     const routes = route.split('/');
     this.selectForm(routes[routes.length - 1]);
+  }
+
+  ngOnDestroy(): void {
+    this.logger.max('ScoutComponent, onDestroy, form: ', this.parentDataForm.value);
+    this.onSubmit();
   }
 
 }

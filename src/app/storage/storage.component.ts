@@ -38,6 +38,18 @@ export class StorageComponent implements OnInit {
       private storage: DataStorageService
   ) { }
 
+  doRefresh(event) {
+    console.log('Begin async operation');
+    this.frcEvents = this.storage.getEventsFromStorage();
+    this.eventsStorage = this.storage.getEventsStorage();
+    this.scouts = this.storage.getScoutMatches();
+    this.pits = this.storage.getPits();
+    setTimeout(() => {
+
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
 
   public printScoutQrCode(s: Scout): void {
     this.selectedScout = s;

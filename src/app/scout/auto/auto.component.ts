@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoggerService} from '../../services/loggerService/logger.service';
 import {ScoutParentData} from '../../objects/scout-parentData';
@@ -11,7 +11,7 @@ import {ScoutAuto} from '../../objects/scout-auto';
   templateUrl: './auto.component.html',
   styleUrls: ['./auto.component.scss'],
 })
-export class AutoComponent implements OnInit {
+export class AutoComponent implements OnInit, OnDestroy {
 
   public autoForm: FormGroup;
   public parentData: ScoutParentData = new ScoutParentData();
@@ -135,12 +135,17 @@ export class AutoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formService.scout$.subscribe(s => {
-      this.logger.max('AutoComponent, scout$: ', s);
-      this.parentData = s.parentData;
-      this.createAutoForm(s.auto);
+    this.formService.auto$.subscribe(a => {
+      this.logger.max('AutoComponent, auto$: ', a);
+      // this.parentData = a;
+      this.createAutoForm(a);
     })
 
+  }
+
+  ngOnDestroy(): void {
+    this.logger.max('AutoComponent, onDestroy, form: ', this.autoForm.value);
+    this.onSubmit();
   }
 
 }
