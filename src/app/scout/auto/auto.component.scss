@@ -4,6 +4,7 @@
 
   & li {
     padding: 10px;
+    margin-bottom: 25px;
   }
 }
 
@@ -18,5 +19,80 @@
   @extend .ns-auto-ul;
   & li {
     background-color: #f04141;
+  }
+}
+
+@media screen and (min-width : 1101px) and (max-width: 1636px) {
+  .ns-auto-ul {
+    & li {
+      margin-bottom: 20px;
+      font-size: 16px;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (min-width : 992px) and (max-width: 1100px) {
+  .ns-auto-ul {
+    & li {
+      margin-bottom: 5px;
+      font-size: 12px;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (min-width : 701px) and (max-width: 991px) {
+  .ns-auto-ul {
+    & li {
+      margin-bottom: 35px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      font-size: 20px;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+
+@media screen and (min-width : 601px) and (max-width: 700px) {
+  .ns-auto-ul {
+    & li {
+      margin-bottom: 15px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      font-size: 20px;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (min-width : 501px) and (max-width: 600px) {
+  .ns-auto-ul {
+    & li {
+      margin-bottom: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 20px;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .ns-auto-ul {
+    & li {
+      margin-bottom: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 20px;
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
 }

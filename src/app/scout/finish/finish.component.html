@@ -1,5 +1,91 @@
-<ion-row class="ion-justify-content-center">
-    <ion-col size-xl="8" size-lg="10" size-md="12">
-        <pre>{{scout | json}}</pre>
+<ion-row class="ion-justify-content-center ns-margin-top" *ngIf="formComplete">
+    <ion-col size-xl="2" size-lg="2" size-md="4" size-xs="12">
+        <ion-spinner *ngIf="saveMatchSpinner"></ion-spinner>
+        <ion-button (click)="saveMatch()" *ngIf="!saveMatchSpinner" color="success">
+            Save Match
+        </ion-button>
     </ion-col>
 </ion-row>
+
+
+<form [formGroup]="finishForm" novalidate>
+    <ion-row class="ion-justify-content-center" *ngIf="!formComplete && finishForm !== undefined">
+        <ion-col size-xl="5" size-lg="10" size-md="12">
+            <h1>
+                Please enter required fields.
+            </h1>
+            <ion-list>
+                <ion-item *ngIf="numMatch === 0">
+                    <ion-label position="floating">
+                        Match Number
+                    </ion-label>
+                    <ion-input
+                            placeholder="(enter match number)"
+                            formControlName="numMatch"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="idAlliance === 0">
+                    <ion-label position="floating">
+                        Alliance
+                    </ion-label>
+                    <ion-select
+                            formControlName="idAlliance" placeholder="(select color)">
+                        <ion-select-option value="1">Red</ion-select-option>
+                        <ion-select-option value="2">Blue</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item *ngIf="idDriveStation === 0">
+                    <ion-label position="floating">
+                        Drive Station
+                    </ion-label>
+                    <ion-select
+                            formControlName="idDriveStation" placeholder="(select station)">
+                        <ion-select-option selected value="1">{{driveStationColor}} 1</ion-select-option>
+                        <ion-select-option value="2">{{driveStationColor}} 2</ion-select-option>
+                        <ion-select-option value="3">{{driveStationColor}} 3</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item *ngIf="idTeam === ''">
+                    <ion-label position="floating">
+                        Team
+                    </ion-label>
+                    <ion-select
+                            [compareWith]="compareWith"
+                            formControlName="idTeam" placeholder="(select team)">
+                        <ion-select-option
+                                *ngFor="let t of selectedEventStorage.teams" [value]="t.key">
+                            {{t.key}} - {{t.nickname}}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item *ngIf="tele_idClimb === 0">
+                    <ion-label position="floating">
+                        Climb
+                    </ion-label>
+                    <ion-select
+                            formControlName="tele_idClimb" placeholder="(NA = not attempted)">
+                        <ion-select-option value="1">NA</ion-select-option>
+                        <ion-select-option value="2">Failed</ion-select-option>
+                        <ion-select-option value="3">Success</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-list>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="!formComplete">
+        <ion-col size-xl="5" size-lg="10" size-md="12">
+            <ion-button
+                    [disabled]="finishForm.pristine || finishForm.invalid"
+                    (click)="onSubmit()">
+                Update required fields
+            </ion-button>
+        </ion-col>
+    </ion-row>
+
+</form>
+
+
+<!--<ion-row class="ion-justify-content-center">-->
+<!--    <ion-col size-xl="8" size-lg="10" size-md="12">-->
+<!--        <pre>{{scout | json}}</pre>-->
+<!--    </ion-col>-->
+<!--</ion-row>-->

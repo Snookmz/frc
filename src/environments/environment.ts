@@ -24,6 +24,7 @@ export const environment = {
   },
   url: {
     base: 'https://frcapi.heathsnoek.me',
+    // base: 'http://localhost:8002',
     scouts: '/scouts',
     pits: '/pits'
   }

@@ -132,10 +132,11 @@ export class PitComponent implements OnInit {
         numAutoLoad: {value: ps.pit.auto.numAutoLoad, disabled: autoDisabled}
       }),
       record: this.fb.group({
-        dtCreated: '',
+        dtCreated: ps.pit.record.dtCreated,
         dtModified: '',
-        txComputerName: ''
-      })
+        txComputerName: this.selectedEventStorage.deviceName
+      }),
+      txPitNotes: ps.pit.txPitNotes
     });
 
     this.logger.max('PitComponent, createForm, returning: ', this.pitForm);
@@ -149,6 +150,7 @@ export class PitComponent implements OnInit {
     p.imperialUnits = v.details.imperialUnits;
 
     p.event = v.event;
+    p.txPitNotes = v.txPitNotes;
     p.details.idTeam = v.details.idTeam;
     // p.details.team = this.getTeamFromTeamId(v.details.teamId);
     p.details.name = v.details.name;

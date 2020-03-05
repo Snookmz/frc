@@ -36,23 +36,39 @@ export class FormService {
     return s;
   }
 
+  public pushScout(s: Scout): void {
+    this._scout.next(s);
+  }
+
   public getParentData(): ScoutParentData {
     return this._parentData.getValue();
   }
 
   public pushParentData(p: ScoutParentData): void {
     this._parentData.next(p);
+    const s: Scout = this._scout.getValue();
+    s.parentData = p;
+    this._scout.next(s);
   }
 
   public pushAutoData(a: ScoutAuto): void {
     this._auto.next(a);
+    const s: Scout = this._scout.getValue();
+    s.auto = a;
+    this._scout.next(s);
   }
 
   public pushTeleData(t: ScoutTele): void {
     this._tele.next(t);
+    const s: Scout = this._scout.getValue();
+    s.tele = t;
+    this._scout.next(s);
   }
 
   public pushCommentData(c: ScoutComments): void {
     this._comment.next(c);
+    const s: Scout = this._scout.getValue();
+    s.comments = c;
+    this._scout.next(s);
   }
 }

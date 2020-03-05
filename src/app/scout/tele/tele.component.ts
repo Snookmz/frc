@@ -127,6 +127,14 @@ export class TeleComponent implements OnInit, OnDestroy {
     t.controlPanel.tele_flPanelPosition = v.controlPanel.tele_flPanelPosition;
     t.controlPanel.tele_idPanelPositionTime = parseInt(v.controlPanel.tele_idPanelPositionTime, 10);
     t.controlPanel.tele_numPanelAttempt = parseInt(v.controlPanel.tele_numPanelAttempt, 10);
+
+    if (isNaN(t.controlPanel.tele_idPanelRotationTime)) {
+      t.controlPanel.tele_idPanelRotationTime = 1;
+    }
+    if (isNaN(t.controlPanel.tele_idPanelPositionTime)) {
+      t.controlPanel.tele_idPanelPositionTime = 1;
+    }
+
     t.controlPanel.tele_numPanelSuccess = parseInt(v.controlPanel.tele_numPanelSuccess, 10);
 
     t.endGame.tele_flPark = v.endGame.tele_flPark;

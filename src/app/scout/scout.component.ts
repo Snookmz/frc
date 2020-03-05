@@ -129,7 +129,7 @@ export class ScoutComponent implements OnInit, OnDestroy {
     const v = this.parentDataForm.value;
     this.saveParentDataSpinner = true;
 
-    p.txEvent = this.selectedEventStorage.event.event_code;
+    p.txEvent = this.selectedEventStorage.event.key;
     p.deviceName = this.selectedEventStorage.deviceName;
 
     p.teamDetails.numMatch = parseInt(v.teamDetails.numMatch, 10);
@@ -160,15 +160,15 @@ export class ScoutComponent implements OnInit, OnDestroy {
     this.formService.pushParentData(p);
 
   }
-
-  public saveMatch(): void {
-    this.logger.max('ScoutComponent, saveMatch: ', this.formService.getScout());
-    this.saveMatchSpinner = true;
-    this.dataStorageService.storeScoutMatch(this.formService.getScout());
-    setTimeout(() => {
-      this.saveMatchSpinner = false;
-    }, 1000);
-  }
+  //
+  // public saveMatch(): void {
+  //   this.logger.max('ScoutComponent, saveMatch: ', this.formService.getScout());
+  //   this.saveMatchSpinner = true;
+  //   this.dataStorageService.storeScoutMatch(this.formService.getScout());
+  //   setTimeout(() => {
+  //     this.saveMatchSpinner = false;
+  //   }, 1000);
+  // }
 
 
 

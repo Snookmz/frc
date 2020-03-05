@@ -5,12 +5,12 @@
         </ion-buttons>
         <ion-title>Match Scouting</ion-title>
         <ion-spinner style="margin-right: 50px" slot="end" *ngIf="saveMatchSpinner"></ion-spinner>
-        <ion-button
-                *ngIf="!saveMatchSpinner"
-                [disabled]="parentDataForm.invalid"
-                (click)="saveMatch()" color="success" slot="end">
-            Save Match
-        </ion-button>
+<!--        <ion-button-->
+<!--                *ngIf="!saveMatchSpinner"-->
+<!--                [disabled]="parentDataForm.invalid"-->
+<!--                (click)="saveMatch()" color="success" slot="end">-->
+<!--            Save Match-->
+<!--        </ion-button>-->
     </ion-toolbar>
 </ion-header>
 
@@ -60,7 +60,7 @@
                             <ion-col>
                                 <ion-item>
                                     <ion-label position="floating">
-                                        Match Number
+                                        Match Number (required)
                                     </ion-label>
                                     <ion-input
                                             placeholder="(match number)"
@@ -70,7 +70,7 @@
                             <ion-col>
                                 <ion-item>
                                     <ion-label position="floating">
-                                        Alliance
+                                        Alliance (required)
                                     </ion-label>
                                     <ion-select
                                             formControlName="idAlliance" placeholder="(select color)">
@@ -82,7 +82,7 @@
                             <ion-col>
                                 <ion-item>
                                     <ion-label position="floating">
-                                        Drive Station
+                                        Drive Station (required)
                                     </ion-label>
                                     <ion-select
                                             formControlName="idDriveStation" placeholder="(select station)">
@@ -95,7 +95,7 @@
                             <ion-col>
                                 <ion-item>
                                     <ion-label position="floating">
-                                        Team
+                                        Team (required)
                                     </ion-label>
                                     <ion-select
                                             [compareWith]="compareWith"
