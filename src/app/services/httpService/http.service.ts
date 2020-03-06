@@ -96,7 +96,10 @@ export class HttpService {
 
   private webPost(query: Post, url: string): Observable<any> {
     this.logger.max('HttpService, httpPost: ', `${environment.url.base}${url}`, query);
-    return this.http.post<ReturnJson>(`${environment.url.base}${url}`, query);
+
+    const queryString = JSON.stringify(query);
+
+    return this.http.post<ReturnJson>(`${environment.url.base}${url}`, queryString);
   }
 
 }

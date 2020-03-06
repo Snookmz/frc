@@ -40,6 +40,11 @@ export class ScoutComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  public createTeamNameString(key: string, nickname: string): string {
+    key = key.replace('frc', '');
+    return `${key} - ${nickname}`;
+  }
+
   public createParentDataForm(p?: ScoutParentData, eventCode?: string): void {
     if (p === undefined) {
       p = new ScoutParentData();
@@ -138,7 +143,7 @@ export class ScoutComponent implements OnInit, OnDestroy {
     if (isNaN(p.teamDetails.idDriveStation) ) {
       p.teamDetails.idDriveStation = 0;
     }
-    p.teamDetails.idTeam = v.teamDetails.idTeam;
+    p.teamDetails.idTeam = parseInt(v.teamDetails.idTeam, 10);
     p.teamDetails.txScoutName = v.teamDetails.txScoutName;
 
     p.matchSetup.idStartFacing = parseInt(v.matchSetup.idStartFacing, 10);

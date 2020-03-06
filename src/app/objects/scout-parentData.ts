@@ -35,13 +35,13 @@ export class TeamDetails {
     numMatch: number;
     idAlliance: number;
     idDriveStation: number;
-    idTeam: string;
+    idTeam: number;
     txScoutName: string;
     constructor() {
         this.numMatch = 0;
         this.idAlliance = 0;
         this.idDriveStation = 0;
-        this.idTeam = '';
+        this.idTeam = 0;
         this.txScoutName = '';
     }
 }

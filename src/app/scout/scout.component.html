@@ -101,8 +101,8 @@
                                             [compareWith]="compareWith"
                                             formControlName="idTeam" placeholder="(select team)">
                                         <ion-select-option
-                                                *ngFor="let t of selectedEventStorage.teams" [value]="t.key">
-                                            {{t.key}} - {{t.nickname}}
+                                                *ngFor="let t of selectedEventStorage.teams" [value]="t.team_number">
+                                            {{createTeamNameString(t.key, t.nickname)}}
                                         </ion-select-option>
                                     </ion-select>
                                 </ion-item>

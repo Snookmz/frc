@@ -52,8 +52,8 @@
                                     Team
                                 </ion-label>
                                 <ion-select formControlName="idTeam">
-                                    <ion-select-option *ngFor="let t of selectedEventStorage.teams" [value]="t.key">
-                                        {{t.key}} - {{t.nickname}}
+                                    <ion-select-option *ngFor="let t of selectedEventStorage.teams" [value]="t.team_number">
+                                        {{createTeamNameString(t.key, t.nickname)}}
                                     </ion-select-option>
                                 </ion-select>
                             </ion-item>
@@ -202,6 +202,7 @@
                                             <ion-row>
                                                 <ion-col>
                                                     <ion-button color="success"
+                                                                [disabled]="pitForm.get('powerCells').get('numStorage').disabled"
                                                                 (click)="increaseValue('powerCells', 'numStorage')">
                                                         +
                                                     </ion-button>
@@ -211,6 +212,7 @@
                                                 </ion-col>
                                                 <ion-col>
                                                     <ion-button color="danger"
+                                                                [disabled]="pitForm.get('powerCells').get('numStorage').disabled"
                                                                 (click)="decreaseValue('powerCells', 'numStorage')">
                                                         -
                                                     </ion-button>

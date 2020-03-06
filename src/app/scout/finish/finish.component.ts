@@ -20,7 +20,7 @@ export class FinishComponent implements OnInit {
   public frcEvent: string;
   public idAlliance: number;
   public idDriveStation: number;
-  public idTeam: string;
+  public idTeam: number;
   public numMatch: number;
   public tele_idClimb: number;
   public driveStationColor = '';
@@ -51,7 +51,7 @@ export class FinishComponent implements OnInit {
     if (this.frcEvent === '' ||
         this.idAlliance === 0 ||
         this.idDriveStation === 0 ||
-        this.idTeam === '' ||
+        this.idTeam === 0 ||
         this.tele_idClimb === 0 ||
         this.numMatch === 0
     ) {
@@ -62,13 +62,13 @@ export class FinishComponent implements OnInit {
     return complete;
   }
 
-  private createFinishForm(): void {
+  private createFinishForm(s: Scout): void {
     this.finishForm = this.fb.group({
-      idAlliance: ['', Validators.required],
-      idDriveStation: ['', Validators.required],
-      idTeam: ['', Validators.required],
-      tele_idClimb: ['', Validators.required],
-      numMatch: ['', Validators.required]
+      idAlliance: [s.parentData.teamDetails.idAlliance, Validators.required],
+      idDriveStation: [s.parentData.teamDetails.idDriveStation, Validators.required],
+      idTeam: [s.parentData.teamDetails.idTeam, Validators.required],
+      tele_idClimb: [s.tele.endGame.tele_idClimb, Validators.required],
+      numMatch: [s.parentData.teamDetails.numMatch, Validators.required]
     });
     this.onFormChange();
   }
@@ -93,7 +93,7 @@ export class FinishComponent implements OnInit {
     const s: Scout = this.formService.getScout();
     s.parentData.teamDetails.idAlliance = v.idAlliance;
     s.parentData.teamDetails.idDriveStation = v.idDriveStation;
-    s.parentData.teamDetails.idTeam = v.idTeam;
+    s.parentData.teamDetails.idTeam = parseInt(v.idTeam, 10);
     s.tele.endGame.tele_idClimb = v.tele_idClimb;
     s.parentData.teamDetails.numMatch = v.numMatch;
 
@@ -117,7 +117,7 @@ export class FinishComponent implements OnInit {
       this.formComplete = this.checkFormComplete(s);
       if (!this.formComplete) {
         this.selectedEventStorage = this.dataStorageService.getSelectedEventStorage();
-        this.createFinishForm();
+        this.createFinishForm(s);
       }
     });
 

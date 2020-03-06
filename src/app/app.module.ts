@@ -28,6 +28,7 @@ import {StorageComponent} from './storage/storage.component';
 import {HTTP} from '@ionic-native/http/ngx';
 import {Camera} from '@ionic-native/camera/ngx';
 import {FinishComponent} from './scout/finish/finish.component';
+import {QRCodeModule} from 'angularx-qrcode';
 
 @NgModule({
     declarations: [

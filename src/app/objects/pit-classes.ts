@@ -38,11 +38,11 @@ export class Pit {
 }
 
 export class Details {
-    idTeam: string;
+    idTeam: number;
     name: string;
     txScoutName: string;
     constructor() {
-        this.idTeam = '';
+        this.idTeam = 0;
         this.name = '';
         this.txScoutName = '';
     }

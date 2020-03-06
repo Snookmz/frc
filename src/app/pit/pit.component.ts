@@ -46,7 +46,12 @@ export class PitComponent implements OnInit {
     });
   }
 
-  private createForm(ps?: PitStorage, teamKey?: string): void {
+  public createTeamNameString(key: string, nickname: string): string {
+    key = key.replace('frc', '');
+    return `${key} - ${nickname}`;
+  }
+
+  private createForm(ps?: PitStorage, teamNumber?: number): void {
     this.logger.max('PitComponent, createForm');
     this.pitForm = undefined;
 
@@ -74,9 +79,9 @@ export class PitComponent implements OnInit {
     this.logger.max('PitComponent, createForm, powerCellsDisabled: ', JSON.stringify(powerCellsDisabled));
 
     this.pitForm = this.fb.group({
-      event: this.selectedEventStorage.event.event_code,
+      event: this.selectedEventStorage.event.key,
       details: this.fb.group({
-        idTeam: [teamKey, Validators.required],
+        idTeam: [teamNumber, Validators.required],
         // name: ['', Validators.required],
         txDeviceName: [this.selectedEventStorage.deviceName, Validators.required],
         txScoutName: [ps.pit.details.txScoutName],
@@ -151,7 +156,7 @@ export class PitComponent implements OnInit {
 
     p.event = v.event;
     p.txPitNotes = v.txPitNotes;
-    p.details.idTeam = v.details.idTeam;
+    p.details.idTeam = parseInt(v.details.idTeam, 10);
     // p.details.team = this.getTeamFromTeamId(v.details.teamId);
     p.details.name = v.details.name;
     p.details.txScoutName = v.details.txScoutName;
@@ -223,19 +228,19 @@ export class PitComponent implements OnInit {
     p.record.txComputerName = v.record.txComputerName;
 
     if (!p.imperialUnits) {
-      p.robotStats.numWeight = p.robotStats.numWeight * 2.20462;
-      p.robotStats.numHeight = p.robotStats.numHeight / 2.54;
-      p.climb.numClimbHeight = p.climb.numClimbHeight / 2.54;
+      p.robotStats.numWeight = Math.round(p.robotStats.numWeight * 2.20462);
+      p.robotStats.numHeight = Math.round(p.robotStats.numHeight / 2.54);
+      p.climb.numClimbHeight = Math.round(p.climb.numClimbHeight / 2.54);
     }
 
     this.logger.max('PitComponent, convertValuesToPitClasses, returning: ', p);
     return p;
   }
 
-  private getTeamFromEventStorage(id: string): Team {
+  private getTeamFromEventStorage(id: number): Team {
     let team: Team = new Team();
     this.selectedEventStorage.teams.forEach(t => {
-      if (t.key === id) {
+      if (t.team_number === id) {
         team = t;
       }
     });
