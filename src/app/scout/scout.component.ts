@@ -6,7 +6,7 @@ import {DataStorageService} from '../services/dataStorageService/data-storage.se
 import {Router} from '@angular/router';
 import {ScoutParentData} from '../objects/scout-parentData';
 import {FormService} from '../services/formService/form.service';
-import {Platform} from '@ionic/angular';
+import {AlertController, Platform} from '@ionic/angular';
 import {ValidatorService} from '../services/validatorService/validator.service';
 
 @Component({
@@ -30,6 +30,7 @@ export class ScoutComponent implements OnInit, OnDestroy {
   });
 
   constructor(
+      private alertController: AlertController,
       private dataStorageService: DataStorageService,
       private fb: FormBuilder,
       private formService: FormService,
@@ -38,6 +39,13 @@ export class ScoutComponent implements OnInit, OnDestroy {
       public router: Router,
       private validator: ValidatorService
   ) {
+  }
+
+  private clearMatch(): void {
+    this.logger.max('ScoutComponent, clearMatch');
+    this.formService.clearScout();
+    this.createParentDataForm();
+
   }
 
   public createTeamNameString(key: string, nickname: string): string {
@@ -112,6 +120,26 @@ export class ScoutComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`/scout/${form}`).catch(reason => {
       this.logger.error('ScoutComponent, error navigating to ' + form, reason);
     });
+  }
+
+  async presentClearMatchConfirmation() {
+    const alert = await this.alertController.create({
+      header: 'Clear All Match Fields',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.clearMatch();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   private onFormChange(): void {

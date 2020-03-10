@@ -8,6 +8,7 @@ import {Pit, PitStorage} from '../objects/pit-classes';
 import {HttpService} from '../services/httpService/http.service';
 import {Post} from '../objects/http-object';
 import {environment} from '../../environments/environment';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-storage',
@@ -33,6 +34,7 @@ export class StorageComponent implements OnInit {
   public pitErrorMessage = '';
 
   constructor(
+      private alertController: AlertController,
       private logger: LoggerService,
       private httpService: HttpService,
       private storage: DataStorageService
@@ -49,6 +51,26 @@ export class StorageComponent implements OnInit {
       console.log('Async operation has ended');
       event.target.complete();
     }, 2000);
+  }
+
+  async presentClearStorageConfirmation() {
+    const alert = await this.alertController.create({
+      header: 'Clear All Storage?',
+      message: 'This cannot be undone.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.storage.clearDataStorage();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   public printScoutQrCode(s: Scout): void {

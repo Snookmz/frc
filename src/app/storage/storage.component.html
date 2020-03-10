@@ -17,10 +17,19 @@
     <ion-col
             size-xl="5" size-lg="6" size-md="10" size-xs="12" class="ns-card-info ns-pointer">
       <h4>
-        <a href="https://www.dropbox.com/home/Apps/frcApp/5985">
+        <a href="https://www.dropbox.com/sh/sboy6vcj9esqhyt/AAAcr1mpebCXD1GtfDG1vIu8a?dl=0">
           All matches / pits are saved to dropbox. Click here.
         </a>
       </h4>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col
+            size-xl="1" size-lg="2" size-md="3" size-xs="6">
+      <ion-button color="danger" (click)="presentClearStorageConfirmation()">
+        Clear Local Storage
+      </ion-button>
     </ion-col>
   </ion-row>
 

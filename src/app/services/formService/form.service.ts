@@ -27,6 +27,16 @@ export class FormService {
 
   constructor() { }
 
+  public clearScout(): void {
+    const s: Scout = new Scout();
+    this._scout.next(s);
+    this._parentData.next(s.parentData);
+    this._auto.next(s.auto);
+    this._tele.next(s.tele);
+    this._comment.next(s.comments);
+
+  }
+
   public getScout(): Scout {
     const s: Scout = new Scout();
     s.parentData = this._parentData.getValue();

@@ -72,6 +72,7 @@
                             <ion-row>
                                 <ion-col>
                                     <ion-button color="success"
+                                                [disabled]="autoForm.get('auto').get('auto_numCellLoad').disabled"
                                                 (click)="increaseValue('auto', 'auto_numCellLoad')">
                                         +
                                     </ion-button>
@@ -81,6 +82,7 @@
                                 </ion-col>
                                 <ion-col>
                                     <ion-button color="danger"
+                                                [disabled]="autoForm.get('auto').get('auto_numCellLoad').disabled"
                                                 (click)="decreaseValue('auto', 'auto_numCellLoad')">
                                         -
                                     </ion-button>

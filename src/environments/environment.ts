@@ -23,8 +23,8 @@ export const environment = {
     outputTo: 'console',
   },
   url: {
-    // base: 'https://frcapi.heathsnoek.me',
-    base: 'http://localhost:8002',
+    base: 'https://frcapi.heathsnoek.me',
+    // base: 'http://localhost:8002',
     scouts: '/scouts',
     pits: '/pits'
   }

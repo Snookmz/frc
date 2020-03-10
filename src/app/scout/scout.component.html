@@ -11,6 +11,9 @@
 <!--                (click)="saveMatch()" color="success" slot="end">-->
 <!--            Save Match-->
 <!--        </ion-button>-->
+        <ion-button (click)="presentClearMatchConfirmation()" color="light" slot="end">
+            Clear Match
+        </ion-button>
     </ion-toolbar>
 </ion-header>
 
@@ -63,6 +66,7 @@
                                         Match Number (required)
                                     </ion-label>
                                     <ion-input
+                                            type="number"
                                             placeholder="(match number)"
                                             formControlName="numMatch"></ion-input>
                                 </ion-item>
