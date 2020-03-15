@@ -8,6 +8,7 @@ import {EventStorage, FrcEvent} from '../objects/frcEvent-object';
 import {Team} from '../objects/team-object';
 import {Camera, CameraOptions} from '@ionic-native/camera/ngx';
 import {Platform} from '@ionic/angular';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-pit',
@@ -219,12 +220,12 @@ export class PitComponent implements OnInit {
       }
     }
 
-    if (v.record.created === '') {
-      p.record.dtCreated = new Date().toString();
+    if (v.record.dtCreated === '') {
+      p.record.dtCreated = moment().format('YYYYMMDD_HHMMSS').toString();
     } else {
       p.record.dtCreated = v.record.dtCreated;
     }
-    p.record.dtModified = new Date().toString();
+    p.record.dtModified = moment().format('YYYYMMDD_HHMMSS').toString();
     p.record.txComputerName = v.record.txComputerName;
 
     if (!p.imperialUnits) {

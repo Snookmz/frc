@@ -5,6 +5,7 @@ import {Scout} from '../../objects/scout-parentData';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {EventStorage} from '../../objects/frcEvent-object';
 import {DataStorageService} from '../../services/dataStorageService/data-storage.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-finish',
@@ -96,6 +97,7 @@ export class FinishComponent implements OnInit {
     s.parentData.teamDetails.idTeam = parseInt(v.idTeam, 10);
     s.tele.endGame.tele_idClimb = v.tele_idClimb;
     s.parentData.teamDetails.numMatch = v.numMatch;
+    s.txCreateDate = moment().format('YYYYMMDD_HHMMSS').toString();
 
     this.formService.pushScout(s);
   }

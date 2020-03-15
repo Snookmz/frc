@@ -7,11 +7,13 @@ export class Scout {
     auto: ScoutAuto;
     tele: ScoutTele;
     comments: ScoutComments;
+    txCreateDate: string;
     constructor() {
         this.parentData = new ScoutParentData();
         this.auto = new ScoutAuto();
         this.tele = new ScoutTele();
         this.comments = new ScoutComments();
+        this.txCreateDate = '';
     }
 }
 

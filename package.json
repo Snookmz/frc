@@ -1,8 +1,8 @@
 {
   "name": "frc",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "0.0.2",
+  "author": "Heath Snoek",
+  "homepage": "https://projectb.net.au/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -26,7 +26,7 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.7.1",
     "angularx-qrcode": "^2.1.0",
-    "cordova-android": "7.1.4",
+    "cordova-android": "^7.1.4",
     "cordova-plugin-advanced-http": "^2.4.1",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-device": "^2.0.2",
@@ -37,6 +37,7 @@
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "core-js": "^2.5.4",
+    "moment": "^2.24.0",
     "ngx-qrcode2": "0.0.9",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
